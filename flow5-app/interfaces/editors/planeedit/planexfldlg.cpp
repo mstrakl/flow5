@@ -2455,7 +2455,9 @@ void PlaneXflDlg::onDuplicatePart()
     }
     m_pPartModel->updateData();
 
+    updateData();
     onUpdatePlane();
+
     m_bChanged = true;
 }
 

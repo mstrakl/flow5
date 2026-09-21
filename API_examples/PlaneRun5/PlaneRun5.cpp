@@ -66,7 +66,7 @@ int main()
     pFoilN2413->setTEFlapData(true, 0.7, 0.5, 0.0); // stores the parameters but does not modify the geometry
 
 
-    // Create and define a new xfl-type plane with a Nurbs type fuselage
+    // Create and define a new xfl-type plane with an STL type fuselage
     // This plane will be meshed for a thin surface calculation
     std::cout << "Creating the plane"<<std::endl;
     PlaneXfl* pPlaneXfl = new PlaneXfl;

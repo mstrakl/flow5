@@ -681,30 +681,42 @@ void PlaneXfl::addFuse(Fuse *pFuse)
 
 WingXfl* PlaneXfl::duplicateWing(int iWing)
 {
-    if(!wing(iWing)) return nullptr;
+    WingXfl *pOldWing = wing(iWing);
 
-    m_Wing.push_back(m_Wing[iWing]);
-    if(m_Wing[iWing]->isMainWing()) m_Wing.back()->setWingType(xfl::OtherWing);
+    if(!pOldWing) return nullptr;
+
+    WingXfl *pNewWing = new WingXfl;
+    pNewWing->duplicate(pOldWing);
+
+    m_Wing.push_back(pNewWing);
+    if(pOldWing->isMainWing()) pNewWing->setWingType(xfl::OtherWing);
+
+    pNewWing->setUniqueIndex();
+    makeUniqueIndexList();
 
     std::string strange;
     strange = std::format("Wing_{:d}", nWings());
-    m_Wing.back()->setName(strange);
+    pNewWing->setName(strange);
 
     createSurfaces();
-    return m_Wing.back();
+    return pNewWing;
 }
 
 
 Fuse* PlaneXfl::duplicateFuse(int iFuse)
 {
-    if(!fuse(iFuse)) return nullptr;
+    Fuse *pOldFuse = fuse(iFuse);
+    if(!pOldFuse) return nullptr;
 
-    Fuse *pFuse = m_Fuse[iFuse]->clone();
-    m_Fuse.push_back(pFuse);
+    Fuse *pNewFuse = m_Fuse[iFuse]->clone();
+    m_Fuse.push_back(pNewFuse);
 
     std::string strange;
     strange = std::format("Fuse_{:d}", nFuse());
-    m_Fuse.back()->setName(strange);
+    pNewFuse->setName(strange);
+
+    pNewFuse->setUniqueIndex();
+    makeUniqueIndexList();
 
     return m_Fuse.back();
 }
