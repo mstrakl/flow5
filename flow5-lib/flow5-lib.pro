@@ -152,6 +152,9 @@ win32-g++ {
     # in the same prefix as Qt, whose include/ and lib/ are on the default paths
     DEFINES += WIN_OS OPENBLAS
 
+    # no dllimport with GCC, see flow5-app.pro
+    DEFINES += XFOIL_LIBRARY
+
     CONFIG -= debug_and_release debug_and_release_target
 
     INCLUDEPATH += $$[QT_INSTALL_PREFIX]/include/opencascade
