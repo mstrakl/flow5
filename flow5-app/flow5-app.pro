@@ -172,6 +172,25 @@ win32-msvc {
 }
 
 
+win32-g++ {
+    # MinGW-w64 (MSYS2 UCRT64), see flow5-lib.pro
+    DEFINES += OPENBLAS
+
+    CONFIG -= debug_and_release debug_and_release_target
+
+    RC_ICONS = ../meta/win64/flow5.ico
+
+    INCLUDEPATH += $$[QT_INSTALL_PREFIX]/include/opencascade
+
+    LIBS += -L../XFoil-lib -lXFoil1
+    LIBS += -lopenblas
+    LIBS += -lgmsh
+    LIBS += -lopengl32
+
+    QMAKE_CXXFLAGS += -Wa,-mbig-obj
+}
+
+
 
 macx {
     # Specifies the hard minimum version of macOS that the application supports.

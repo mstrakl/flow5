@@ -147,6 +147,23 @@ win32-msvc {
 }
 
 
+win32-g++ {
+    # MinGW-w64 (MSYS2 UCRT64): OpenCascade, gmsh and OpenBLAS are installed
+    # in the same prefix as Qt, whose include/ and lib/ are on the default paths
+    DEFINES += WIN_OS OPENBLAS
+
+    CONFIG -= debug_and_release debug_and_release_target
+
+    INCLUDEPATH += $$[QT_INSTALL_PREFIX]/include/opencascade
+
+    LIBS += -L../XFoil-lib -lXFoil1
+    LIBS += -lopenblas
+    LIBS += -lgmsh
+
+    QMAKE_CXXFLAGS += -Wa,-mbig-obj   # too many sections for the default COFF object format
+}
+
+
 macx {
 
     # app_bundle	Puts the executable into a bundle (this is the default).

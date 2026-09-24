@@ -91,6 +91,21 @@ win32-msvc {
 }
 
 
+win32-g++ {
+    # MinGW-w64 (MSYS2 UCRT64), see flow5-lib.pro
+    DEFINES += WIN_OS
+
+    CONFIG -= debug_and_release debug_and_release_target
+
+    INCLUDEPATH += $$[QT_INSTALL_PREFIX]/include/opencascade
+
+    LIBS += -L../XFoil-lib -lXFoil1
+    LIBS += -lgmsh
+
+    QMAKE_CXXFLAGS += -Wa,-mbig-obj
+}
+
+
 macx {
 
     # app_bundle	Puts the executable into a bundle (this is the default).
