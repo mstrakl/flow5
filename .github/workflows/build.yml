@@ -1,0 +1,71 @@
+name: build
+
+# Builds installable packages on every push / PR; a tag "v*" also publishes them
+# as a GitHub Release.
+on:
+  push:
+    branches: [main, master]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linux:
+    name: Linux AppImage
+    runs-on: ubuntu-24.04
+    env:
+      XDG_CACHE_HOME: ${{ github.workspace }}/.cache   # ccache lives here (see docker/dev.sh)
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      # Same image as for local development. Layers are cached in the GitHub
+      # Actions cache, so OCCT/gmsh are only recompiled when the Dockerfile changes.
+      - name: Build container image
+        uses: docker/build-push-action@v6
+        with:
+          context: docker
+          tags: flow5-build:latest
+          load: true
+          cache-from: type=gha,scope=flow5-linux-image
+          cache-to: type=gha,scope=flow5-linux-image,mode=max
+
+      - name: ccache
+        uses: actions/cache@v4
+        with:
+          path: .cache/flow5-ccache
+          key: ccache-linux-${{ github.sha }}
+          restore-keys: ccache-linux-
+
+      - name: Build and package
+        run: |
+          if [[ "$GITHUB_REF_TYPE" == tag ]]; then export VERSION="${GITHUB_REF_NAME#v}"; fi
+          ./docker/dev.sh appimage
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: flow5-linux
+          path: build/dist/*.AppImage
+          if-no-files-found: error
+
+  release:
+    name: Publish release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [linux]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
