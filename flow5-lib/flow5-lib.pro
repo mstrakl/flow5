@@ -161,6 +161,10 @@ win32-g++ {
     LIBS += -lgmsh
 
     QMAKE_CXXFLAGS += -Wa,-mbig-obj   # too many sections for the default COFF object format
+
+    # The api headers export inline accessors but not the globals they read; MSVC
+    # calls the DLL's copy, GCC inlines them and needs the globals themselves.
+    QMAKE_LFLAGS += -Wl,--export-all-symbols
 }
 
 

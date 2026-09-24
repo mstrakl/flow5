@@ -52,6 +52,9 @@ win32 {
 #prevent qmake from making useless \debug and \release subdirs
     CONFIG -= debug_and_release debug_and_release_target
 
+    # MinGW: export globals too, see flow5-lib.pro
+    win32-g++: QMAKE_LFLAGS += -Wl,--export-all-symbols
+
 }
 
 
