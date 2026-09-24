@@ -176,6 +176,11 @@ win32-g++ {
     # MinGW-w64 (MSYS2 UCRT64), see flow5-lib.pro
     DEFINES += OPENBLAS
 
+    # GCC rejects dllimport on functions defined inside a class body, which the
+    # api headers use; compile against them with the export macros instead. The
+    # DLLs export all their symbols, so the imports still resolve.
+    DEFINES += XFOIL_LIBRARY FL5LIB_LIBRARY FLOW5_IO_LIB
+
     CONFIG -= debug_and_release debug_and_release_target
 
     RC_ICONS = ../meta/win64/flow5.ico

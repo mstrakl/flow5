@@ -95,6 +95,9 @@ win32-g++ {
     # MinGW-w64 (MSYS2 UCRT64), see flow5-lib.pro
     DEFINES += WIN_OS
 
+    # no dllimport with GCC, see flow5-app.pro
+    DEFINES += XFOIL_LIBRARY FL5LIB_LIBRARY
+
     CONFIG -= debug_and_release debug_and_release_target
 
     INCLUDEPATH += $$[QT_INSTALL_PREFIX]/include/opencascade
