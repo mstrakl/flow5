@@ -88,10 +88,34 @@ jobs:
             build/dist/*.zip
           if-no-files-found: error
 
+  macos:
+    name: macOS dmg (arm64)
+    runs-on: macos-14
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: "1"
+      HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      # Prebuilt arm64 bottles: Qt, OpenCascade, gmsh. BLAS/LAPACK = Accelerate.
+      - name: Install dependencies
+        run: brew install qtbase qtsvg qtimageformats opencascade gmsh
+
+      - name: Build and package
+        run: |
+          if [[ "$GITHUB_REF_TYPE" == tag ]]; then export VERSION="${GITHUB_REF_NAME#v}"; fi
+          packaging/macos/package.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: flow5-macos
+          path: build/dist/*.dmg
+          if-no-files-found: error
+
   release:
     name: Publish release
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [linux, windows]
+    needs: [linux, windows, macos]
     runs-on: ubuntu-24.04
     permissions:
       contents: write
