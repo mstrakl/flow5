@@ -65,11 +65,13 @@
 #include <ShapeAnalysis_FreeBounds.hxx>
 #include <ShapeFix_Shape.hxx>
 #include <ShapeFix_Wireframe.hxx>
+#include <ShapeFix_Wire.hxx>
 #include <Standard_Version.hxx>
 #include <StdFail_NotDone.hxx>
 #include <StepBasic_LengthMeasureWithUnit.hxx>
 #include <StepData_StepModel.hxx>
 #include <TCollection_AsciiString.hxx>
+#include <TopExp.hxx>
 #include <TopExp_Explorer.hxx>
 #include <TopoDS.hxx>
 #include <TopoDS_Builder.hxx>
@@ -4001,6 +4003,138 @@ void occ::fuseFixAll(FuseOcc *pFuseOcc, float precision, float mintol, float max
 }
 
 
+// Joins the top and bottom curves of a section, which meet at the leading edge, into
+// one closed wire; a thick trailing edge is closed with a straight segment.
+static bool makeClosedProfile(TopoDS_Wire const &TopWire, TopoDS_Wire const &BotWire, TopoDS_Wire &profile)
+{
+    BRepBuilderAPI_MakeWire WireMaker;
+    WireMaker.Add(TopWire);
+    WireMaker.Add(BotWire);
+    if(!WireMaker.IsDone()) return false;
+
+    TopoDS_Vertex V1, V2;
+    TopExp::Vertices(WireMaker.Wire(), V1, V2);
+    if(!V1.IsSame(V2))
+    {
+        double TEgap = BRep_Tool::Pnt(V1).Distance(BRep_Tool::Pnt(V2));
+        if(TEgap>1.0e-6)
+        {
+            BRepBuilderAPI_MakeEdge TEMaker(V1, V2);
+            if(!TEMaker.IsDone()) return false;
+            WireMaker.Add(TEMaker.Edge());
+            if(!WireMaker.IsDone()) return false;
+        }
+        else
+        {
+            // closed geometrically, but the end vertices are distinct
+            ShapeFix_Wire fixer;
+            fixer.Load(WireMaker.Wire());
+            fixer.FixConnected(1.0e-6);
+            profile = fixer.Wire();
+            return !profile.IsNull() && BRep_Tool::IsClosed(profile);
+        }
+    }
+    profile = WireMaker.Wire();
+    return !profile.IsNull();
+}
 
 
+// Makes one closed profile per wing section, in the position of the wing's surfaces,
+// i.e. with the section's offset, twist and dihedral. Each section is made once: the
+// left side of every surface, then the right side of the last one.
+//   bSplines:       the top and bottom splines of makeWingSplineSweep, else polylines
+//                   through the chordwise points as in makeWingShape
+//   bFaces:         a planar face per section, else only its closed outline
+//   bRightHalfOnly: for two-sided wings, skip the sections left of the root
+bool occ::makeWingSectionShapes(WingXfl const *pWing, bool bSplines, int degree, int nCtrlPoints, int nOutPoints,
+                                bool bFaces, bool bRightHalfOnly,
+                                NCollection_List<TopoDS_Shape> &shapes, std::string &logmsg)
+{
+    if(!pWing || pWing->nSurfaces()<1)
+    {
+        logmsg += "No wing surfaces to process\n";
+        return false;
+    }
+
+    logmsg += "Processing the sections of wing "+ pWing->name() + "\n";
+
+    int iFirst = 0;
+    int iLast = pWing->nSurfaces()-1;
+    if(bRightHalfOnly && pWing->isTwoSided()) iFirst = pWing->nSurfaces()/2;
+
+    int nSections = 0;
+    for(int iSurf=iFirst; iSurf<=iLast+1; iSurf++)
+    {
+        bool bLeft = iSurf<=iLast;
+        Surface const &surf = pWing->surfaceAt(bLeft ? iSurf : iLast);
+        int iSection = iSurf-iFirst+1;
+
+        std::string str;
+        TopoDS_Wire profile;
+        if(bSplines)
+        {
+            BSpline3d b3dtop, b3dbot;
+            TopoDS_Wire TopWire, BotWire;
+            if(!surf.makeSectionHalfSpline(xfl::TOPSURFACE, bLeft, degree, nCtrlPoints, nOutPoints, b3dtop) ||
+               !makeSplineWire(b3dtop, TopWire, str) ||
+               !surf.makeSectionHalfSpline(xfl::BOTSURFACE, bLeft, degree, nCtrlPoints, nOutPoints, b3dbot) ||
+               !makeSplineWire(b3dbot, BotWire, str))
+            {
+                logmsg += str + std::format("   Error making the splines of section {:d}\n", iSection);
+                return false;
+            }
+            if(!makeClosedProfile(TopWire, BotWire, profile))
+            {
+                logmsg += std::format("   Error closing the profile of section {:d}\n", iSection);
+                return false;
+            }
+        }
+        else
+        {
+            // one closed polygon TE -> top -> LE -> bottom -> TE; the top and bottom
+            // points do not always coincide exactly at the LE, so do not join two wires
+            int nPoints = int(surf.xDistribA().size());
+            std::vector<Node> PtA_T(nPoints), PtA_B(nPoints), PtB_T(nPoints), PtB_B(nPoints);
+            surf.getSidePoints(xfl::TOPSURFACE, nullptr, PtA_T, PtB_T, surf.xDistribA(), surf.xDistribB());
+            surf.getSidePoints(xfl::BOTSURFACE, nullptr, PtA_B, PtB_B, surf.xDistribA(), surf.xDistribB());
+            std::vector<Node> const &top = bLeft ? PtA_T : PtB_T;
+            std::vector<Node> const &bot = bLeft ? PtA_B : PtB_B;
+
+            BRepBuilderAPI_MakePolygon PolyMaker;
+            for(int i=nPoints-1; i>=0; i--)
+                PolyMaker.Add(gp_Pnt(top[i].x, top[i].y, top[i].z));
+            for(int i=0; i<nPoints; i++)
+            {
+                if(i==0         && bot[i].distanceTo(top[0])        <1.0e-7) continue; // same LE point
+                if(i==nPoints-1 && bot[i].distanceTo(top[nPoints-1])<1.0e-7) continue; // closed TE
+                PolyMaker.Add(gp_Pnt(bot[i].x, bot[i].y, bot[i].z));
+            }
+            PolyMaker.Close();
+            if(!PolyMaker.IsDone())
+            {
+                logmsg += std::format("   Error making the polyline of section {:d}\n", iSection);
+                return false;
+            }
+            profile = PolyMaker.Wire();
+        }
+
+        if(bFaces)
+        {
+            BRepBuilderAPI_MakeFace FaceMaker(profile, Standard_True); // planar only
+            if(!FaceMaker.IsDone())
+            {
+                logmsg += std::format("   Error making the face of section {:d}: the profile is not planar\n", iSection);
+                return false;
+            }
+            shapes.Append(FaceMaker.Face());
+        }
+        else
+            shapes.Append(profile);
+
+        nSections++;
+    }
+
+    logmsg += std::format("   made {:d} section {:s}\n", nSections, bFaces ? "faces" : "outlines");
+    return true;
+}
 

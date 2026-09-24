@@ -106,6 +106,7 @@ class PlaneXflDlg : public PlaneDlg
         Fuse *activeFuse(); // depends on the active tab
         int selectedPart();
         void makePartTable();
+        void showPartMenu(int row, QPoint const &globalPos, bool bCopyPaste);
 
         FuseOcc *insertFuseOcc(std::string filename);
 
@@ -150,6 +151,7 @@ class PlaneXflDlg : public PlaneDlg
         void onOK(int iExitCode=QDialog::Accepted) override;
         void onPartInertia();
         void onPartItemClicked(QModelIndex index);
+        void onPartContextMenu(QPoint const &pos);
         void onPlaneInertia() override;
         void onUpdatePlane() override;
         void onRemovePart();

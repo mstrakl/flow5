@@ -26,6 +26,7 @@
 
 #include <interfaces/exchange/cadexportdlg.h>
 
+class QCheckBox;
 class WingXfl;
 class IntEdit;
 class FloatEdit;
@@ -51,7 +52,14 @@ class WingExportDlg : public CADExportDlg
         void onExport() override;
 
     private:
-        QRadioButton *m_prbFacets, *m_prbNURBS, *m_prbSwept;
+        QRadioButton *m_prbFacets, *m_prbNURBS, *m_prbSwept, *m_prbSections;
+
+        QFrame *m_pfrSections;
+        QRadioButton *m_prbSecFaces, *m_prbSecOutlines;
+        QRadioButton *m_prbSecSplines, *m_prbSecPolylines;
+        QRadioButton *m_prbSecWingFrame, *m_prbSecPlaneFrame;
+        QCheckBox *m_pchSecRightHalf;
+        QLabel *m_plabPlanePos;
 
 
         IntEdit *m_pieChordRes;
@@ -68,7 +76,12 @@ class WingExportDlg : public CADExportDlg
         static int s_SplineDegree;
         static int s_nSplineCtrlPts;
 
-        static int s_SurfaceType;
+        static int s_SurfaceType;  // 0: facets, 1: NURBS, 2: swept splines, 3: section profiles
+
+        static bool s_bSecFaces;
+        static bool s_bSecSplines;
+        static bool s_bSecRightHalf;
+        static bool s_bSecPlaneFrame;
 };
 
 

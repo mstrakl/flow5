@@ -103,6 +103,9 @@ namespace occ
     FL5LIB_EXPORT void stitchFaces(double stitchprecision, TopoDS_Shape &theshape, TopoDS_Shell &theshell, std::string &logmsg);
 
     FL5LIB_EXPORT void makeWingShape(WingXfl const *pWing, double stitchprecision, TopoDS_Shape &wingshape, std::string &logmsg);
+    FL5LIB_EXPORT bool makeWingSectionShapes(WingXfl const *pWing, bool bSplines, int degree, int nCtrlPoints, int nOutPoints,
+                                             bool bFaces, bool bRightHalfOnly,
+                                             NCollection_List<TopoDS_Shape> &shapes, std::string &logmsg);
     FL5LIB_EXPORT bool makeFoilMidWires(Surface const &aSurf, TopoDS_Wire & LeftWire, TopoDS_Wire &RightWire, std::string &logmsg);
     FL5LIB_EXPORT bool makeFoilWires(Surface const &aSurf, TopoDS_Wire &TLWire, TopoDS_Wire & BLWire, TopoDS_Wire &TRWire, TopoDS_Wire &BRWire, std::string &logmsg);
     FL5LIB_EXPORT bool makePolyLineWire(std::vector<Vector3d> const &Pt, TopoDS_Wire & LeftWire, std::string &logmsg);

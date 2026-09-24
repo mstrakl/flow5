@@ -27,6 +27,8 @@
 
 
 #include <QVBoxLayout>
+#include <QButtonGroup>
+#include <QCheckBox>
 #include <QFileInfo>
 #include <QFileDialog>
 
@@ -51,6 +53,11 @@ double WingExportDlg::s_StitchPrecision(1.e-4);
 int WingExportDlg::s_SplineDegree(3);
 int WingExportDlg::s_nSplineCtrlPts(11);
 
+bool WingExportDlg::s_bSecFaces(true);
+bool WingExportDlg::s_bSecSplines(true);
+bool WingExportDlg::s_bSecRightHalf(false);
+bool WingExportDlg::s_bSecPlaneFrame(false);
+
 
 WingExportDlg::WingExportDlg(QWidget *pParent) : CADExportDlg(pParent)
 {
@@ -73,20 +80,86 @@ void WingExportDlg::setupLayout()
                 m_prbNURBS->setToolTip(tr("flow5 will create one NURBS for each top and bottom surface between two wing sections"));
                 m_prbSwept  = new QRadioButton(tr("Swept splines"));
                 m_prbSwept->setToolTip(tr("flow5 will first convert wing sections to splines,<br>then create a swept surface between the splines"));
+                m_prbSections = new QRadioButton(tr("Section profiles"));
+                m_prbSections->setToolTip(tr("flow5 will export only the airfoil profile of each wing section,<br>"
+                                             "in its position in the wing: offset, twist and dihedral included"));
 
                 m_prbFacets->setChecked(s_SurfaceType==0);
                 m_prbNURBS->setChecked(s_SurfaceType==1);
                 m_prbSwept->setChecked(s_SurfaceType==2);
+                m_prbSections->setChecked(s_SurfaceType==3);
 
-                connect(m_prbFacets, SIGNAL(clicked(bool)), SLOT(onExportType()));
-                connect(m_prbNURBS,  SIGNAL(clicked(bool)), SLOT(onExportType()));
-                connect(m_prbSwept,  SIGNAL(clicked(bool)), SLOT(onExportType()));
+                connect(m_prbFacets,   SIGNAL(clicked(bool)), SLOT(onExportType()));
+                connect(m_prbNURBS,    SIGNAL(clicked(bool)), SLOT(onExportType()));
+                connect(m_prbSwept,    SIGNAL(clicked(bool)), SLOT(onExportType()));
+                connect(m_prbSections, SIGNAL(clicked(bool)), SLOT(onExportType()));
 
                 pExportTypeLayout->addWidget(plabType);
                 pExportTypeLayout->addWidget(m_prbFacets);
                 pExportTypeLayout->addWidget(m_prbNURBS);
                 pExportTypeLayout->addWidget(m_prbSwept);
+                pExportTypeLayout->addWidget(m_prbSections);
                 pExportTypeLayout->addStretch();
+            }
+
+            m_pfrSections = new QFrame;
+            {
+                QGridLayout *pSectionsLayout = new QGridLayout;
+                {
+                    m_prbSecFaces    = new QRadioButton(tr("Faces"));
+                    m_prbSecFaces->setToolTip(tr("One planar face bounded by the airfoil outline for each section"));
+                    m_prbSecOutlines = new QRadioButton(tr("Outlines"));
+                    m_prbSecOutlines->setToolTip(tr("Only the closed airfoil curve of each section"));
+                    QButtonGroup *pShapeGroup = new QButtonGroup(this);
+                    pShapeGroup->addButton(m_prbSecFaces);
+                    pShapeGroup->addButton(m_prbSecOutlines);
+
+                    m_prbSecSplines   = new QRadioButton(tr("Splines"));
+                    m_prbSecSplines->setToolTip(tr("Top and bottom splines fitted through the chordwise points,<br>"
+                                                   "using the spline degree and number of control points below"));
+                    m_prbSecPolylines = new QRadioButton(tr("Polylines"));
+                    m_prbSecPolylines->setToolTip(tr("Straight segments between the chordwise points"));
+                    QButtonGroup *pCurveGroup = new QButtonGroup(this);
+                    pCurveGroup->addButton(m_prbSecSplines);
+                    pCurveGroup->addButton(m_prbSecPolylines);
+
+                    m_prbSecWingFrame  = new QRadioButton(tr("Wing frame"));
+                    m_prbSecWingFrame->setToolTip(tr("Coordinates relative to the wing's root leading edge,<br>as in the other export types"));
+                    m_prbSecPlaneFrame = new QRadioButton(tr("Plane frame"));
+                    m_prbSecPlaneFrame->setToolTip(tr("Coordinates in the plane, i.e. including the wing's position and tilt angles"));
+                    QButtonGroup *pFrameGroup = new QButtonGroup(this);
+                    pFrameGroup->addButton(m_prbSecWingFrame);
+                    pFrameGroup->addButton(m_prbSecPlaneFrame);
+                    m_plabPlanePos = new QLabel;
+
+                    m_pchSecRightHalf = new QCheckBox(tr("Right half only"));
+                    m_pchSecRightHalf->setToolTip(tr("For two-sided wings, export only the root section and the sections on the right side"));
+
+                    m_prbSecFaces->setChecked(s_bSecFaces);
+                    m_prbSecOutlines->setChecked(!s_bSecFaces);
+                    m_prbSecSplines->setChecked(s_bSecSplines);
+                    m_prbSecPolylines->setChecked(!s_bSecSplines);
+                    m_prbSecWingFrame->setChecked(!s_bSecPlaneFrame);
+                    m_prbSecPlaneFrame->setChecked(s_bSecPlaneFrame);
+                    m_pchSecRightHalf->setChecked(s_bSecRightHalf);
+
+                    connect(m_prbSecSplines,   SIGNAL(clicked(bool)), SLOT(onExportType()));
+                    connect(m_prbSecPolylines, SIGNAL(clicked(bool)), SLOT(onExportType()));
+
+                    pSectionsLayout->addWidget(new QLabel(tr("Export as:")),     1, 1);
+                    pSectionsLayout->addWidget(m_prbSecFaces,                    1, 2);
+                    pSectionsLayout->addWidget(m_prbSecOutlines,                 1, 3);
+                    pSectionsLayout->addWidget(new QLabel(tr("Profile curves:")),2, 1);
+                    pSectionsLayout->addWidget(m_prbSecSplines,                  2, 2);
+                    pSectionsLayout->addWidget(m_prbSecPolylines,                2, 3);
+                    pSectionsLayout->addWidget(new QLabel(tr("Coordinates:")),   3, 1);
+                    pSectionsLayout->addWidget(m_prbSecWingFrame,                3, 2);
+                    pSectionsLayout->addWidget(m_prbSecPlaneFrame,               3, 3);
+                    pSectionsLayout->addWidget(m_plabPlanePos,                   3, 4);
+                    pSectionsLayout->addWidget(m_pchSecRightHalf,                4, 2, 1, 2);
+                    pSectionsLayout->setColumnStretch(5,1);
+                }
+                m_pfrSections->setLayout(pSectionsLayout);
             }
 
             QGridLayout *pCommonLayout = new QGridLayout;
@@ -134,6 +207,7 @@ void WingExportDlg::setupLayout()
 
 
             pWingLayout->addLayout(pExportTypeLayout);
+            pWingLayout->addWidget(m_pfrSections);
             pWingLayout->addLayout(pCommonLayout);
        }
         pWingFrame->setLayout(pWingLayout);
@@ -167,8 +241,18 @@ void WingExportDlg::onExportType()
     {
         s_SurfaceType=2;
     }
-    m_pieSplineDegre->setEnabled(s_SurfaceType>0);
-    m_pieSplineCtrlPts->setEnabled(s_SurfaceType>0);
+    else if(m_prbSections->isChecked())
+    {
+        s_SurfaceType=3;
+    }
+
+    bool bSections = s_SurfaceType==3;
+    bool bSplines = (s_SurfaceType==1 || s_SurfaceType==2) || (bSections && m_prbSecSplines->isChecked());
+    m_pfrSections->setVisible(bSections);
+    m_pieSplineDegre->setEnabled(bSplines);
+    m_pieSplineCtrlPts->setEnabled(bSplines);
+    m_pfeStitchPrecision->setEnabled(!bSections); // nothing is sewn
+    m_pchSecRightHalf->setEnabled(m_pWing && m_pWing->isTwoSided());
     readParams();
 }
 
@@ -185,6 +269,11 @@ void WingExportDlg::init(WingXfl const*pWing)
     m_PartName = QString::fromStdString(pWing->name());
     m_pWing = pWing;
 
+    Vector3d const &LE = pWing->position();
+    m_plabPlanePos->setText(QString::asprintf("LE = (%g, %g, %g) ", LE.x*Units::mtoUnit(), LE.y*Units::mtoUnit(), LE.z*Units::mtoUnit())
+                            + Units::lengthUnitQLabel()
+                            + QString::asprintf(",  rx = %g°,  ry = %g°", pWing->rx(), pWing->ry()));
+
     onExportType();
 }
 
@@ -198,6 +287,10 @@ void WingExportDlg::loadSettings(QSettings &settings)
         s_SplineDegree    = settings.value("SplineDegree",    s_SplineDegree).toInt();
         s_nSplineCtrlPts  = settings.value("SplineCtrlPts",   s_nSplineCtrlPts).toInt();
         s_StitchPrecision = settings.value("StitchPrecision", s_StitchPrecision).toDouble();
+        s_bSecFaces       = settings.value("SectionFaces",    s_bSecFaces).toBool();
+        s_bSecSplines     = settings.value("SectionSplines",  s_bSecSplines).toBool();
+        s_bSecRightHalf   = settings.value("SectionRightHalf",  s_bSecRightHalf).toBool();
+        s_bSecPlaneFrame  = settings.value("SectionPlaneFrame", s_bSecPlaneFrame).toBool();
     }
     settings.endGroup();
 }
@@ -212,6 +305,10 @@ void WingExportDlg::saveSettings(QSettings &settings)
         settings.setValue("SplineDegree",    s_SplineDegree);
         settings.setValue("SplineCtrlPts",   s_nSplineCtrlPts);
         settings.setValue("StitchPrecision", s_StitchPrecision);
+        settings.setValue("SectionFaces",    s_bSecFaces);
+        settings.setValue("SectionSplines",  s_bSecSplines);
+        settings.setValue("SectionRightHalf",  s_bSecRightHalf);
+        settings.setValue("SectionPlaneFrame", s_bSecPlaneFrame);
     }
     settings.endGroup();
 }
@@ -224,6 +321,11 @@ void WingExportDlg::readParams()
     s_SplineDegree    = m_pieSplineDegre->value();
     s_nSplineCtrlPts  = m_pieSplineCtrlPts->value();
     s_StitchPrecision = m_pfeStitchPrecision->value()/Units::mtoUnit();
+
+    s_bSecFaces      = m_prbSecFaces->isChecked();
+    s_bSecSplines    = m_prbSecSplines->isChecked();
+    s_bSecRightHalf  = m_pchSecRightHalf->isChecked();
+    s_bSecPlaneFrame = m_prbSecPlaneFrame->isChecked();
 }
 
 
@@ -243,9 +345,22 @@ void WingExportDlg::onExport()
         ExportWing.setNXPanels(i, s_iChordRes);
         ExportWing.setXPanelDist(i, xfl::COSINE);
     }
-    ExportWing.createSurfaces(Vector3d(), 0.0, 0.0);
+    if(s_SurfaceType==3 && s_bSecPlaneFrame)
+        ExportWing.createSurfaces(m_pWing->position(), m_pWing->rx(), m_pWing->ry());
+    else
+        ExportWing.createSurfaces(Vector3d(), 0.0, 0.0);
 
     m_ShapesToExport.Clear();
+
+    if(s_SurfaceType==3)
+    {
+        // one shape per section, exported as separate entities
+        occ::makeWingSectionShapes(&ExportWing, s_bSecSplines, s_SplineDegree, s_nSplineCtrlPts, s_iChordRes,
+                                   s_bSecFaces, s_bSecRightHalf, m_ShapesToExport, logmsg);
+        updateStdOutput(logmsg+"\n");
+        if(!m_ShapesToExport.IsEmpty()) exportShapes();
+        return;
+    }
 
     if      (s_SurfaceType==0) occ::makeWingShape(      &ExportWing, s_StitchPrecision, wingshape, logmsg);
     else if (s_SurfaceType==1) occ::makeWing2NurbsShape(&ExportWing, s_StitchPrecision, s_SplineDegree, s_nSplineCtrlPts, s_iChordRes, wingshape, logmsg);

@@ -175,6 +175,7 @@ void PlaneXflDlg::connectSignals()
     connect(m_pLeftTabWidget,         SIGNAL(currentChanged(int)),                               SLOT(onTabChanged(int)));
 
     connect(m_pcptParts,              SIGNAL(clicked(QModelIndex)),                              SLOT(onPartItemClicked(QModelIndex)));
+    connect(m_pcptParts,              SIGNAL(customContextMenuRequested(QPoint)),                SLOT(onPartContextMenu(QPoint)));
     connect(m_pcptParts,              SIGNAL(dataPasted()),                                      SLOT(onPartDataChanged()));
     connect(m_pPartModel,             SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)), SLOT(onPartDataChanged()));
     connect(m_pPartModel,             SIGNAL(wingNamesChanged()),                                SLOT(onNamesChanged()));
@@ -2356,19 +2357,53 @@ void PlaneXflDlg::onPartItemClicked(QModelIndex index)
         m_pglPlaneView->update();
 
         if(index.column()==7)
+            showPartMenu(index.row(), QCursor::pos(), false);
+    }
+}
+
+
+/** Right-click anywhere in the part table: the part menu for that row, plus copy/paste. */
+void PlaneXflDlg::onPartContextMenu(QPoint const &pos)
+{
+    QModelIndex index = m_pcptParts->indexAt(pos);
+    QPoint globalPos = m_pcptParts->viewport()->mapToGlobal(pos);
+
+    if(index.isValid())
+        onPartItemClicked(m_pPartModel->index(index.row(), 0)); // select the part as a left click does
+
+    showPartMenu(index.isValid() ? index.row() : -1, globalPos, true);
+}
+
+
+void PlaneXflDlg::showPartMenu(int row, QPoint const &globalPos, bool bCopyPaste)
+{
+    if(row>=0)
+    {
+        m_pcptParts->selectRow(row);
+
+        m_pPartMenu->setEnabled(true);
+        m_pResetFuse->setEnabled(row>=m_pPlaneXfl->nWings());
+        m_pFlipNormals->setEnabled(row>=m_pPlaneXfl->nWings());
+        m_pTessellation->setEnabled(row>=m_pPlaneXfl->nWings());
+
+        if(!bCopyPaste)
         {
-            m_pcptParts->selectRow(index.row());
-
-            m_pPartMenu->setEnabled(index.row()>=0);
-            m_pResetFuse->setEnabled(index.row()>=m_pPlaneXfl->nWings());
-            m_pFlipNormals->setEnabled(index.row()>=m_pPlaneXfl->nWings());
-            m_pTessellation->setEnabled(index.row()>=m_pPlaneXfl->nWings());
-
-            QAction *pActivated = m_pPartMenu->exec(QCursor::pos());
-            (void)pActivated;
-
+            m_pPartMenu->exec(globalPos);
+            return;
         }
     }
+
+    QMenu menu(this);
+    if(row>=0)
+    {
+        menu.addActions(m_pPartMenu->actions());
+        menu.addSeparator();
+    }
+    QAction *pCopy  = menu.addAction(tr("Copy"));
+    QAction *pPaste = menu.addAction(tr("Paste"));
+    QAction *pActivated = menu.exec(globalPos);
+    if     (pActivated==pCopy)  m_pcptParts->copySelection();
+    else if(pActivated==pPaste) m_pcptParts->pasteClipboard();
 }
 
 
@@ -2495,6 +2530,7 @@ void PlaneXflDlg::makePartTable()
 {
     m_pcptParts = new CPTableView(this);
     m_pcptParts->setEditable(true);
+    m_pcptParts->setContextMenuPolicy(Qt::CustomContextMenu); // see onPartContextMenu()
     m_pcptParts->setWindowTitle(tr("Object List"));
     m_pcptParts->setWordWrap(false);
     m_pcptParts->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
