@@ -12,6 +12,11 @@ SUBDIRS = \
     flow5-io-lib \
     flow5-app \
 
+# build order for parallel make (-j)
+flow5-lib.depends    = XFoil-lib
+flow5-io-lib.depends = XFoil-lib flow5-lib
+flow5-app.depends    = XFoil-lib flow5-lib flow5-io-lib
+
 
 TRANSLATIONS = meta/translations/flow5_zh_CN.ts \
                meta/translations/flow5_fr_FR.ts \

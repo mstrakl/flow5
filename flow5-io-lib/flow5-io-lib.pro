@@ -60,7 +60,7 @@ linux-g++ {
 
 
     #prevent sfinae warnings in the Qt libs
-    QMAKE_CXXFLAGS += -Wsfinae-incomplete=0
+    greaterThan(QMAKE_GCC_MAJOR_VERSION, 15): QMAKE_CXXFLAGS += -Wsfinae-incomplete=0   # GCC >= 16 only
 
 
 }
