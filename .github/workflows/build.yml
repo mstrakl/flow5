@@ -4,7 +4,7 @@ name: build
 # as a GitHub Release.
 on:
   push:
-    branches: [main, master]
+    branches: ["**"]
     tags: ["v*"]
   pull_request:
   workflow_dispatch:
@@ -53,10 +53,45 @@ jobs:
           path: build/dist/*.AppImage
           if-no-files-found: error
 
+  windows:
+    name: Windows installer
+    runs-on: windows-2025
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v4
+
+      # Prebuilt MinGW-w64 packages: Qt, OpenCascade, gmsh, OpenBLAS - nothing but
+      # flow5 itself is compiled.
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: zip
+          pacboy: >-
+            gcc:p make:p lld:p
+            qt6-base:p qt6-svg:p qt6-imageformats:p qt6-tools:p
+            opencascade:p gmsh:p openblas:p
+            nsis:p
+
+      - name: Build and package
+        run: |
+          if [[ "$GITHUB_REF_TYPE" == tag ]]; then export VERSION="${GITHUB_REF_NAME#v}"; fi
+          packaging/windows/package.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: flow5-windows
+          path: |
+            build/dist/*.exe
+            build/dist/*.zip
+          if-no-files-found: error
+
   release:
     name: Publish release
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [linux]
+    needs: [linux, windows]
     runs-on: ubuntu-24.04
     permissions:
       contents: write
