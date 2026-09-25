@@ -142,7 +142,7 @@ class FL5LIB_EXPORT PlaneOpp : public Opp3d
 
         bool m_bOut;               /**<  true if the interpolation of viscous properties was outside the Foil Polar mesh */
 
-
+        std::string m_ViscClampSummary; /**< bounded summary of the worst viscous drag Cl/Re clamp for this point, if any; not serialized */
 
         xfl::enumPolarType m_PolarType;   /**< defines the type of the parent PlanePolar */
         std::vector<WingOpp> m_WingOpp;      /**< An array of pointers to the four WingOpp objects associated to the four wings */

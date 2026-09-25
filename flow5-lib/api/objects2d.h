@@ -99,10 +99,10 @@ namespace Objects2d
     FL5LIB_EXPORT void   getStallAngles(Foil const*pFoilA, Foil const*pFoilB, double Re, double Tau, double &negative, double &positive);
     FL5LIB_EXPORT void   getLinearizedPolar(Foil const*pFoil0, Foil const*pFoil1, double Re, double Tau, double &Alpha0, double &Slope);
 
-    FL5LIB_EXPORT double getPlrPointFromAlpha(Foil const*pFoil, double Re, double Alpha, Polar::enumPolarVariable PlrVar, bool &bOutRe, bool &bOutCl);
+    FL5LIB_EXPORT double getPlrPointFromAlpha(Foil const*pFoil, double Re, double Alpha, Polar::enumPolarVariable PlrVar, bool &bOutRe, bool &bOutCl, bool &bNoData);
     FL5LIB_EXPORT double getPlrPointFromAlpha(Polar::enumPolarVariable var, Foil const*pFoil0, Foil const*pFoil1, double Re, double Alpha, double Tau, bool &bOutRe, bool &bOutCl);
 
-    FL5LIB_EXPORT double getPlrPointFromCl(Foil const*pFoil, double Re, double Cl, Polar::enumPolarVariable PlrVar, bool &bOutRe, bool &bOutCl);
+    FL5LIB_EXPORT double getPlrPointFromCl(Foil const*pFoil, double Re, double Cl, Polar::enumPolarVariable PlrVar, PlrInterpolation &status);
 
     FL5LIB_EXPORT double getCm0(Foil const*pFoil0, Foil const*pFoil1, double Re, double Tau, bool &bOutRe, bool &bError);
 

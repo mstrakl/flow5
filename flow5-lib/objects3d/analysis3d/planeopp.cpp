@@ -224,7 +224,11 @@ void PlaneOpp::getProperties(Plane const *pPlane, PlanePolar const *pWPolar, std
     else if(isTriLinearMethod())    props += "Triangles - linear doublet density";
     props +="\n\n";
 
-    if(m_bOut) props += "Point is out of the flight envelope\n";
+    if(m_bOut)
+    {
+        if(!m_ViscClampSummary.empty()) props += m_ViscClampSummary + "\n";
+        else                            props += "Point is out of the flight envelope\n";
+    }
 
     strong = "Mass  = "+ std::format(" {:9.3f} ", m_Mass*Units::kgtoUnit());
     props += strong + Units::massUnitLabel() + EOLstr;

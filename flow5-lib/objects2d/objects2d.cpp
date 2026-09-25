@@ -524,19 +524,20 @@ void Objects2d::deleteFoilResults(Foil *pFoil, bool bDeletePolars)
 *@param Re the Reynolds number .
 *@param Cl the lift coefficient, used as the input parameter for interpolation.
 *@param PlrVar the index of the variable to interpolate.
-*@param  bError true if Cl is outside the min or max Cl of the polar mesh.
-*@param  bOutRe true if Re is outside the min or max Reynolds number of the polar mesh.
+*@param  status accumulates the Re/Cl clamping status; see PlrInterpolation. Only status.bNoData means
+* the returned value is meaningless; bOutRe and bClamped mean the value was clamped to the nearest data available.
 *@return the interpolated value.
 */
-double Objects2d::getPlrPointFromCl(Foil const*pFoil, double Re, double Cl, Polar::enumPolarVariable PlrVar, bool &bOutRe, bool &bOutCl)
+double Objects2d::getPlrPointFromCl(Foil const*pFoil, double Re, double Cl, Polar::enumPolarVariable PlrVar, PlrInterpolation &status)
 {
     double Var1=0, Var2=0;
-    double Clmin=0, Clmax=0;
+
+    // status is sticky across calls sharing it: OR into bOutRe rather than resetting it
 
     if(!pFoil)
     {
-        bOutRe = true;
-        bOutCl = true;
+        status.bOutRe = true;
+        status.bNoData = true;
         return 0.000;
     }
 
@@ -555,14 +556,14 @@ double Objects2d::getPlrPointFromCl(Foil const*pFoil, double Re, double Cl, Pola
     if(polars.size()==0)
     {
         // can't interpolate anything
-        bOutRe = true;
+        status.bOutRe = true;
+        status.bNoData = true;
         return 0;
     }
     else if(polars.size()==1)
     {
-        //interpolate Cl on this polar
-        bOutRe = true;
-        return polars.front()->interpolateFromCl(Cl, PlrVar, bOutCl);
+        // a single T1 polar for this foil is a legitimate configuration, not an out-of-envelope Re condition
+        return polars.front()->interpolateFromCl(Cl, PlrVar, status);
     }
 
     //more than one polar - interpolate between  - tough job
@@ -580,35 +581,29 @@ double Objects2d::getPlrPointFromCl(Foil const*pFoil, double Re, double Cl, Pola
 
         if (Re < pPolar->Reynolds())
         {
-            bOutRe = true;
-            return pPolar->interpolateFromCl(Cl, PlrVar, bOutCl);
+            status.bOutRe = true;
+            return pPolar->interpolateFromCl(Cl, PlrVar, status);
             break;
         }
         break;
 
     }
 
-    // if not Find the two polars
+    // Select the pair of polars on Re alone: Cl is clamped downstream in interpolateFromCl,
+    // so requiring Cl to be within a polar's range here would wrongly reject legitimate strips
+    // whose blended Cl is covered by one bounding foil but not the other.
     for (unsigned int i=0; i<polars.size(); i++)
     {
         Polar const *pPolar = polars.at(i);
 
-        // we have found the first type 1 polar for this foil
-        pPolar->getClLimits(Clmin, Clmax);
         if (pPolar->Reynolds() <= Re)
         {
-            if(Clmin <= Cl && Cl <= Clmax)
-            {
-                pPolar1 = pPolar;
-            }
+            pPolar1 = pPolar;
         }
         else
         {
-            if(Clmin <= Cl && Cl <= Clmax)
-            {
-                pPolar2 = pPolar;
-                break;
-            }
+            pPolar2 = pPolar;
+            break;
         }
 
     }
@@ -617,14 +612,13 @@ double Objects2d::getPlrPointFromCl(Foil const*pFoil, double Re, double Cl, Pola
     {
         //then Re is greater than that of any polar
         // so use the last polar and interpolate Cls on this polar
-        bOutRe = true;
+        status.bOutRe = true;
         if(!pPolar1)
         {
-            bOutRe = true;
-            bOutCl = true;
+            status.bNoData = true;
             return 0.000;
         }
-        return pPolar1->interpolateFromCl(Cl, PlrVar, bOutCl);
+        return pPolar1->interpolateFromCl(Cl, PlrVar, status);
     }
     else
     {
@@ -632,26 +626,24 @@ double Objects2d::getPlrPointFromCl(Foil const*pFoil, double Re, double Cl, Pola
         // so interpolate Cls for each
         if(!pPolar1)
         {
-            bOutRe = true;
-            bOutCl = true;
+            status.bOutRe = true;
+            status.bNoData = true;
             return 0.000;
         }
 
         if(!pPolar1->m_Cl.size())
         {
-            bOutRe = true;
-            bOutCl = true;
+            status.bNoData = true;
             return 0.000;
         }
-        Var1 = pPolar1->interpolateFromCl(Cl, PlrVar, bOutCl);
+        Var1 = pPolar1->interpolateFromCl(Cl, PlrVar, status);
 
         if(!pPolar2->m_Cl.size())
         {
-            bOutRe = true;
-            bOutCl = true;
+            status.bNoData = true;
             return 0.000;
         }
-        Var2 = pPolar2->interpolateFromCl(Cl, PlrVar, bOutCl);
+        Var2 = pPolar2->interpolateFromCl(Cl, PlrVar, status);
 
         // then interpolate Variable
 
@@ -677,10 +669,13 @@ double Objects2d::getPlrPointFromAlpha(Polar::enumPolarVariable var, Foil const*
     bOutRe = false;
     bOutCl = false;
 
-    double var0 = getPlrPointFromAlpha(pFoil0, Re, Alpha, var, IsOutRe, IsOutCl);
+    // bNoData is intentionally discarded here: this pair overload keeps its existing bOutRe/bOutCl-only
+    // contract so that its LLT and getCm0 callers, which already treat out-of-range as a warning, are unaffected.
+    bool bNoData0 = false, bNoData1 = false;
+    double var0 = getPlrPointFromAlpha(pFoil0, Re, Alpha, var, IsOutRe, IsOutCl, bNoData0);
     if(IsOutRe) bOutRe = true;
     if(IsOutCl) bOutCl = true;
-    double var1 = getPlrPointFromAlpha(pFoil1, Re, Alpha, var, IsOutRe, IsOutCl);
+    double var1 = getPlrPointFromAlpha(pFoil1, Re, Alpha, var, IsOutRe, IsOutCl, bNoData1);
     if(IsOutRe) bOutRe = true;
     if(IsOutCl) bOutCl = true;
 
@@ -702,7 +697,7 @@ double Objects2d::getPlrPointFromAlpha(Polar::enumPolarVariable var, Foil const*
 *@param bError if Re is outside the min or max Reynolds number of the polar mesh.
 *@return the interpolated value.
 */
-double Objects2d::getPlrPointFromAlpha(Foil const*pFoil, double Re, double Alpha, Polar::enumPolarVariable PlrVar, bool &bOutRe, bool &bOutAlpha)
+double Objects2d::getPlrPointFromAlpha(Foil const*pFoil, double Re, double Alpha, Polar::enumPolarVariable PlrVar, bool &bOutRe, bool &bOutAlpha, bool &bNoData)
 {
     double Var1=0, Var2=0;
 
@@ -712,6 +707,7 @@ double Objects2d::getPlrPointFromAlpha(Foil const*pFoil, double Re, double Alpha
     {
         bOutRe = true;
         bOutAlpha = true;
+        bNoData = true;
         return 0.000;
     }
 
@@ -728,6 +724,7 @@ double Objects2d::getPlrPointFromAlpha(Foil const*pFoil, double Re, double Alpha
     if(!polars.size())
     {
         bOutRe=true;
+        bNoData = true;
         return 0.0;
     }
 
@@ -781,6 +778,7 @@ double Objects2d::getPlrPointFromAlpha(Foil const*pFoil, double Re, double Alpha
         if(!pPolar1 || !pPolar1->m_Alpha.size())
         {
             bOutAlpha = true;
+            bNoData = true;
             return 0.000;
         }
 
@@ -795,6 +793,7 @@ double Objects2d::getPlrPointFromAlpha(Foil const*pFoil, double Re, double Alpha
         {
             bOutRe = true;
             bOutAlpha = true;
+            bNoData = true;
             return 0.000;
         }
         Var1 = pPolar1->interpolateFromAlpha(Alpha, PlrVar, bOutAlpha);
@@ -804,6 +803,7 @@ double Objects2d::getPlrPointFromAlpha(Foil const*pFoil, double Re, double Alpha
         {
             bOutRe = true;
             bOutAlpha = true;
+            bNoData = true;
             return 0.000;
         }
 

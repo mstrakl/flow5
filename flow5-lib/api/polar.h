@@ -37,6 +37,21 @@ class Foil;
 class OpPoint;
 
 /**
+ * @brief Status of a Re/Cl polar-mesh interpolation.
+ * Flags are sticky: once set by one call sharing this struct, later calls only add to them.
+ * bNoData is the only flag that should be treated as a fatal error by callers; bOutRe and
+ * bClamped indicate a value was produced by clamping to the nearest data available.
+ */
+struct PlrInterpolation
+{
+    bool bOutRe   = false;  /**< Re outside the range spanned by the foil's polars */
+    bool bClamped = false;  /**< requested Cl outside polar Cl range; value was clamped */
+    bool bNoData  = false;  /**< no usable polar data; returned value is meaningless */
+    double ClRequested = 0.0;
+    double ClAvailable = 0.0;  /**< the Cl actually used when clamped */
+};
+
+/**
  *
  * @brief
  * This class defines the polar object for the 2D analysis of foils
@@ -56,7 +71,7 @@ class FL5LIB_EXPORT Polar : public XflObject
         Polar(double Re, double NCrit, double xTrTop, double xTrBot, BL::enumBLMethod blmethod);
 
         double interpolateFromAlpha(double alpha, Polar::enumPolarVariable PlrVar, bool &bOutAlpha) const;
-        double interpolateFromCl(double Cl, Polar::enumPolarVariable PlrVar, bool &bOutCl) const;
+        double interpolateFromCl(double Cl, Polar::enumPolarVariable PlrVar, PlrInterpolation &status) const;
 
         void addOpPointData(OpPoint *pOpPoint);
 
@@ -83,6 +98,7 @@ class FL5LIB_EXPORT Polar : public XflObject
 
         void getAlphaLimits(double &amin, double &amax) const;
         void getClLimits(double &Clmin, double &Clmax) const;
+        void getClLimits(double &Clmin, double &Clmax, int &iClmin, int &iClmax) const;
         void getLinearizedCl(double &Alpha0, double &slope) const;
 
         std::string const &foilName() const  {return m_FoilName;}
