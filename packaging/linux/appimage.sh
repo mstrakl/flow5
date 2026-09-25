@@ -2,7 +2,7 @@
 # Build a release and package it as an AppImage. Runs inside the flow5-build container.
 #
 #   packaging/linux/appimage.sh            -> build/dist/flow5-<version>-x86_64.AppImage
-#   VERSION=7.57-rc1 packaging/linux/appimage.sh
+#   VERSION=7.60-rc1 packaging/linux/appimage.sh   (overrides the version from fl5core.h)
 #
 # linuxdeploy copies every non-system library flow5 needs (Qt, OpenCascade, gmsh,
 # OpenBLAS, libgfortran, the flow5 libs) into the AppDir and fixes their rpaths;
@@ -14,7 +14,7 @@ BUILD="$ROOT/build/release"
 APPDIR="$ROOT/build/AppDir"
 DIST="$ROOT/build/dist"
 
-VERSION="${VERSION:-$(sed -nE 's/^VERSION *= *([0-9.]+).*/\1/p' "$ROOT/flow5-app/flow5-app.pro")}"
+VERSION="${VERSION:-$("$ROOT/packaging/version.sh")}"
 
 "$ROOT/packaging/linux/build.sh" release
 

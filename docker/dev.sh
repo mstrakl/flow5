@@ -58,6 +58,19 @@ gui_args() {
             done
         fi
     fi
+    # GPU (NVIDIA proprietary driver): Mesa can't render on an NVIDIA X server, so mount
+    # the host's NVIDIA GLX client libs (must match the kernel driver) and point GLVND at them.
+    if [[ -e /dev/nvidiactl ]]; then
+        local dev lib
+        for dev in /dev/nvidia0 /dev/nvidiactl /dev/nvidia-modeset /dev/nvidia-uvm /dev/nvidia-uvm-tools; do
+            [[ -e "$dev" ]] && EXTRA_ARGS+=(--device "$dev")
+        done
+        for lib in /usr/lib/x86_64-linux-gnu/{libGLX_nvidia.so.0,libnvidia-glcore.so.*,libnvidia-tls.so.*,libnvidia-glsi.so.*,libnvidia-eglcore.so.*}; do
+            [[ -e "$lib" ]] && EXTRA_ARGS+=(-v "$lib:/opt/nvidia-gl/${lib##*/}:ro")
+        done
+        EXTRA_ARGS+=(-e __GLX_VENDOR_LIBRARY_NAME=nvidia -e QT_XCB_GL_INTEGRATION=xcb_glx)
+        GL_LIBS=/opt/nvidia-gl
+    fi
     # keep flow5 settings between runs
     mkdir -p "$ROOT/build/home"
     EXTRA_ARGS+=(-e HOME="$ROOT/build/home")
@@ -71,6 +84,7 @@ config_arg() {
 }
 
 EXTRA_ARGS=()
+GL_LIBS=
 cmd="${1:-help}"; shift || true
 
 case "$cmd" in
@@ -87,7 +101,7 @@ case "$cmd" in
         bin="$ROOT/build/$cfg"
         [[ -x "$bin/flow5-app/flow5" ]] || { echo "no $cfg build yet: ./docker/dev.sh build $cfg" >&2; exit 1; }
         gui_args
-        EXTRA_ARGS+=(-e LD_LIBRARY_PATH="$bin/XFoil-lib:$bin/flow5-lib:$bin/flow5-io-lib")
+        EXTRA_ARGS+=(-e LD_LIBRARY_PATH="${GL_LIBS:+$GL_LIBS:}$bin/XFoil-lib:$bin/flow5-lib:$bin/flow5-io-lib")
         run_in "$bin/flow5-app/flow5" "$@"
         ;;
     appimage)
@@ -95,6 +109,7 @@ case "$cmd" in
         ;;
     shell)
         gui_args
+        [[ -n "$GL_LIBS" ]] && EXTRA_ARGS+=(-e LD_LIBRARY_PATH="$GL_LIBS")
         run_in bash
         ;;
     clean)

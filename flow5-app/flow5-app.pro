@@ -9,7 +9,14 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 TEMPLATE = app
 TARGET = flow5
 
-VERSION = 7.57
+# The version is defined only in flow5-lib/api/fl5core.h (MAJOR_VERSION/MINOR_VERSION)
+_FL5_CORE = $$cat($$PWD/../flow5-lib/api/fl5core.h, lines)
+_FL5_MAJOR = $$find(_FL5_CORE, "^$${LITERAL_HASH}define +MAJOR_VERSION +")
+_FL5_MINOR = $$find(_FL5_CORE, "^$${LITERAL_HASH}define +MINOR_VERSION +")
+_FL5_MAJOR = $$replace(_FL5_MAJOR, "^$${LITERAL_HASH}define +MAJOR_VERSION +([0-9]+).*$", \\1)
+_FL5_MINOR = $$replace(_FL5_MINOR, "^$${LITERAL_HASH}define +MINOR_VERSION +([0-9]+).*$", \\1)
+isEmpty(_FL5_MAJOR)|isEmpty(_FL5_MINOR): error("Cannot parse MAJOR_VERSION/MINOR_VERSION from flow5-lib/api/fl5core.h")
+VERSION = $${_FL5_MAJOR}.$${_FL5_MINOR}
 
 QT += opengl widgets xml
 

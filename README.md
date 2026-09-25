@@ -11,6 +11,16 @@ It is version 7 of the legacy project xflr5.
 - Continue to clean the code and to improve the API 
 - Clean the documentation
 
+# Versioning
+The version is defined in one place only: `MAJOR_VERSION` and `MINOR_VERSION` in [flow5-lib/api/fl5core.h](flow5-lib/api/fl5core.h).
+
+To bump the version, edit those two defines and nothing else. Everything else reads them:
+- the GUI (window title, About box, log headers) through `fl5::versionName()`,
+- `flow5-app/flow5-app.pro`, which parses the header to set qmake's `VERSION`,
+- the packaging scripts, through `packaging/version.sh`.
+
+Release tags must match the header, e.g. `v7.60` for `MAJOR_VERSION 7` / `MINOR_VERSION 60`: CI builds triggered by a tag name the packages after the tag, not the header.
+
 # API 
 
 ## Implementation

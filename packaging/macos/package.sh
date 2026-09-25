@@ -14,7 +14,7 @@ STAGE="$ROOT/build/macos-dmg"
 DIST="$ROOT/build/dist"
 BREW="$(brew --prefix)"
 
-VERSION="${VERSION:-$(sed -nE 's/^VERSION *= *([0-9.]+).*/\1/p' "$ROOT/flow5-app/flow5-app.pro")}"
+VERSION="${VERSION:-$("$ROOT/packaging/version.sh")}"
 DMG="$DIST/flow5-$VERSION-macos-arm64.dmg"
 
 "$ROOT/packaging/macos/build.sh"
