@@ -79,6 +79,9 @@ PlaneTask::PlaneTask() : Task3d()
 
     m_bDerivatives = true;
 
+    m_bViscClamped = false;
+    m_ViscClampSummary.clear();
+
     m_AF.resetAll();
 }
 
@@ -1250,6 +1253,9 @@ void PlaneTask::outputStateMatrices(PlaneOpp const *pPOpp)
 PlaneOpp* PlaneTask::computePlane(double ctrl, double alpha, double beta, double phi, double QInf, double mass,
                                   Vector3d const &CoG, bool bInGeomAxes)
 {
+    m_bViscClamped = false;
+    m_ViscClampSummary.clear();
+
     if(QInf<PRECISION)
     {
         return nullptr; // <=0.0
@@ -1389,11 +1395,19 @@ PlaneOpp* PlaneTask::computePlane(double ctrl, double alpha, double beta, double
                 if(m_pPlPolar->isViscInterpolated())
                 {
                     traceStdLog("             Processing "+ pWing->name() + EOLstr);
-                    bViscOK = computeViscousDrag(pWing, alpha, beta, QInf, m_pPlPolar, CoG, iStation, m_SpanDistFF[iw], logmsg);
+                    bool bWingClamped = false;
+                    std::string clampSummary;
+                    bViscOK = computeViscousDrag(pWing, alpha, beta, QInf, m_pPlPolar, CoG, iStation, m_SpanDistFF[iw], logmsg, bWingClamped, clampSummary);
                     if(logmsg.length()!=0)
                     {
-                        traceStdLog("                ...Viscous interpolation failures:\n");
+                        traceStdLog("                ...Viscous interpolation warnings (values clamped):\n");
                         traceStdLog(logmsg);
+                    }
+                    if(bWingClamped)
+                    {
+                        m_bWarning = true;
+                        m_bViscClamped = true;
+                        m_ViscClampSummary = clampSummary; // last wing with clamping wins; good enough for a bounded UI hint
                     }
                 }
                 else
@@ -1666,7 +1680,11 @@ double PlaneTask::computeGlideSpeed(double Alpha, double mass, std::string &log)
             if(m_pPlPolar->isViscOnTheFly())
                 computeViscousDragOTF(pWing, Alpha, 0.0, v1, m_pPlPolar, Vector3d(), m_pPlPolar->flapCtrls(iw), m_SpanDistFF[iw], strange);
             else
-                computeViscousDrag(pWing, Alpha, 0.0, v1, m_pPlPolar, Vector3d(), iStation, m_SpanDistFF[iw], strange);
+            {
+                bool bClampedGlide = false;
+                std::string clampSummaryGlide;
+                computeViscousDrag(pWing, Alpha, 0.0, v1, m_pPlPolar, Vector3d(), iStation, m_SpanDistFF[iw], strange, bClampedGlide, clampSummaryGlide);
+            }
             pWing->computeViscousForces(m_pPlPolar, Alpha, m_Beta, m_SpanDistFF[iw], m_PartAF[iw]);
             CDv1 += m_PartAF.at(iw).profileDrag(); // N/q
 
@@ -1843,7 +1861,8 @@ PlaneOpp *PlaneTask::createPlaneOpp(double ctrl, double alpha, double beta, doub
     }
 
 
-    pPOpp->m_bOut   = false; // v7.50: only keeping successful viscous calculations
+    pPOpp->m_bOut   = m_bViscClamped;
+    pPOpp->m_ViscClampSummary = m_ViscClampSummary;
 
     pPOpp->m_Mass   = mass;
     pPOpp->m_CoG    = CoG;
@@ -2261,8 +2280,7 @@ void PlaneTask::storePOpp(PlaneOpp *pPOpp)
 {
     if(!pPOpp) return;
 
-    if(!pPOpp->isOut()) // discard failed visc interpolated opps
-        m_pPlPolar->addPlaneOpPointData(pPOpp);
+    m_pPlPolar->addPlaneOpPointData(pPOpp);
 
     if(m_bKeepOpps)
     {
@@ -2622,9 +2640,9 @@ void PlaneTask::run()
 
 bool PlaneTask::computeViscousDrag(WingXfl *pWing, double alpha, double beta, double QInf,
                                    PlanePolar const *pWPolar, Vector3d const &cog, int iStation0, SpanDistribs &SpanResFF,
-                                   std::string &logmsg) const
+                                   std::string &logmsg, bool &bClamped, std::string &clampSummary) const
 {
-    std::string strong, strange, strOut;
+    std::string strong;
     std::string logg;
 
     // Define the wind axes
@@ -2633,6 +2651,13 @@ bool PlaneTask::computeViscousDrag(WingXfl *pWing, double alpha, double beta, do
 
 
     bool bViscOK = true;
+    bClamped = false;
+    clampSummary.clear();
+
+    int nClampedStrips = 0;
+    int nStrips = 0;
+    double worstClMagnitude = -1.0;
+    std::string worstClDetail;
 
     SpanDistribs &sd = SpanResFF;
 
@@ -2645,8 +2670,11 @@ bool PlaneTask::computeViscousDrag(WingXfl *pWing, double alpha, double beta, do
         Surface const &surf = pWing->surfaceAt(j);
         for(int k=0; k<surf.NYPanels(); k++)
         {
-            bool bOutRe    = false;
-            bool bOutVar   = false;
+            bool bOutRe  = false;
+            bool bNoData = false;
+            std::string detail;
+            double stripClMagnitude = -1.0;
+            std::string stripClSummary;
 
             double tau = 0.0;
             Vector3d PtC4;
@@ -2660,62 +2688,110 @@ bool PlaneTask::computeViscousDrag(WingXfl *pWing, double alpha, double beta, do
 
             if(pWPolar->isViscFromCl())
             {
-                CdA = Objects2d::getPlrPointFromCl(surf.foilA(), sd.m_Re.at(m), sd.m_Cl.at(m), Polar::CD, bOutRe, bOutVar);
-                CdB = Objects2d::getPlrPointFromCl(surf.foilB(), sd.m_Re.at(m), sd.m_Cl.at(m), Polar::CD, bOutRe, bOutVar);
+                PlrInterpolation statusA, statusB;
 
-                XTrTopA = Objects2d::getPlrPointFromCl(surf.foilA(), sd.m_Re.at(m), sd.m_Cl.at(m), Polar::XTRTOP, bOutRe, bOutVar);
-                XTrTopB = Objects2d::getPlrPointFromCl(surf.foilB(), sd.m_Re.at(m), sd.m_Cl.at(m), Polar::XTRTOP, bOutRe, bOutVar);
+                CdA = Objects2d::getPlrPointFromCl(surf.foilA(), sd.m_Re.at(m), sd.m_Cl.at(m), Polar::CD, statusA);
+                CdB = Objects2d::getPlrPointFromCl(surf.foilB(), sd.m_Re.at(m), sd.m_Cl.at(m), Polar::CD, statusB);
 
-                XTrBotA = Objects2d::getPlrPointFromCl(surf.foilA(), sd.m_Re.at(m), sd.m_Cl.at(m), Polar::XTRBOT, bOutRe, bOutVar);
-                XTrBotB = Objects2d::getPlrPointFromCl(surf.foilB(), sd.m_Re.at(m), sd.m_Cl.at(m), Polar::XTRBOT, bOutRe, bOutVar);
+                XTrTopA = Objects2d::getPlrPointFromCl(surf.foilA(), sd.m_Re.at(m), sd.m_Cl.at(m), Polar::XTRTOP, statusA);
+                XTrTopB = Objects2d::getPlrPointFromCl(surf.foilB(), sd.m_Re.at(m), sd.m_Cl.at(m), Polar::XTRTOP, statusB);
 
-                if(bOutVar)
+                XTrBotA = Objects2d::getPlrPointFromCl(surf.foilA(), sd.m_Re.at(m), sd.m_Cl.at(m), Polar::XTRBOT, statusA);
+                XTrBotB = Objects2d::getPlrPointFromCl(surf.foilB(), sd.m_Re.at(m), sd.m_Cl.at(m), Polar::XTRBOT, statusB);
+
+                bNoData = statusA.bNoData || statusB.bNoData;
+                bOutRe  = statusA.bOutRe  || statusB.bOutRe;
+
+                if(!bNoData)
                 {
-                    strOut = std::format(",  Cl = {:7.2f}\n", sd.m_Cl.at(m));
-                    bViscOK = false;
+                    if(statusA.bClamped)
+                    {
+                        std::string limit = statusA.ClRequested>statusA.ClAvailable ? "max" : "min";
+                        detail += std::format(": Cl {:.3f} requested, {} available {:.3f} on foil '{}' (inboard) — clamped",
+                                              statusA.ClRequested, limit, statusA.ClAvailable, surf.foilA()->name());
+                        double magnitude = fabs(statusA.ClRequested-statusA.ClAvailable);
+                        if(magnitude>stripClMagnitude)
+                        {
+                            stripClMagnitude = magnitude;
+                            stripClSummary = std::format("Cl {:.3f} requested, {:.3f} available on foil '{}'.",
+                                                          statusA.ClRequested, statusA.ClAvailable, surf.foilA()->name());
+                        }
+                    }
+                    if(statusB.bClamped)
+                    {
+                        std::string limit = statusB.ClRequested>statusB.ClAvailable ? "max" : "min";
+                        detail += std::format(": Cl {:.3f} requested, {} available {:.3f} on foil '{}' (outboard) — clamped",
+                                              statusB.ClRequested, limit, statusB.ClAvailable, surf.foilB()->name());
+                        double magnitude = fabs(statusB.ClRequested-statusB.ClAvailable);
+                        if(magnitude>stripClMagnitude)
+                        {
+                            stripClMagnitude = magnitude;
+                            stripClSummary = std::format("Cl {:.3f} requested, {:.3f} available on foil '{}'.",
+                                                          statusB.ClRequested, statusB.ClAvailable, surf.foilB()->name());
+                        }
+                    }
+                    if(bOutRe)
+                    {
+                        detail += std::format(": Re {:.0f} outside polar range — clamped", sd.m_Re.at(m));
+                    }
                 }
             }
             else
             {
                 double aoa_effective = sd.m_Alpha_0.at(m) + (sd.m_Cl.at(m)/2.0/PI) *180.0/PI - m_gamma.at(iStation0+m);
 
-                CdA = Objects2d::getPlrPointFromAlpha(surf.foilA(), sd.m_Re.at(m), aoa_effective, Polar::CD, bOutRe, bOutVar);
-                CdB = Objects2d::getPlrPointFromAlpha(surf.foilB(), sd.m_Re.at(m), aoa_effective, Polar::CD, bOutRe, bOutVar);
+                bool bOutVar = false;
+                bool bNoDataAlpha = false;
+                CdA = Objects2d::getPlrPointFromAlpha(surf.foilA(), sd.m_Re.at(m), aoa_effective, Polar::CD, bOutRe, bOutVar, bNoDataAlpha);
+                CdB = Objects2d::getPlrPointFromAlpha(surf.foilB(), sd.m_Re.at(m), aoa_effective, Polar::CD, bOutRe, bOutVar, bNoDataAlpha);
 
-                XTrTopA = Objects2d::getPlrPointFromAlpha(surf.foilA(), sd.m_Re.at(m), aoa_effective, Polar::XTRTOP, bOutRe, bOutVar);
-                XTrTopB = Objects2d::getPlrPointFromAlpha(surf.foilB(), sd.m_Re.at(m), aoa_effective, Polar::XTRTOP, bOutRe, bOutVar);
+                XTrTopA = Objects2d::getPlrPointFromAlpha(surf.foilA(), sd.m_Re.at(m), aoa_effective, Polar::XTRTOP, bOutRe, bOutVar, bNoDataAlpha);
+                XTrTopB = Objects2d::getPlrPointFromAlpha(surf.foilB(), sd.m_Re.at(m), aoa_effective, Polar::XTRTOP, bOutRe, bOutVar, bNoDataAlpha);
 
-                XTrBotA = Objects2d::getPlrPointFromAlpha(surf.foilA(), sd.m_Re.at(m), aoa_effective, Polar::XTRBOT, bOutRe, bOutVar);
-                XTrBotB = Objects2d::getPlrPointFromAlpha(surf.foilB(), sd.m_Re.at(m), aoa_effective, Polar::XTRBOT, bOutRe, bOutVar);
+                XTrBotA = Objects2d::getPlrPointFromAlpha(surf.foilA(), sd.m_Re.at(m), aoa_effective, Polar::XTRBOT, bOutRe, bOutVar, bNoDataAlpha);
+                XTrBotB = Objects2d::getPlrPointFromAlpha(surf.foilB(), sd.m_Re.at(m), aoa_effective, Polar::XTRBOT, bOutRe, bOutVar, bNoDataAlpha);
 
-                if(bOutVar)
+                bNoData = bNoDataAlpha;
+
+                if(!bNoData)
                 {
-                    strOut = std::format(",  AoA_effective = {:7.2f}", aoa_effective) + DEGstr + EOLstr;
-                    bViscOK = false;
+                    if(bOutVar)
+                    {
+                        detail = std::format(": AoA_effective {:.2f}", aoa_effective) + DEGstr + " outside polar range — clamped";
+                    }
+                    else if(bOutRe)
+                    {
+                        detail = std::format(": Re {:.0f} outside polar range — clamped", sd.m_Re.at(m));
+                    }
                 }
             }
 
-            strong = "           " + std::format("     Span position {:9.2f} ", sd.m_StripPos.at(m)*Units::mtoUnit());
-            strong += Units::lengthUnitLabel();
-            strong += std::format(",  Re = {:9.0f}", sd.m_Re.at(m));
-
-            if(bOutVar)
+            if(bNoData)
             {
-                logg += strong + strOut;
-            }
-            else if(bOutRe)
-            {
-                strange = std::format(",  Cl = {:7.2f}\n", sd.m_Cl.at(m));
-                logg += strong + strange;
+                strong = "           " + std::format("     Span position {:9.2f} ", sd.m_StripPos.at(m)*Units::mtoUnit());
+                strong += Units::lengthUnitLabel();
+                strong += std::format(",  Re = {:9.0f},  Cl = {:7.2f}: no polar data available\n", sd.m_Re.at(m), sd.m_Cl.at(m));
+                logg += strong;
                 bViscOK = false;
             }
-
-            if(bOutVar || bOutRe)
+            else if(!detail.empty())
             {
-                sd.m_PCd[m]    = 0.0;
-                sd.m_XTrTop[m] = 1.0;
-                sd.m_XTrBot[m] = 1.0;
+                strong = "           " + std::format("     Span position {:9.2f} ", sd.m_StripPos.at(m)*Units::mtoUnit());
+                strong += Units::lengthUnitLabel();
+                strong += std::format(",  Re = {:9.0f},  tau = {:5.2f}", sd.m_Re.at(m), tau);
+                logg += strong + detail + "\n";
+                bClamped = true;
+                sd.m_bConverged[m] = false;
+
+                nClampedStrips++;
+                if(stripClMagnitude>=worstClMagnitude)
+                {
+                    worstClMagnitude = stripClMagnitude;
+                    worstClDetail = stripClSummary.empty() ? detail.substr(2) : stripClSummary; // drop leading ": "
+                }
             }
+
+            nStrips++;
 
             sd.m_PCd[m]    = CdA     * (1.0-tau) + CdB     * tau;
             sd.m_XTrTop[m] = XTrTopA * (1.0-tau) + XTrTopB * tau;
@@ -2734,6 +2810,12 @@ bool PlaneTask::computeViscousDrag(WingXfl *pWing, double alpha, double beta, do
     }
 
     logmsg = logg;
+
+    if(nClampedStrips>0)
+    {
+        clampSummary = std::format("Viscous drag clamped at {:d} of {:d} stations. Largest exceedance: {}",
+                                    nClampedStrips, nStrips, worstClDetail);
+    }
 
     return bViscOK;
 }

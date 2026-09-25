@@ -528,6 +528,22 @@ void Polar::getAlphaLimits(double &amin, double &amax) const
 */
 void Polar::getClLimits(double &Clmin, double &Clmax) const
 {
+    int iClmin=0, iClmax=0;
+    getClLimits(Clmin, Clmax, iClmin, iClmax);
+}
+
+
+/**
+* Returns the minimum and maximum lift coefficients stored in the polar, along with the indices
+* at which they occur, so that callers can retrieve the matching value of another variable.
+*@param &Clmin the miminum lift coefficient
+*@param &Clmax the maximum lift coefficient
+*@param &iClmin the index at which Clmin occurs
+*@param &iClmax the index at which Clmax occurs
+*/
+void Polar::getClLimits(double &Clmin, double &Clmax, int &iClmin, int &iClmax) const
+{
+    iClmin = iClmax = 0;
     if(!m_Cl.size())
     {
         Clmin = 0.0;
@@ -541,8 +557,8 @@ void Polar::getClLimits(double &Clmin, double &Clmax) const
         for (unsigned int i=0; i<m_Cl.size(); i++)
         {
             Cl = m_Cl.at(i);
-            if(Clmin>Cl) Clmin = Cl;
-            if(Clmax<Cl) Clmax = Cl;
+            if(Clmin>Cl) {Clmin = Cl; iClmin = int(i);}
+            if(Clmax<Cl) {Clmax = Cl; iClmax = int(i);}
         }
     }
 }
@@ -924,25 +940,42 @@ double Polar::interpolateFromAlpha(double alpha, Polar::enumPolarVariable PlrVar
 }
 
 
-double Polar::interpolateFromCl(double Cl, Polar::enumPolarVariable PlrVar, bool &bOutCl) const
+double Polar::interpolateFromCl(double Cl, Polar::enumPolarVariable PlrVar, PlrInterpolation &status) const
 {
     //interpolate Cl on this polar
     std::vector <double> const &pX = getPlrVariable(PlrVar);
 
+    if(!m_Cl.size() || pX.size()!=m_Cl.size())
+    {
+        status.bNoData = true;
+        return 0.0;
+    }
+
     double Clmin = 100.0;
     double Clmax = -100.0;
-    getClLimits(Clmin, Clmax);
+    int iClmin=0, iClmax=0;
+    getClLimits(Clmin, Clmax, iClmin, iClmax);
     if(Cl < Clmin)
     {
-        bOutCl = true;
-        if(pX.size()) return pX.front();
-        else          return 0.0;
+        double exceedance = fabs(Cl-Clmin);
+        if(!status.bClamped || exceedance>fabs(status.ClRequested-status.ClAvailable))
+        {
+            status.ClRequested = Cl;
+            status.ClAvailable = Clmin;
+        }
+        status.bClamped = true;
+        return pX.at(iClmin);
     }
     else if(Cl > Clmax)
     {
-        bOutCl= true;
-        if(pX.size()) return pX.back();
-        else          return 0.0;
+        double exceedance = fabs(Cl-Clmax);
+        if(!status.bClamped || exceedance>fabs(status.ClRequested-status.ClAvailable))
+        {
+            status.ClRequested = Cl;
+            status.ClAvailable = Clmax;
+        }
+        status.bClamped = true;
+        return pX.at(iClmax);
     }
     else
     {
@@ -1004,7 +1037,7 @@ double Polar::interpolateFromCl(double Cl, Polar::enumPolarVariable PlrVar, bool
 
 //    assert(false);
 
-    bOutCl = true;
+    status.bNoData = true;
     return 0.0;
 }
 

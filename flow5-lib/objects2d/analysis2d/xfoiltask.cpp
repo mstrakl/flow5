@@ -243,12 +243,12 @@ bool XFoilTask::processCl(int k)
         processClRange(&temppolar, range);
 
         // interpolate
-        bool bOutCl = false;
-        m_pPolar->m_Cd[k]     = temppolar.interpolateFromCl(m_pPolar->m_Cl.at(k), Polar::CD,     bOutCl);
-        m_pPolar->m_XTrTop[k] = temppolar.interpolateFromCl(m_pPolar->m_Cl.at(k), Polar::XTRTOP, bOutCl);
-        m_pPolar->m_XTrBot[k] = temppolar.interpolateFromCl(m_pPolar->m_Cl.at(k), Polar::XTRBOT, bOutCl);
+        PlrInterpolation status;
+        m_pPolar->m_Cd[k]     = temppolar.interpolateFromCl(m_pPolar->m_Cl.at(k), Polar::CD,     status);
+        m_pPolar->m_XTrTop[k] = temppolar.interpolateFromCl(m_pPolar->m_Cl.at(k), Polar::XTRTOP, status);
+        m_pPolar->m_XTrBot[k] = temppolar.interpolateFromCl(m_pPolar->m_Cl.at(k), Polar::XTRBOT, status);
         // repurposing control variable to contain convergence result
-        m_pPolar->m_Control[k] = !bOutCl ? 1.0 : -1.0;
+        m_pPolar->m_Control[k] = (!status.bClamped && !status.bNoData) ? 1.0 : -1.0;
     }
 
     return m_pPolar->m_Control[k]>0.0;

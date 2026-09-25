@@ -25,6 +25,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 #include <task3d.h>
 #include <t8opp.h>
@@ -104,7 +105,7 @@ class FL5LIB_EXPORT PlaneTask : public Task3d
         void computeInviscidAero(const std::vector<Panel3> &panel3, const double *Cp3Vtx, const PlanePolar *pWPolar, double Alpha, AeroForces &AF) const;
         void computeInducedForces(double alpha, double beta, double QInf);
         void computeInducedDrag(double alpha, double beta, double QInf);
-        bool computeViscousDrag(WingXfl *pWing, double alpha, double beta, double QInf, const PlanePolar *pWPolar, Vector3d const &cog, int iStation0, SpanDistribs &SpanResFF, std::string &logmsg) const;
+        bool computeViscousDrag(WingXfl *pWing, double alpha, double beta, double QInf, const PlanePolar *pWPolar, Vector3d const &cog, int iStation0, SpanDistribs &SpanResFF, std::string &logmsg, bool &bClamped, std::string &clampSummary) const;
         bool computeViscousDragOTF(WingXfl *pWing, double alpha, double beta, double QInf, const PlanePolar *pWPolar, Vector3d const &cog, const AngleControl &TEFlapAngles, SpanDistribs &SpanResFF, std::string &logmsg);
         bool computeSurfaceDragOTF(Surface const &surf, int iStartStation, double theta, SpanDistribs &spandist);
         bool computeSectionDragOTF(XFoilTask *pTask) const;
@@ -155,6 +156,9 @@ class FL5LIB_EXPORT PlaneTask : public Task3d
         std::vector<AeroForces> m_PartAF;  /** the array of Aero forces acting on each part, for each operating point */
 
         std::vector<double> m_gamma;    /**< the virtual twist angle for each span section; cf. Computationally Efficient Transonic and Viscous Potential Flow Aero-Structural Method for Rapid Multidisciplinary Design Optimization of Aeroelastic Wing Shaping Control, by Eric Ting and Daniel Chaparro,  Advanced Modeling and Simulation (AMS) Seminar Series, Advanced Advanced Air Air Vehicles Transport Program Technology Project NASA Ames Research Center, June 28, 2017 */
+
+        bool m_bViscClamped;              /**< true if the viscous drag interpolation had to clamp Cl or Re to the polar mesh's envelope for the point being computed */
+        std::string m_ViscClampSummary;   /**< bounded summary of the worst clamped station, for display in the operating point's properties */
 
     private:
         static bool s_bViscInitTwist;
