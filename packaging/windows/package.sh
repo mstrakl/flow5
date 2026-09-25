@@ -11,7 +11,7 @@ BUILD="$ROOT/build/windows-release"
 DEPLOY="$ROOT/build/windows-deploy/flow5"
 DIST="$ROOT/build/dist"
 
-VERSION="${VERSION:-$(sed -nE 's/^VERSION *= *([0-9.]+).*/\1/p' "$ROOT/flow5-app/flow5-app.pro")}"
+VERSION="${VERSION:-$("$ROOT/packaging/version.sh")}"
 
 "$ROOT/packaging/windows/build.sh"
 
