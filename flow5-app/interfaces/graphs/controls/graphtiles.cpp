@@ -354,14 +354,13 @@ void GraphTiles::on4GraphsSubSubHSplitter2Moved()
 
 void GraphTiles::onAllGraphsSubSubHSplitter1Moved()
 {
-    m_pAllGraphsSubHSplitter2->setSizes(m_pAllGraphsSubHSplitter1->sizes());
+    // the two rows have 3 and 2 graphs: their sizes are independent
     onSaveAllGraphSplitterSizes();
 }
 
 
 void GraphTiles::onAllGraphsSubSubHSplitter2Moved()
 {
-    m_pAllGraphsSubHSplitter1->setSizes(m_pAllGraphsSubHSplitter2->sizes());
     onSaveAllGraphSplitterSizes();
 }
 
@@ -402,8 +401,8 @@ void GraphTiles::setOneGraphLayout()
 
     if(m_1GraphHSizes.length()==0)
     {
-        int w = width();
-        QList<int> sizes = {int(double(w)*3./4.),  w - int(double(w)*3./4.)};
+        int h = height();
+        QList<int> sizes = {int(double(h)*0.9),  h - int(double(h)*0.9)};
         m_p1GraphHSplitter->setSizes(sizes);
     }
     else
@@ -429,7 +428,7 @@ void GraphTiles::setTwoGraphsLayout()
     if(m_2GraphsVSizes.length()==0)
     {
         int h = height();
-        QList<int> sizes ={  int(double(h)*3./4.), h-int(double(h)*3./4.)};
+        QList<int> sizes ={  int(double(h)*0.9), h-int(double(h)*0.9)};
         m_p2GraphsVSplitter->setSizes(sizes);
     }
     else {
@@ -477,8 +476,8 @@ void GraphTiles::setFourGraphsLayout()
 
     if(m_4GraphsHSizes.length()==0)
     {
-        int w = width();
-        QList<int> sizes = {int(double(w)*3./4.), w-int(double(w)*3./4.)};
+        int h = height();
+        QList<int> sizes = {int(double(h)*0.9), h-int(double(h)*0.9)};
         m_p4GraphsHSplitter->setSizes(sizes);
     }
     else m_p4GraphsHSplitter->restoreState(m_4GraphsHSizes);
@@ -497,9 +496,9 @@ void GraphTiles::setAllGraphsLayout()
     m_pAllGraphsSubHSplitter1->addWidget(m_GraphWidget.at(0));
     m_pAllGraphsSubHSplitter1->addWidget(m_GraphWidget.at(1));
     m_pAllGraphsSubHSplitter1->addWidget(m_GraphWidget.at(2));
-    m_pAllGraphsSubHSplitter2->addWidget(m_pScrollArea);
     m_pAllGraphsSubHSplitter2->addWidget(m_GraphWidget.at(3));
     m_pAllGraphsSubHSplitter2->addWidget(m_GraphWidget.at(4));
+    m_pAllGraphsVSplitter->addWidget(m_pScrollArea); // legend strip below the graphs
 
     m_pAllGraphsSubHSplitter1->setChildrenCollapsible(false);
     m_pAllGraphsSubHSplitter2->setChildrenCollapsible(false);
@@ -507,17 +506,22 @@ void GraphTiles::setAllGraphsLayout()
     if(m_AllGraphsSubHSizes.length()==0)
     {
         int w = width();
-        QList<int> sizes = {int(double(w)*5./10.0), int(double(w)*2.5/10.0), int(double(w)*2.5/10.0)};
+        QList<int> sizes = {w/3, w/3, w-2*(w/3)};
         m_pAllGraphsSubHSplitter1->setSizes(sizes);
-        m_pAllGraphsSubHSplitter2->setSizes(sizes);
+        m_pAllGraphsSubHSplitter2->setSizes({w/2, w-w/2});
     }
     else
     {
         m_pAllGraphsSubHSplitter1->restoreState(m_AllGraphsSubHSizes);
-        m_pAllGraphsSubHSplitter2->restoreState(m_AllGraphsSubHSizes);
     }
 
-    m_pAllGraphsVSplitter->restoreState(m_AllGraphsVSizes);
+    if(m_AllGraphsVSizes.length()==0)
+    {
+        int h = height();
+        m_pAllGraphsVSplitter->setSizes({int(h*0.45), int(h*0.45), h-2*int(h*0.45)});
+    }
+    else
+        m_pAllGraphsVSplitter->restoreState(m_AllGraphsVSizes);
 
     m_pAllGraphsVSplitter->show();
 }
@@ -527,7 +531,7 @@ void GraphTiles::makeSplitters()
 {
     m_pMainHBoxLayout = new QHBoxLayout;
 
-    m_p1GraphHSplitter = new QSplitter(Qt::Horizontal);
+    m_p1GraphHSplitter = new QSplitter(Qt::Vertical); // graph above, legend strip below
     m_p1GraphHSplitter->setHandleWidth(1);
     m_p1GraphHSplitter->setChildrenCollapsible(false);
 
@@ -542,7 +546,7 @@ void GraphTiles::makeSplitters()
         m_p2GraphsVSplitter->addWidget(m_p2GraphsSubHSplitter);
     }
 
-    m_p4GraphsHSplitter= new QSplitter(Qt::Horizontal);
+    m_p4GraphsHSplitter= new QSplitter(Qt::Vertical); // graphs above, legend strip below
     {
         m_p4GraphsHSplitter->setHandleWidth(1);
         m_p4GraphsHSplitter->setChildrenCollapsible(false);
@@ -956,17 +960,17 @@ void GraphTiles::loadSettings(QSettings &settings, const QString &groupname)
         }
         m_iActiveGraphWidget = settings.value("iActiveGraph", 0).toInt();
 
-        m_1GraphHSizes        = settings.value("1GraphHSizes").toByteArray();
+        m_1GraphHSizes        = settings.value("1GraphHSizes_LB").toByteArray();
 
-        m_2GraphsVSizes       = settings.value("2GraphsVSizes").toByteArray();
-        m_2GraphsSubHSizes    = settings.value("2GraphsSubHSizes").toByteArray();
+        m_2GraphsVSizes       = settings.value("2GraphsVSizes_LB").toByteArray();
+        m_2GraphsSubHSizes    = settings.value("2GraphsSubHSizes_LB").toByteArray();
 
-        m_4GraphsHSizes       = settings.value("4GraphsHSizes").toByteArray();
-        m_4GraphsSubVSizes    = settings.value("4GraphsSubVSizes").toByteArray();
-        m_4GraphsSubSubHSizes = settings.value("4GraphsSubSubHSizes").toByteArray();
+        m_4GraphsHSizes       = settings.value("4GraphsHSizes_LB").toByteArray();
+        m_4GraphsSubVSizes    = settings.value("4GraphsSubVSizes_LB").toByteArray();
+        m_4GraphsSubSubHSizes = settings.value("4GraphsSubSubHSizes_LB").toByteArray();
 
-        m_AllGraphsVSizes     = settings.value("AllGraphsVSizes").toByteArray();
-        m_AllGraphsSubHSizes  = settings.value("AllGraphsSubHSizes").toByteArray();
+        m_AllGraphsVSizes     = settings.value("AllGraphsVSizes_LB").toByteArray();
+        m_AllGraphsSubHSizes  = settings.value("AllGraphsSubHSizes_LB").toByteArray();
 
         bool bLayoutExists = settings.contains("NVariableSets");
         if(bLayoutExists)
@@ -1000,17 +1004,17 @@ void GraphTiles::saveSettings(QSettings &settings, const QString &groupname)
 
         settings.setValue("iActiveGraph", m_iActiveGraphWidget);
 
-        settings.setValue("1GraphHSizes",        m_1GraphHSizes);
+        settings.setValue("1GraphHSizes_LB",        m_1GraphHSizes);
 
-        settings.setValue("2GraphsVSizes",       m_2GraphsVSizes);
-        settings.setValue("2GraphsSubHSizes",    m_2GraphsSubHSizes);
+        settings.setValue("2GraphsVSizes_LB",       m_2GraphsVSizes);
+        settings.setValue("2GraphsSubHSizes_LB",    m_2GraphsSubHSizes);
 
-        settings.setValue("4GraphsHSizes",       m_4GraphsHSizes);
-        settings.setValue("4GraphsSubVSizes",    m_4GraphsSubVSizes);
-        settings.setValue("4GraphsSubSubHSizes", m_4GraphsSubSubHSizes);
+        settings.setValue("4GraphsHSizes_LB",       m_4GraphsHSizes);
+        settings.setValue("4GraphsSubVSizes_LB",    m_4GraphsSubVSizes);
+        settings.setValue("4GraphsSubSubHSizes_LB", m_4GraphsSubSubHSizes);
 
-        settings.setValue("AllGraphsVSizes",     m_AllGraphsVSizes);
-        settings.setValue("AllGraphsSubHSizes",  m_AllGraphsSubHSizes);
+        settings.setValue("AllGraphsVSizes_LB",     m_AllGraphsVSizes);
+        settings.setValue("AllGraphsSubHSizes_LB",  m_AllGraphsSubHSizes);
 
         settings.setValue("NVariableSets", m_VariableSet.size());
         for(int il=0; il<m_VariableSet.size(); il++)

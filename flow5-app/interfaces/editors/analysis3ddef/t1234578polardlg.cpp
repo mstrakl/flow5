@@ -36,6 +36,8 @@
 #include <QGroupBox>
 #include <QMessageBox>
 #include <QMenu>
+#include <QCheckBox>
+#include <QComboBox>
 
 
 #include "t1234578polardlg.h"
@@ -94,6 +96,10 @@ void T1234578PolarDlg::connectSignals()
     connect(m_pcptAVLCtrls->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), SLOT(onAVLRowChanged(QModelIndex)));
     connect(m_pcptAVLCtrls,                   SIGNAL(customContextMenuRequested(QPoint)),         SLOT(onAVLContextMenu(QPoint)));
     connect(m_pAVLCtrlModel,                  SIGNAL(dataChanged(QModelIndex,QModelIndex)),       SLOT(onAVLCtrlChanged()));
+    connect(m_pchAlphaDot, &QCheckBox::toggled, this, [this](bool b){s_PlPolar.setAlphaDotDerivatives(b); enableDownwashControls();});
+    connect(m_pcbDownwashMethod, &QComboBox::currentIndexChanged, this, [this](int idx)
+            {s_PlPolar.setDownwashMethod(idx==1 ? PlanePolar::DATCOMDOWNWASH : PlanePolar::PANELDOWNWASH); enableDownwashControls();});
+    connect(m_pchRegularizedWake, &QCheckBox::toggled, this, [](bool b){s_PlPolar.setRegularizedWake(b);});
     connect(m_pcptAVLGains,                   SIGNAL(dataPasted()),                               SLOT(onAVLGainChanged()));
     connect(m_pAVLGainDelegate,               SIGNAL(closeEditor(QWidget*)),                      SLOT(onAVLGainChanged()));
 }
@@ -251,9 +257,20 @@ void T1234578PolarDlg::initPolar3dDlg(const Plane *pPlane, const PlanePolar *pPl
 
     fillFlapControls();
     fillAVLCtrlList();
+    m_pchAlphaDot->setChecked(s_PlPolar.bAlphaDotDerivatives());
+    m_pcbDownwashMethod->setCurrentIndex(s_PlPolar.downwashMethod()==PlanePolar::DATCOMDOWNWASH ? 1 : 0);
+    m_pchRegularizedWake->setChecked(s_PlPolar.bRegularizedWake());
+    enableDownwashControls();
 
     connectSignals();
     enableControls();
+}
+
+
+void T1234578PolarDlg::enableDownwashControls()
+{
+    m_pcbDownwashMethod->setEnabled(s_PlPolar.bAlphaDotDerivatives());
+    m_pchRegularizedWake->setEnabled(s_PlPolar.bAlphaDotDerivatives() && s_PlPolar.downwashMethod()==PlanePolar::PANELDOWNWASH);
 }
 
 
@@ -519,8 +536,13 @@ void T1234578PolarDlg::setupLayout()
                 m_pcptAVLCtrls->setContextMenuPolicy(Qt::CustomContextMenu);
                 m_pAVLCtrlModel = new QStandardItemModel(this);
                 m_pAVLCtrlModel->setRowCount(0);//temporary
-                m_pAVLCtrlModel->setColumnCount(1);
+                m_pAVLCtrlModel->setColumnCount(2);
                 m_pAVLCtrlModel->setHeaderData(0, Qt::Horizontal, tr("Control name"));
+                m_pAVLCtrlModel->setHeaderData(1, Qt::Horizontal, tr("Effectiveness"));
+                m_pAVLCtrlModel->setHeaderData(1, Qt::Horizontal, tr("<p>Factor applied to the control derivatives of this set, "
+                                                                     "e.g. to account for the viscous losses of plain flaps which the inviscid "
+                                                                     "panel method does not capture. Typical values are 0.6-0.9.<br>"
+                                                                     "The deflections are not affected, i.e. the gains remain the true surface angles.</p>"), Qt::ToolTipRole);
 
                 m_pcptAVLCtrls->setModel(m_pAVLCtrlModel);
                 m_pcptAVLCtrls->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
@@ -550,8 +572,43 @@ void T1234578PolarDlg::setupLayout()
 
             QLabel *plabNote = new QLabel(tr("<p>Each set of controls is used to calculate a control derivative."
                                           "</p>"));
+            m_pchAlphaDot = new QCheckBox(tr("Include the downwash lag derivatives (estimate)"));
+            m_pchAlphaDot->setToolTip(tr("<p>The quasi-steady panel solution does not provide the derivatives with respect to the rate of change "
+                                         "of the angle of attack. These are dominated by the delay of the main wing's downwash at the tail, "
+                                         "which typically provides 20-40% of the short period damping of a conventional configuration.</p>"
+                                         "<p>If checked, Z_wdot and M_wdot are estimated from the geometry of the main wing and of the elevator, "
+                                         "and included in the stability analysis. The estimate's inputs are listed in the analysis log.</p>"));
+
+            m_pcbDownwashMethod = new QComboBox;
+            m_pcbDownwashMethod->addItem(tr("Downwash gradient from the panel solution"));
+            m_pcbDownwashMethod->addItem(tr("Downwash gradient from DATCOM"));
+            m_pcbDownwashMethod->setToolTip(tr("<p><b>Panel solution:</b> the downwash gradient is computed from the flow induced at the tail "
+                                               "by the wing, the fuselage and the wing's wake. It accounts for the actual geometry and tail position. "
+                                               "The sample points are selected at the first point of the run and kept for all points.</p>"
+                                               "<p><b>DATCOM:</b> empirical method based on the wing's aspect ratio, taper, sweep, and the tail's "
+                                               "distance and height; derived mostly from full-size aircraft data.</p>"
+                                               "<p>The selected method is used for the whole run.</p>"));
+
+            m_pchRegularizedWake = new QCheckBox(tr("Regularized wake"));
+            m_pchRegularizedWake->setToolTip(tr("<p>Panel downwash only. If checked, the wing's wake is evaluated at the tail with a Lamb-Oseen "
+                                                "viscous core of the size of a real wake's thickness (2.5% of the MAC at the trailing edge, "
+                                                "growing downstream), instead of as an infinitely thin sheet.</p>"
+                                                "<p>This removes the singularity of the induced velocity near the sheet, so that all the tail "
+                                                "stations can be sampled, and approximates the smoothed downwash which a tail in a real wake sees. "
+                                                "It does not correct the position of the wake, which flow5 lays along the body x-axis.</p>"
+                                                "<p>The main solution is not affected.</p>"));
+
+            QHBoxLayout *pAlphaDotLayout = new QHBoxLayout;
+            {
+                pAlphaDotLayout->addWidget(m_pchAlphaDot);
+                pAlphaDotLayout->addWidget(m_pcbDownwashMethod);
+                pAlphaDotLayout->addWidget(m_pchRegularizedWake);
+                pAlphaDotLayout->addStretch();
+            }
+
             pAVLPageLayout->addLayout(pAVLCtrlsLayout);
             pAVLPageLayout->addWidget(plabNote);
+            pAVLPageLayout->addLayout(pAlphaDotLayout);
         }
         pfrAVLCtrls->setLayout(pAVLPageLayout);
     }
@@ -690,6 +747,8 @@ void T1234578PolarDlg::fillAVLCtrlList()
     {
         ind = m_pAVLCtrlModel->index(ic, 0, QModelIndex());
         m_pAVLCtrlModel->setData(ind, QString::fromStdString(s_PlPolar.AVLCtrlName(ic)));
+        ind = m_pAVLCtrlModel->index(ic, 1, QModelIndex());
+        m_pAVLCtrlModel->setData(ind, s_PlPolar.AVLCtrl(ic).effectiveness());
     }
 }
 
@@ -853,6 +912,10 @@ void T1234578PolarDlg::onAVLCtrlChanged()
     AngleControl &avlc = s_PlPolar.AVLCtrl(iCtrl);
     std::string name = m_pAVLCtrlModel->index(iCtrl, 0, QModelIndex()).data().toString().toStdString();
     avlc.setName(name);
+
+    bool bOk = false;
+    double eta = m_pAVLCtrlModel->index(iCtrl, 1, QModelIndex()).data().toDouble(&bOk);
+    if(bOk && eta>0.0) avlc.setEffectiveness(eta); // ignore empty cells while the table is being filled
 }
 
 

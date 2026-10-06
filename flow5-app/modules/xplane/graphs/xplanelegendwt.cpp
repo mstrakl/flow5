@@ -26,6 +26,7 @@
 
 
 #include <QVBoxLayout>
+#include <interfaces/widgets/customwts/flowlayout.h>
 #include <QLabel>
 
 #include "xplanelegendwt.h"
@@ -113,23 +114,12 @@ void XPlaneLegendWt::makeWPolarLegendBtns(XPlane::enumViews eXPlaneView, bool bH
 
     m_XflObjectMap.clear();
 
-    QVBoxLayout *pLegendLayout = dynamic_cast<QVBoxLayout*>(layout());
-    if(!pLegendLayout)
-    {
-        pLegendLayout = new QVBoxLayout;
-        setLayout(pLegendLayout);
-    }
-    else
-    {
-        wt::clearLayout(pLegendLayout);
-    }
+    FlowLayout *pLegendLayout = flowLayout();
 
     for (int j=0; j<planelist.count(); j++)
     {
         Plane const *pPlane = planelist.at(j);
-        QLabel *pPlaneLab = new QLabel(QString::fromStdString(pPlane->name()));
-        pPlaneLab->setAttribute(Qt::WA_NoSystemBackground);
-        pPlaneLab->setStyleSheet(stylestring);
+        QLabel *pPlaneLab = makeHeading(QString::fromStdString(pPlane->name()), true);
         pLegendLayout->addWidget(pPlaneLab);
 
         for (int i=0; i<Objects3d::nPolars(); i++)
@@ -164,9 +154,7 @@ void XPlaneLegendWt::makeWPolarLegendBtns(XPlane::enumViews eXPlaneView, bool bH
                 pLegendLayout->addWidget(pLegendBtn);
             }
         }
-        pLegendLayout->addSpacing(16);
     }
-    pLegendLayout->addStretch();
 }
 
 
@@ -203,29 +191,14 @@ void XPlaneLegendWt::makePOppLegendBtns(bool bHighlight)
     m_XflObjectMap.clear();
     int row=1;
 
-    QGridLayout *pLegendLayout = dynamic_cast<QGridLayout*>(layout());
-    if(!pLegendLayout)
-    {
-        pLegendLayout = new QGridLayout;
-        pLegendLayout->setColumnStretch(1,1);
-        pLegendLayout->setColumnStretch(2,1);
-        pLegendLayout->setColumnStretch(3,35);
-        setLayout(pLegendLayout);
-    }
-    else
-    {
-        wt::clearLayout(pLegendLayout);
-    }
+    FlowLayout *pLegendLayout = flowLayout();
 
     for (int ipl=0; ipl<planelist.count(); ipl++)
     {
         Plane const *pPlane = planelist.at(ipl);
-        QLabel *pPlaneLab = new QLabel(QString::fromStdString(pPlane->name()));
-        pPlaneLab->setAttribute(Qt::WA_NoSystemBackground);
-        pPlaneLab->setStyleSheet(boldstylestring);
+        QLabel *pPlaneLab = makeHeading(QString::fromStdString(pPlane->name()), true);
 
-        pLegendLayout->addWidget(pPlaneLab, row, 1, 1, 3);
-        pLegendLayout->setRowStretch(row,0);
+        pLegendLayout->addWidget(pPlaneLab);
         row++;
 
         for(int ipl=0; ipl<Objects3d::nPolars(); ipl++)
@@ -242,12 +215,9 @@ void XPlaneLegendWt::makePOppLegendBtns(bool bHighlight)
 
                     if (pPOpp->planeName()==pPlane->name() && pPOpp->polarName()==pWPolar->name() && bPOppVisible)
                     {
-                        QLabel *pWPolarLab = new QLabel(QString::fromStdString(pWPolar->name()));
-                        pWPolarLab->setAttribute(Qt::WA_NoSystemBackground);
-                        pWPolarLab->setStyleSheet(stylestring);
+                        QLabel *pWPolarLab = makeHeading(QString::fromStdString(pWPolar->name()), false);
 
-                        pLegendLayout->addWidget(pWPolarLab, row, 2, 1, 2);
-                        pLegendLayout->setRowStretch(row,0);
+                        pLegendLayout->addWidget(pWPolarLab);
                         row++;
                         break;
                     }
@@ -272,8 +242,7 @@ void XPlaneLegendWt::makePOppLegendBtns(bool bHighlight)
                         connect(pLegendBtn, SIGNAL(clickedLB(LineStyle)), SLOT(onClickedPOppBtn()));
         //                connect(pLegendBtn, SIGNAL(clickedRightLB(LineStyle)), SLOT(onClickedRightPOppBtn(LineStyle)));
                         connect(pLegendBtn, SIGNAL(clickedLine(LineStyle)), SLOT(onClickedPOppBtnLine(LineStyle)));
-                        pLegendLayout->addWidget(pLegendBtn, row, 3, 1, 1);
-                        pLegendLayout->setRowStretch(row,0);
+                        pLegendLayout->addWidget(pLegendBtn);
                         row++;
                     }
                 }// finished inventory
@@ -282,7 +251,6 @@ void XPlaneLegendWt::makePOppLegendBtns(bool bHighlight)
         }
 //        pLegendLayout->addSpacing(16);
     }
-    pLegendLayout->setRowStretch(row,1);
 }
 
 

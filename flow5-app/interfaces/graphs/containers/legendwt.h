@@ -36,6 +36,8 @@ class MainFrame;
 class XPlane;
 class XDirect;
 class LegendBtn;
+class FlowLayout;
+class QLabel;
 class XflObject;
 class Curve;
 
@@ -57,6 +59,8 @@ class LegendWt : public QWidget
 
     protected:
         void makeGraphLegendBtns(bool bHighlight);
+        FlowLayout *flowLayout();
+        QLabel *makeHeading(QString const &text, bool bBold) const;
 
     private slots:
         void onClickedCurveBtn();

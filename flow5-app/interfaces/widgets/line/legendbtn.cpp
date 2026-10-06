@@ -27,6 +27,7 @@
 #include <QMouseEvent>
 #include <QPen>
 #include <QPainter>
+#include <QFontMetrics>
 
 #include <core/displayoptions.h>
 #include <core/xflcore.h>
@@ -59,8 +60,9 @@ LegendBtn::LegendBtn(QWidget *parent) : QWidget(parent)
 
 void LegendBtn::resizeEvent(QResizeEvent *)
 {
-    m_LineRect.setRect(2*DisplayOptions::textFontStruct().averageCharWidth(), rect().top(), 7*DisplayOptions::textFontStruct().averageCharWidth(), rect().height());
-    int spacer = DisplayOptions::textFontStruct().averageCharWidth();
+    QFontMetrics fm(legendFont());
+    m_LineRect.setRect(fm.averageCharWidth()/2, rect().top(), 5*fm.averageCharWidth(), rect().height());
+    int spacer = fm.averageCharWidth();
     m_TagRect.setRect(m_LineRect.right()+spacer, rect().top(),
                       rect().width()-m_LineRect.width()-spacer, rect().height());
 }
@@ -113,14 +115,29 @@ void LegendBtn::setStyle(LineStyle ls)
 }
 
 
+QFont LegendBtn::legendFont()
+{
+    QFont fnt = DisplayOptions::textFontStruct().font();
+    if(fnt.pointSizeF()>0) fnt.setPointSizeF(fnt.pointSizeF()*0.85);
+    else if(fnt.pixelSize()>0) fnt.setPixelSize(std::max(6, int(fnt.pixelSize()*0.85)));
+    return fnt;
+}
+
+
+QString LegendBtn::legendText(QString const &text)
+{
+    if(text.length()<=s_MaxLegendChars) return text;
+    return text.left(s_MaxLegendChars-1) + QChar(0x2026); // ellipsis
+}
+
+
 QSize LegendBtn::sizeHint() const
 {
-    int labellength = int(DisplayOptions::textFontStruct().width(QString::fromStdString(m_LineStyle.m_Tag))*1.1);
-    int linelength = DisplayOptions::textFontStruct().averageCharWidth()*9;
-
-    int h = int(double(DisplayOptions::textFontStruct().height())*1.15);
-
-    return QSize(25+linelength+ labellength, h);
+    QFontMetrics fm(legendFont());
+    int labellength = fm.horizontalAdvance(legendText(QString::fromStdString(m_LineStyle.m_Tag))) + fm.averageCharWidth();
+    int linelength = fm.averageCharWidth()*5;
+    int h = int(double(fm.height())*1.15);
+    return QSize(2*fm.averageCharWidth()+linelength+labellength, h);
 }
 
 
@@ -146,7 +163,7 @@ void LegendBtn::paintButton(QPainter &painter)
     QColor backcolor = DisplayOptions::backgroundColor();
     QColor textcolor = DisplayOptions::textColor();
 
-    painter.setFont(DisplayOptions::textFontStruct().font());
+    painter.setFont(legendFont());
 
     if(m_bIsCurrent)
     {
@@ -177,7 +194,7 @@ void LegendBtn::paintButton(QPainter &painter)
     if(m_LineStyle.m_Tag.length())
     {
 //        qDebug()<<"paintnting legendbtn"<<font().family()<<font().pointSize()<<m_LineStyle.m_Tag;
-        painter.drawText(m_TagRect, QString::fromStdString(m_LineStyle.m_Tag));
+        painter.drawText(m_TagRect, Qt::AlignLeft|Qt::AlignVCenter, legendText(QString::fromStdString(m_LineStyle.m_Tag)));
     }
 
     painter.restore();

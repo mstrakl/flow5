@@ -70,6 +70,33 @@
 XPlane *StabTimeCtrls::s_pXPlane=nullptr;
 
 
+/** The time graphs hold the left axis curves, one per row of the curve list, followed by the right axis twins
+ * which are rebuilt at each redraw; the curve list addresses the left axis curves only */
+static Curve *leftCurveAt(Graph const *pGraph, int row)
+{
+    int il = 0;
+    for(int ic=0; ic<pGraph->curveCount(); ic++)
+    {
+        Curve *pCurve = pGraph->curve(ic);
+        if(!pCurve->isLeftAxis()) continue;
+        if(il==row) return pCurve;
+        il++;
+    }
+    return nullptr;
+}
+
+
+static Curve *leftCurveNamed(Graph const *pGraph, QString const &name)
+{
+    for(int ic=0; ic<pGraph->curveCount(); ic++)
+    {
+        Curve *pCurve = pGraph->curve(ic);
+        if(pCurve->isLeftAxis() && pCurve->name()==name) return pCurve;
+    }
+    return nullptr;
+}
+
+
 StabTimeCtrls::StabTimeCtrls(QWidget *pParent) : QFrame(pParent)
 {
     setWindowTitle(tr("Stability time controls"));
@@ -125,6 +152,7 @@ void StabTimeCtrls::connectSignals()
     connect(m_prbModalResponse,    SIGNAL(clicked()), SLOT(onResponseType()));
 
     connect(m_ppbAddCurve,   SIGNAL(clicked()),      SLOT(onAddCurve()));
+    connect(m_ppbRecomputeCurve, SIGNAL(clicked()),  SLOT(onRecomputeCurve()));
 
     connect(m_pRenameAct, SIGNAL(triggered(bool)), SLOT(onRenameCurve()));
     connect(m_pDeleteAct, SIGNAL(triggered(bool)), SLOT(onDeleteCurve()));
@@ -220,11 +248,11 @@ void StabTimeCtrls::onDataChanged(QModelIndex topleft,QModelIndex )
     if(topleft.column()==0)
     {
         QString curvename = m_pCurveModel->index(row, topleft.column(), QModelIndex()).data().toString();
-        Curve const *pOldCurve = s_pXPlane->m_TimeGraph.at(0)->curve(row);
+        Curve const *pOldCurve = leftCurveAt(s_pXPlane->m_TimeGraph.at(0), row);
         if(pOldCurve) renameTimeResponse(pOldCurve->name(), curvename);
         for(int ig=0; ig<s_pXPlane->m_TimeGraph.size(); ig++)
         {
-            Curve *pCurve= s_pXPlane->m_TimeGraph.at(ig)->curve(row);
+            Curve *pCurve= leftCurveAt(s_pXPlane->m_TimeGraph.at(ig), row);
             if(pCurve)
             {
                 pCurve->setName(curvename);
@@ -238,13 +266,13 @@ void StabTimeCtrls::onDataChanged(QModelIndex topleft,QModelIndex )
 
 void StabTimeCtrls::onCurveTableClicked(QModelIndex index)
 {
-    if(!index.isValid()) return
+    if(!index.isValid()) return;
 
     m_pcpCurveTable->selectRow(index.row());
     for(int i=0; i<s_pXPlane->m_TimeGraph.size(); i++)
     {
         s_pXPlane->m_TimeGraph.at(i)->clearSelection();
-        Curve *pCurve = s_pXPlane->m_TimeGraph.at(i)->curve(index.row());
+        Curve *pCurve = leftCurveAt(s_pXPlane->m_TimeGraph.at(i), index.row());
         s_pXPlane-> m_TimeGraph[i]->selectCurve(pCurve);
     }
 
@@ -254,7 +282,7 @@ void StabTimeCtrls::onCurveTableClicked(QModelIndex index)
         {
             int row = index.row();
 
-            Curve *pCurrentCurve = s_pXPlane->m_TimeGraph[0]->curve(row);
+            Curve *pCurrentCurve = leftCurveAt(s_pXPlane->m_TimeGraph[0], row);
             if(!pCurrentCurve) return;
 
             LineMenu *lineMenu = new LineMenu(nullptr);
@@ -268,7 +296,8 @@ void StabTimeCtrls::onCurveTableClicked(QModelIndex index)
             // update the curve style
             for(int ig=0; ig<s_pXPlane->m_TimeGraph.size(); ig++)
             {
-                Curve *pCurrentCurve = s_pXPlane->m_TimeGraph[ig]->curve(row);
+                Curve *pCurrentCurve = leftCurveAt(s_pXPlane->m_TimeGraph[ig], row);
+                if(!pCurrentCurve) continue;
                 pCurrentCurve->setTheStyle(lineMenu->theStyle());
             }
             s_pXPlane->makeLegend();
@@ -339,6 +368,7 @@ void StabTimeCtrls::onResponseType()
 
     m_ResponseType=type;
     setControls();
+    s_pXPlane->setStabTimeYVariables(isStabLongitudinal(), true); // each response type has its own default graphs
     s_pXPlane->updateView();
 }
 
@@ -575,9 +605,20 @@ void StabTimeCtrls::setupLayout()
             m_ppbAddCurve  = new QPushButton(tr("Add"));
             m_ppbAddCurve->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum);
             m_ppbAddCurve->setToolTip(tr("<p>Add a new curve to the graphs, using the current user-specified input</p>"));
+            m_ppbRecomputeCurve = new QPushButton(tr("Recompute"));
+            m_ppbRecomputeCurve->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum);
+            m_ppbRecomputeCurve->setToolTip(tr("<p>Recompute the curve selected in the list with the current settings: "
+                                               "response type, time step, total time, input function and control set. "
+                                               "The curve keeps its name and style.</p>"
+                                               "<p>Selecting a curve, or changing the graph variables, only redraws the stored curves.</p>"));
+            QHBoxLayout *pCurveButtonsLayout = new QHBoxLayout;
+            {
+                pCurveButtonsLayout->addWidget(m_ppbAddCurve);
+                pCurveButtonsLayout->addWidget(m_ppbRecomputeCurve);
+            }
 
             pTimeLayout->addLayout(pDtLayout);
-            pTimeLayout->addWidget(m_ppbAddCurve);
+            pTimeLayout->addLayout(pCurveButtonsLayout);
             pTimeLayout->addWidget(m_pcpCurveTable);
         }
         pgbCurveSettings->setLayout(pTimeLayout);
@@ -598,7 +639,9 @@ void StabTimeCtrls::setupLayout()
 
 void StabTimeCtrls::fillAVLcontrols(PlanePolar const*pWPolar)
 {
+    QString previous = m_pcbAVLControls->currentText();
     m_pcbAVLControls->clear();
+    m_pcbAVLControls->setPlaceholderText(tr("No AVL-type control set in the polar"));
     if(pWPolar)
     {
         for(int ic=0; ic<pWPolar->nAVLCtrls(); ic++)
@@ -606,7 +649,14 @@ void StabTimeCtrls::fillAVLcontrols(PlanePolar const*pWPolar)
             m_pcbAVLControls->addItem(QString::fromStdString(pWPolar->AVLCtrl(ic).name()));
         }
     }
-    m_pcbAVLControls->setPlaceholderText(tr("No AVL-type control set in the polar"));
+
+    // with a placeholder text, the combobox does not select an item by default:
+    // keep the previous selection if the polar has a set with the same name, else select the first set
+    if(m_pcbAVLControls->count()>0)
+    {
+        int idx = previous.isEmpty() ? -1 : m_pcbAVLControls->findText(previous);
+        m_pcbAVLControls->setCurrentIndex(idx>=0 ? idx : 0);
+    }
 }
 
 
@@ -675,6 +725,7 @@ void StabTimeCtrls::setControls()
 
     bool bEnableTimeCtrl = s_pXPlane->m_pCurPOpp && s_pXPlane->m_pCurPOpp->isType7() && s_pXPlane->isStabTimeView();
     m_ppbAddCurve->setEnabled(bEnableTimeCtrl);
+    m_ppbRecomputeCurve->setEnabled(bEnableTimeCtrl && m_pCurveModel->rowCount());
     m_pcpCurveTable->setEnabled(m_pCurveModel->rowCount());
 
     for(int imode=0; imode<4; imode++)
@@ -722,7 +773,7 @@ Curve *StabTimeCtrls::selectedCurve()
     if(!sib.isValid()) return nullptr;
 
     QString strange = m_pCurveModel->data(sib).toString();
-    return s_pXPlane->m_TimeGraph.at(0)->curve(strange);
+    return leftCurveNamed(s_pXPlane->m_TimeGraph.at(0), strange);
 }
 
 
@@ -753,15 +804,13 @@ void StabTimeCtrls::onRenameCurve()
     NewName = dlg.newName();
     renameTimeResponse(pSelCurve->name(), NewName);
 
-    for (int i=0; i<s_pXPlane->m_TimeGraph.at(0)->curveCount(); i++)
+    QString OldName = pSelCurve->name();
     {
-        Curve *pCurve = s_pXPlane->m_TimeGraph.at(0)->curve(i);
-        if(pCurve && (pCurve == pSelCurve))
         {
             for(int ig=0; ig<s_pXPlane->m_TimeGraph.size(); ig++)
             {
-                pCurve = s_pXPlane->m_TimeGraph.at(ig)->curve(i);
-                pCurve->setName(NewName);
+                Curve *pCurve = leftCurveNamed(s_pXPlane->m_TimeGraph.at(ig), OldName);
+                if(pCurve) pCurve->setName(NewName);
             }
 
             fillCurveList();
@@ -874,20 +923,58 @@ void StabTimeCtrls::appendRow(Curve const *pCurve)
 }
 
 
-void StabTimeCtrls::onAddCurve()
+/** For a forced response, checks the prerequisites and logs the inputs; returns false and explains if the response cannot be computed */
+bool StabTimeCtrls::checkForcedInputs()
 {
-    if(m_ResponseType==FORCEDRESPONSE)
+    if(m_ResponseType!=FORCEDRESPONSE) return true;
+    QString strange = forcedResponseError(s_pXPlane->curPOpp());
+    if(strange.length())
     {
-        QString strange = forcedResponseError(s_pXPlane->curPOpp());
-        if(strange.length())
-        {
-            s_pXPlane->displayMessage(tr("Forced response not computed: ") + strange + "\n", true, true);
-            return;
-        }
+        s_pXPlane->displayMessage(tr("Forced response not computed: ") + strange + "\n", true, true);
+        return false;
     }
 
-    addCurve();
+    // inertia check: during the first fraction of a second, before the damping builds up, the rates scale with 1/I
+    PlaneOpp const *pPOpp = s_pXPlane->curPOpp();
+    PlanePolar const *pPolar = s_pXPlane->curPlPolar();
+    int ic = m_pcbAVLControls->currentIndex();
+    QString msg = tr("Forced response, control set %1, effectiveness %2\n").arg(m_pcbAVLControls->currentText()).arg(pPolar->AVLCtrl(ic).effectiveness(), 0, 'g', 3);
+    msg += tr("   Inertia in stability axes at %1=%2%3: Ixx=%4  Iyy=%5  Izz=%6  Ixz=%7 kg.m2 (%8)\n")
+               .arg(ALPHAch).arg(pPOpp->alpha(), 0, 'f', 2).arg(DEGch)
+               .arg(pPOpp->m_Is[0][0], 0, 'g', 4).arg(pPOpp->m_Is[1][1], 0, 'g', 4).arg(pPOpp->m_Is[2][2], 0, 'g', 4).arg(pPOpp->m_Is[0][2], 0, 'g', 4)
+               .arg(pPolar->bAutoInertia() ? tr("from the plane") : tr("custom polar values"));
+    msg += tr("   Initial angular accelerations per control unit: q'=%1  p'=%2  r'=%3 %4/s2\n")
+               .arg(pPOpp->m_BLong.at(ic).at(2)*180.0/PI, 0, 'g', 4)
+               .arg(pPOpp->m_BLat.at(ic).at(1)*180.0/PI,  0, 'g', 4)
+               .arg(pPOpp->m_BLat.at(ic).at(2)*180.0/PI,  0, 'g', 4).arg(DEGch);
+    s_pXPlane->displayMessage(msg, false, false);
+    return true;
+}
 
+
+void StabTimeCtrls::onAddCurve()
+{
+    if(!checkForcedInputs()) return;
+    m_bComputeRequested = true;
+    addCurve();
+    m_ppbRecomputeCurve->setEnabled(m_pCurveModel->rowCount()>0);
+
+    onPlotStabilityGraph();
+    s_pXPlane->makeLegend();
+}
+
+
+/** Recomputes the selected curve with the current settings: response type, time step, total time, input function, control set */
+void StabTimeCtrls::onRecomputeCurve()
+{
+    Curve *pCurve = selectedCurve();
+    if(!pCurve)
+    {
+        s_pXPlane->displayMessage(tr("Recompute: no curve is selected in the curve list.\n"), true, true);
+        return;
+    }
+    if(!checkForcedInputs()) return;
+    m_bComputeRequested = true;
     onPlotStabilityGraph();
     s_pXPlane->makeLegend();
 }
@@ -912,6 +999,7 @@ void StabTimeCtrls::onDeleteCurve()
     }
 
     m_pcpCurveTable->setEnabled(    m_pCurveModel->rowCount());
+    m_ppbRecomputeCurve->setEnabled(m_pCurveModel->rowCount()>0);
 
     QModelIndex index = m_pcpCurveTable->currentIndex();
     if(index.isValid())
@@ -932,7 +1020,8 @@ void StabTimeCtrls::fillCurveList()
      m_pCurveModel->setRowCount(0);
     for(int i=0; i<s_pXPlane->m_TimeGraph.at(0)->curveCount(); i++)
     {
-        appendRow(s_pXPlane->m_TimeGraph.at(0)->curve(i));
+        Curve const *pCurve = s_pXPlane->m_TimeGraph.at(0)->curve(i);
+        if(pCurve->isLeftAxis()) appendRow(pCurve);
     }
 }
 
@@ -1319,20 +1408,38 @@ void StabTimeCtrls::fillTimeGraphCurves()
     for(int ig=0; ig<graphs.size() && ig<4; ig++)
     {
         Graph *pGraph = graphs.at(ig);
-        bool bState = pGraph->yVariable(0)<=0;
-        QString varname = pGraph->yVariableName(0);
-        for(int ic=0; ic<pGraph->curveCount(); ic++)
+
+        // the right axis twins are rebuilt below
+        for(int ic=pGraph->curveCount()-1; ic>=0; ic--)
+            if(pGraph->curve(ic)->isRightAxis()) pGraph->deleteCurve(ic);
+
+        auto fillCurve = [&](Curve *pCurve, int iy)
         {
-            Curve *pCurve = pGraph->curve(ic);
             auto it = m_TimeResponse.constFind(pCurve->name());
-            if(it==m_TimeResponse.constEnd()) continue;
+            if(it==m_TimeResponse.constEnd()) return;
             TimeResponse const &response = it.value();
-            if(bState)
+            QString varname = pGraph->yVariableName(iy);
+            if(pGraph->yVariable(iy)<=0)
                 pCurve->setPoints(response.m_t, response.m_State[ig]);
             else if(response.m_Series.contains(varname))
                 pCurve->setPoints(response.m_t, response.m_Series.value(varname));
             else
                 pCurve->clear(); // e.g. flap not active when this response was computed
+        };
+
+        int nLeft = pGraph->curveCount();
+        for(int ic=0; ic<nLeft; ic++)
+            fillCurve(pGraph->curve(ic), 0);
+
+        if(pGraph->hasRightAxis() && pGraph->yVariable(1)>=0)
+        {
+            for(int ic=0; ic<nLeft; ic++)
+            {
+                Curve const *pLeft = pGraph->curve(ic);
+                Curve *pRight = pGraph->addCurve(pLeft->name(), AXIS::RIGHTYAXIS, DisplayOptions::isDarkTheme());
+                pRight->setTheStyle(pLeft->theStyle());
+                fillCurve(pRight, 1);
+            }
         }
         pGraph->invalidate();
     }

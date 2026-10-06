@@ -25,6 +25,7 @@
 
 #include <QPainter>
 #include <QVBoxLayout>
+#include <interfaces/widgets/customwts/flowlayout.h>
 #include <QLabel>
 
 
@@ -102,23 +103,12 @@ void XDirectLegendWt::makePolarLegendBtns(bool bHighlight)
                                             DisplayOptions::textFontStruct().pointSize());
 
     m_XflObjectMap.clear();
-    QVBoxLayout *pLegendLayout = dynamic_cast<QVBoxLayout*>(layout());
-    if(!pLegendLayout)
-    {
-        pLegendLayout = new QVBoxLayout;
-        setLayout(pLegendLayout);
-    }
-    else
-    {
-        wt::clearLayout(pLegendLayout);
-    }
+    FlowLayout *pLegendLayout = flowLayout();
 
     for (int j=0; j<foillist.size(); j++)
     {
         Foil const *pFoil = foillist.at(j);
-        QLabel *pFoilLab = new QLabel(QString::fromStdString(pFoil->name()));
-        pFoilLab->setAttribute(Qt::WA_NoSystemBackground);
-        pFoilLab->setStyleSheet(stylestring);
+        QLabel *pFoilLab = makeHeading(QString::fromStdString(pFoil->name()), true);
         pLegendLayout->addWidget(pFoilLab);
 
         for (int i=0; i<Objects2d::nPolars(); i++)
@@ -140,9 +130,7 @@ void XDirectLegendWt::makePolarLegendBtns(bool bHighlight)
                 pLegendLayout->addWidget(pLegendBtn);
             }
         }
-        pLegendLayout->addSpacing(16);
     }
-    pLegendLayout->addStretch();
 }
 
 
@@ -177,23 +165,12 @@ void XDirectLegendWt::makeOppLegendBtns(bool bHighlight)
 
     m_XflObjectMap.clear();
 
-    QVBoxLayout *pLegendLayout = dynamic_cast<QVBoxLayout*>(layout());
-    if(!pLegendLayout)
-    {
-        pLegendLayout = new QVBoxLayout;
-        setLayout(pLegendLayout);
-    }
-    else
-    {
-        wt::clearLayout(pLegendLayout);
-    }
+    FlowLayout *pLegendLayout = flowLayout();
 
     for (int j=0; j<foillist.count(); j++)
     {
         Foil *pFoil = foillist.at(j);
-        QLabel *pFoilLab = new QLabel(QString::fromStdString(pFoil->name()));
-        pFoilLab->setAttribute(Qt::WA_NoSystemBackground);
-        pFoilLab->setStyleSheet(stylestring);
+        QLabel *pFoilLab = makeHeading(QString::fromStdString(pFoil->name()), true);
 
         pLegendLayout->addWidget(pFoilLab);
 
@@ -217,9 +194,7 @@ void XDirectLegendWt::makeOppLegendBtns(bool bHighlight)
                 pLegendLayout->addWidget(pLegendBtn);
             }
         }// finished inventory
-        pLegendLayout->addSpacing(16);
     }
-    pLegendLayout->addStretch();
 }
 
 

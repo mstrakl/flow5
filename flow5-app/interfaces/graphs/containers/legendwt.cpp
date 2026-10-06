@@ -24,9 +24,11 @@
 
 #include <QPainter>
 #include <QVBoxLayout>
+#include <QLabel>
 
 
 #include "legendwt.h"
+#include <interfaces/widgets/customwts/flowlayout.h>
 
 #include <core/displayoptions.h>
 #include <core/xflcore.h>
@@ -50,6 +52,40 @@ LegendWt::LegendWt(QWidget *pParent) : QWidget(pParent)
 }
 
 
+/** Returns the legend's flow layout, emptied; replaces any other type of layout */
+FlowLayout *LegendWt::flowLayout()
+{
+    FlowLayout *pFlow = dynamic_cast<FlowLayout*>(layout());
+    if(pFlow)
+    {
+        wt::clearLayout(pFlow);
+        return pFlow;
+    }
+    if(layout())
+    {
+        wt::clearLayout(layout());
+        delete layout();
+    }
+    pFlow = new FlowLayout;
+    setLayout(pFlow);
+    return pFlow;
+}
+
+
+/** A group heading in the legend: compact font, truncated to the legend's maximum length, full text as a tooltip */
+QLabel *LegendWt::makeHeading(QString const &text, bool bBold) const
+{
+    QLabel *pLab = new QLabel(LegendBtn::legendText(text));
+    pLab->setAttribute(Qt::WA_NoSystemBackground);
+    QFont fnt = LegendBtn::legendFont();
+    fnt.setBold(bBold);
+    pLab->setFont(fnt);
+    pLab->setStyleSheet(QString("color: %1;").arg(DisplayOptions::textColor().name(QColor::HexRgb)));
+    if(text.length()>LegendBtn::s_MaxLegendChars) pLab->setToolTip(text);
+    return pLab;
+}
+
+
 void LegendWt::makeGraphLegendBtns(bool bHighlight)
 {
     if(!m_pGraph) return;
@@ -63,19 +99,19 @@ void LegendWt::makeGraphLegendBtns(bool bHighlight)
     m_XflObjectMap.clear();
     m_CurveMap.clear();
 
-    QVBoxLayout *pLegendLayout = dynamic_cast<QVBoxLayout*>(layout());
-    if(!pLegendLayout)
-    {
-        pLegendLayout = new QVBoxLayout;
-        setLayout(pLegendLayout);
-    }
-    else
-    {
-        wt::clearLayout(pLegendLayout);
-    }
+    FlowLayout *pLegendLayout = flowLayout();
     for (int j=0; j<m_pGraph->curveCount(); j++)
     {
         Curve *pCurve = m_pGraph->curve(j);
+
+        // a right axis curve which duplicates a left axis curve of the same name has a single legend entry
+        if(pCurve->isRightAxis())
+        {
+            bool bTwin = false;
+            for(int k=0; k<m_pGraph->curveCount() && !bTwin; k++)
+                bTwin = m_pGraph->curve(k)->isLeftAxis() && m_pGraph->curve(k)->name()==pCurve->name();
+            if(bTwin) continue;
+        }
 
         LegendBtn *pLegendBtn = new LegendBtn;
         LineStyle ls(true, pCurve->stipple(), pCurve->width(),
@@ -92,7 +128,6 @@ void LegendWt::makeGraphLegendBtns(bool bHighlight)
         pLegendLayout->addWidget(pLegendBtn);
 
     }
-    pLegendLayout->addStretch();
 }
 
 
@@ -189,20 +224,20 @@ void LegendWt::makeLegend(bool bHighlight)
     m_XflObjectMap.clear();
     m_CurveMap.clear();
 
-    QVBoxLayout *pLegendLayout = dynamic_cast<QVBoxLayout*>(layout());
-    if(!pLegendLayout)
-    {
-        pLegendLayout = new QVBoxLayout;
-        setLayout(pLegendLayout);
-    }
-    else
-    {
-        wt::clearLayout(pLegendLayout);
-    }
+    FlowLayout *pLegendLayout = flowLayout();
 
     for (int j=0; j<m_pGraph->curveCount(); j++)
     {
         Curve *pCurve = m_pGraph->curve(j);
+
+        // a right axis curve which duplicates a left axis curve of the same name has a single legend entry
+        if(pCurve->isRightAxis())
+        {
+            bool bTwin = false;
+            for(int k=0; k<m_pGraph->curveCount() && !bTwin; k++)
+                bTwin = m_pGraph->curve(k)->isLeftAxis() && m_pGraph->curve(k)->name()==pCurve->name();
+            if(bTwin) continue;
+        }
 
         LegendBtn *pLegendBtn = new LegendBtn;
         LineStyle ls(true, pCurve->stipple(), pCurve->width(),
@@ -219,7 +254,6 @@ void LegendWt::makeLegend(bool bHighlight)
         pLegendLayout->addWidget(pLegendBtn);
 
     }
-    pLegendLayout->addStretch();
 }
 
 

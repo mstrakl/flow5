@@ -122,6 +122,7 @@ void GraphDlg::connectSignals()
     connect(m_plbBorderStyle, SIGNAL(clickedLB(LineStyle)), SLOT(onBorderStyle(LineStyle)));
 
     connect(m_pchRightAxis, SIGNAL(clicked(bool)), SLOT(onRightAxis(bool)));
+    connect(m_pchFuseGrid, &QCheckBox::toggled, this, [this](bool b){m_pGraph->setFuseGrid(b); m_pGraph->invalidate(); update();});
 
     connect(m_pchShowLegend, SIGNAL(toggled(bool)), SLOT(onShowLegend(bool)));
 
@@ -238,6 +239,7 @@ void GraphDlg::onRightAxis(bool bChecked)
     m_pfeYMax[1]->setEnabled(bChecked);
     m_pfeYUnit[1]->setEnabled(bChecked);
     m_pchYLog[1]->setEnabled(bChecked);
+    m_pchFuseGrid->setEnabled(bChecked);
 
     m_plbYAxisStyle[1]->setEnabled(bChecked);
     m_plabYMajGridShow[1]->setEnabled(bChecked);
@@ -737,6 +739,7 @@ void GraphDlg::setControls()
 
     m_pchRightAxis->setEnabled(m_pGraph->isRightAxisEnabled());
     m_pchRightAxis->setChecked(m_pGraph->hasRightAxis());
+    m_pchFuseGrid->setChecked(m_pGraph->bFuseGrid());
     onRightAxis(m_pGraph->hasRightAxis());
 
     onAutoX();
@@ -861,6 +864,10 @@ void GraphDlg::setupLayout()
         QLabel *pXAxis = new QLabel("XAxis");
         QLabel *pY0Axis = new QLabel("Left y-axis");
         m_pchRightAxis = new QCheckBox("Right y-axis");
+        m_pchFuseGrid  = new QCheckBox("Fuse grids");
+        m_pchFuseGrid->setToolTip("<p>Draw a single grid for both y-axes: the right axis ticks are placed at the left axis gridlines "
+                                  "and labelled with the right axis values at these positions.<br>"
+                                  "The right axis range is not changed.</p>");
 
         QLabel *pLabVs = new QLabel("vs.");
 
@@ -872,6 +879,7 @@ void GraphDlg::setupLayout()
         pVariablePageLayout->addWidget(pXAxis,         1, 4, Qt::AlignHCenter);
         pVariablePageLayout->addWidget(m_plwYSel[0],   2, 1);
         pVariablePageLayout->addWidget(m_plwYSel[1],   2, 2);
+        pVariablePageLayout->addWidget(m_pchFuseGrid,  3, 2, Qt::AlignHCenter);
         pVariablePageLayout->addWidget(pLabVs,         2, 3);
         pVariablePageLayout->addWidget(m_plwXSel,      2, 4);
     }

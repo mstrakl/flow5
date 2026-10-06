@@ -2514,9 +2514,19 @@ bool serial::serializePlanePolarFl5v750(PlanePolar *pPolar, QDataStream &ar, boo
         ar << pPolar->customFuseCf();
 
         // provisions for future variable saves
-        for(int i=0; i<10; i++) ar <<boolean;
-        for(int i=0; i<20; i++) ar <<integer;
-        for(int i=0; i<20; i++) ar <<dble;
+        // spare bool 0: downwash lag derivatives
+        // spare doubles 0-19: effectiveness-1 of the first 20 AVL-type controls, so that files without them read as 1
+        ar << pPolar->bAlphaDotDerivatives();
+        ar << !pPolar->bRegularizedWake(); // spare bool 1, stored inverted so that files without it read as enabled
+        for(int i=2; i<10; i++) ar <<boolean;
+        // spare integer 0: downwash gradient method, 0=panel solution so that files without it read as the default
+        ar << int(pPolar->downwashMethod());
+        for(int i=1; i<20; i++) ar <<integer;
+        for(int i=0; i<20; i++)
+        {
+            if(i<pPolar->nAVLCtrls()) ar << pPolar->AVLCtrl(i).effectiveness()-1.0;
+            else                      ar << dble;
+        }
 
         return true;
     }
@@ -2647,9 +2657,16 @@ bool serial::serializePlanePolarFl5v750(PlanePolar *pPolar, QDataStream &ar, boo
         ar >> dble;    pPolar->setCustomFuseCf(dble);
 
         // provisions for future variable saves
-        for(int i=0; i<10; i++) ar >> boolean;
-        for(int i=0; i<20; i++) ar >> integer;
-        for(int i=0; i<20; i++) ar >> dble;
+        ar >> boolean; pPolar->setAlphaDotDerivatives(boolean);
+        ar >> boolean; pPolar->setRegularizedWake(!boolean);
+        for(int i=2; i<10; i++) ar >> boolean;
+        ar >> integer; pPolar->setDownwashMethod(integer==1 ? PlanePolar::DATCOMDOWNWASH : PlanePolar::PANELDOWNWASH);
+        for(int i=1; i<20; i++) ar >> integer;
+        for(int i=0; i<20; i++)
+        {
+            ar >> dble;
+            if(i<pPolar->nAVLCtrls()) pPolar->AVLCtrl(i).setEffectiveness(1.0+dble);
+        }
 
 
         for(int iPt=0; iPt<pPolar->dataSize(); iPt++) pPolar->calculatePoint(iPt);

@@ -28,6 +28,7 @@
 #include <QClipboard>
 
 #include <QPainter>
+#include <QLocale>
 
 
 
@@ -148,6 +149,7 @@ void Graph::copySettings(Graph const *pGraph)
     for(int i=0; i<4; i++) m_margin[i] = pGraph->m_margin[i];
 
     m_bShowLegend    = pGraph->m_bShowLegend;
+    m_bFuseGrid      = pGraph->m_bFuseGrid;
     m_LegendPosition = pGraph->m_LegendPosition;
 
     m_TitleFont      = pGraph->m_TitleFont;
@@ -560,11 +562,18 @@ void Graph::drawGrids(QPainter &painter)
 
     if(m_bRightAxis)
     {
-        if(!m_YAxis[1].bLogScale()) drawYMinGrid(1, painter);
-        else                        drawYLogMinGrid(1, painter);
+        if(m_bFuseGrid && !m_YAxis[0].bLogScale() && !m_YAxis[1].bLogScale())
+        {
+            drawFusedRightAxis(painter);
+        }
+        else
+        {
+            if(!m_YAxis[1].bLogScale()) drawYMinGrid(1, painter);
+            else                        drawYLogMinGrid(1, painter);
 
-        if(!m_YAxis[1].bLogScale()) drawYGrid(1, painter);
-        else                        drawYLogGrid(1, painter);
+            if(!m_YAxis[1].bLogScale()) drawYGrid(1, painter);
+            else                        drawYLogGrid(1, painter);
+        }
     }
 }
 
@@ -1293,6 +1302,80 @@ void Graph::drawYGrid(int iy, QPainter &painter) const
 }
 
 
+/**
+ * Draws the right axis' ticks and labels at the left axis' major gridline positions, so that a single grid serves both axes.
+ * The right axis keeps its own range: each label is the right axis value at the gridline's position.
+ * Labels have at most 2 decimals, or use the exponent notation with 2 decimals for small or large magnitudes.
+ */
+void Graph::drawFusedRightAxis(QPainter &painter) const
+{
+    Axis const &y0 = m_YAxis[0];
+    Axis const &y1 = m_YAxis[1];
+    if(fabs(y0.unit())<1.e-30 || fabs(y1.scale())<1.e-30) return;
+    if(fabs(y0.axmax()-y0.axmin())/fabs(y0.unit())>30.0) return;
+
+    // positions of the left axis' major gridlines, and right axis values at these positions
+    std::vector<double> pix, val;
+    int ny = int((y0.origin()-y0.axmin())/y0.unit());
+    double yt = y0.origin() - ny*y0.unit();
+    for(int iTick=0; yt<=y0.axmax()*1.0001 && iTick<100; iTick++)
+    {
+        double P = yt*y0.scale() + m_ptOffset[0].y();
+        pix.push_back(P);
+        val.push_back((P-m_ptOffset[1].y())/y1.scale());
+        yt += y0.unit();
+    }
+    if(pix.empty()) return;
+
+    double vmax = 0.0;
+    for(double v : val) vmax = std::max(vmax, fabs(v));
+    double vzero = 1.e-9*std::max(vmax, fabs(y1.axmax()-y1.axmin()));
+    bool bExp = vmax>=1.e4 || (vmax>0.0 && vmax<1.e-2);
+
+    QLocale loc = xfl::isLocalized() ? QLocale() : QLocale::c();
+    auto label = [&](double v)
+    {
+        if(fabs(v)<vzero) return QString("0");
+        if(bExp) return loc.toString(v, 'e', 2);
+        QString str = loc.toString(v, 'f', 2);
+        QString dp = loc.decimalPoint();
+        if(str.contains(dp))
+        {
+            while(str.endsWith('0')) str.chop(1);
+            if(str.endsWith(dp)) str.chop(dp.length());
+        }
+        if(str=="-0") str = "0";
+        return str;
+    };
+
+    painter.save();
+    QFontMetrics fm(m_LabelFont);
+    painter.setFont(m_LabelFont);
+    double fmheight4 = double(fm.height())/4.0;
+    double ticksize = 5;
+    int yd = -1;
+
+    QPen labelpen(y1.qColor());
+    labelpen.setStyle(xfl::getStyle(y1.stipple()));
+    labelpen.setWidth(y1.width());
+
+    double xtp = int(yAxisPos(1)*m_XAxis.scale());
+    for(unsigned int i=0; i<pix.size(); i++)
+    {
+        painter.setPen(labelpen);
+        painter.drawLine(int(xtp + m_ptOffset[1].x()), int(pix[i]), int(xtp + ticksize + m_ptOffset[1].x()), int(pix[i]));
+
+        QString strLabel = label(val[i]);
+        int w = fm.horizontalAdvance(strLabel);
+        painter.setPen(m_LabelColor);
+        painter.drawText(int(xtp + ticksize + fm.averageCharWidth() + m_ptOffset[1].x()),
+                         int(pix[i] + fmheight4 + yd - fm.height()*2/3),
+                         w, fm.height(), Qt::AlignLeft, strLabel);
+    }
+    painter.restore();
+}
+
+
 void Graph::drawYLogGrid(int iy, QPainter &painter) const
 {
     double main=0, xp=0;
@@ -1739,6 +1822,7 @@ void Graph::saveSettings(QSettings &settings)
         m_YAxis[1].saveSettings(settings);
 
         settings.setValue("bRightAxis", m_bRightAxis);
+        settings.setValue("bFuseGrids", m_bFuseGrid);
     }
     settings.endGroup();
 }
@@ -1827,6 +1911,7 @@ void Graph::loadSettings(QSettings &settings)
         m_YAxis[1].loadSettings(settings);
 
         m_bRightAxis = settings.value("bRightAxis", false).toBool();
+        m_bFuseGrid  = settings.value("bFuseGrids", true).toBool();
 
     }
     settings.endGroup();

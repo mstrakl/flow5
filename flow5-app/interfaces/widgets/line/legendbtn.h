@@ -41,6 +41,11 @@ class LegendBtn : public QWidget
 
         void setStyle(LineStyle ls);
 
+        /** the compact font and text used in the graph legends: 85% of the text font, names truncated to 12 characters */
+        static QFont legendFont();
+        static QString legendText(QString const &text);
+        static int const s_MaxLegendChars = 12;
+
         bool isCurrent() const {return m_bIsCurrent;}
         void setCurrent(bool bCurrent) {m_bIsCurrent=bCurrent;}
         bool hasBackGround() const {return m_bHasBackGround;}
