@@ -205,6 +205,8 @@ void StabTimeCtrls::onDataChanged(QModelIndex topleft,QModelIndex )
     if(topleft.column()==0)
     {
         QString curvename = m_pCurveModel->index(row, topleft.column(), QModelIndex()).data().toString();
+        Curve const *pOldCurve = s_pXPlane->m_TimeGraph.at(0)->curve(row);
+        if(pOldCurve) renameTimeResponse(pOldCurve->name(), curvename);
         for(int ig=0; ig<s_pXPlane->m_TimeGraph.size(); ig++)
         {
             Curve *pCurve= s_pXPlane->m_TimeGraph.at(ig)->curve(row);
@@ -684,6 +686,7 @@ void StabTimeCtrls::onRenameCurve()
 
     if(dlg.exec() != QDialog::Accepted) return;
     NewName = dlg.newName();
+    renameTimeResponse(pSelCurve->name(), NewName);
 
     for (int i=0; i<s_pXPlane->m_TimeGraph.at(0)->curveCount(); i++)
     {
@@ -886,12 +889,132 @@ double StabTimeCtrls::getControlInput(const double &time) const
 }
 
 
-void StabTimeCtrls::fillTimeCurve(PlaneOpp const*pPOpp, Curve **pCurve)
+/** Returns the flaps of the current plane which are deflected in the current T7 polar,
+ * either by the trim control (Flaps tab) or by at least one AVL-type control set. */
+std::vector<StabTimeCtrls::ActiveFlap> StabTimeCtrls::activeFlaps() const
 {
-    if(m_ResponseType==FORCEDRESPONSE)
-        fillCurvesForcedResponse(pPOpp, pCurve);
-    else
-        fillCurvesPerturbation(pPOpp, pCurve);
+    std::vector<ActiveFlap> flaps;
+    PlaneXfl const *pPlaneXfl = dynamic_cast<PlaneXfl const*>(s_pXPlane->curPlane());
+    PlanePolar const *pPolar = s_pXPlane->curPlPolar();
+    if(!pPlaneXfl || !pPolar || !pPolar->isType7()) return flaps;
+
+    int iGlobal = 0;
+    for(int iw=0; iw<pPlaneXfl->nWings(); iw++)
+    {
+        WingXfl const *pWing = pPlaneXfl->wingAt(iw);
+        int iFlap = 0;
+        for(int jSurf=0; jSurf<pWing->nSurfaces(); jSurf++)
+        {
+            Surface const &surf = pWing->surfaceAt(jSurf);
+            if(!surf.hasTEFlap()) continue;
+
+            bool bActive = iw<pPolar->nFlapCtrls() && fabs(pPolar->flapCtrls(iw).value(iFlap))>FLAPANGLEPRECISION;
+            for(int ie=0; ie<pPolar->nAVLCtrls() && !bActive; ie++)
+                bActive = fabs(pPolar->AVLGain(ie, iGlobal))>FLAPANGLEPRECISION;
+
+            if(bActive)
+            {
+                ActiveFlap flap;
+                flap.m_Label = DELTAch + " " + QString::fromStdString(pWing->name()) + QString::asprintf(" flap_%d (", iFlap+1) + DEGch + ")";
+                flap.m_iWing   = iw;
+                flap.m_iFlap   = iFlap;
+                flap.m_iGlobal = iGlobal;
+                // same convention as the analysis log's "total flap angle"
+                Foil const *pFoilA = surf.foilA();
+                Foil const *pFoilB = surf.foilB();
+                if(pFoilA && pFoilB && fabs(pFoilA->TEFlapAngle())>0.0 && fabs(pFoilB->TEFlapAngle())>0.0)
+                    flap.m_GeomAngle = (pFoilA->TEFlapAngle()+pFoilB->TEFlapAngle())/2.0;
+                flaps.push_back(flap);
+            }
+            iFlap++;
+            iGlobal++;
+        }
+    }
+    return flaps;
+}
+
+
+QStringList StabTimeCtrls::flapVariableNames() const
+{
+    QStringList names;
+    for(ActiveFlap const &flap : activeFlaps()) names.append(flap.m_Label);
+    return names;
+}
+
+
+/** Computes the response for the current input and stores it under the curve's name */
+void StabTimeCtrls::computeTimeResponse(PlaneOpp const*pPOpp, QString const &curvename)
+{
+    Curve c[4];
+    Curve *pCurve[]{&c[0], &c[1], &c[2], &c[3]};
+    bool bForced = m_ResponseType==FORCEDRESPONSE;
+    if(bForced) fillCurvesForcedResponse(pPOpp, pCurve);
+    else        fillCurvesPerturbation(pPOpp, pCurve);
+
+    TimeResponse response;
+    for(int i=0; i<c[0].size(); i++) response.m_t.push_back(c[0].x(i));
+    for(int iv=0; iv<4; iv++)
+        for(int i=0; i<c[iv].size(); i++) response.m_State[iv].push_back(c[iv].y(i));
+
+    // flap angle = built-in angle + trim angle at the opp's control value + AVL gain x control input
+    PlanePolar const *pPolar = s_pXPlane->curPlPolar();
+    int iAVLCtrl = m_pcbAVLControls->currentIndex();
+    for(ActiveFlap const &flap : activeFlaps())
+    {
+        double trim = 0.0;
+        if(pPolar && flap.m_iWing<pPolar->nFlapCtrls())
+            trim = pPolar->flapCtrls(flap.m_iWing).value(flap.m_iFlap) * pPOpp->ctrl();
+        double gain = (bForced && pPolar) ? pPolar->AVLGain(iAVLCtrl, flap.m_iGlobal) : 0.0;
+
+        std::vector<double> &angle = response.m_Deflection[flap.m_Label];
+        for(double t : response.m_t)
+            angle.push_back(flap.m_GeomAngle + trim + gain*getControlInput(t));
+    }
+
+    m_TimeResponse[curvename] = response;
+}
+
+
+/** Fills every curve of the time graphs with the variable selected in each graph */
+void StabTimeCtrls::fillTimeGraphCurves()
+{
+    QVector<Graph*> const &graphs = s_pXPlane->m_TimeGraph;
+    if(graphs.isEmpty()) return;
+
+    // discard the responses of deleted curves
+    for(auto it=m_TimeResponse.begin(); it!=m_TimeResponse.end();)
+    {
+        if(!graphs.front()->curve(it.key())) it = m_TimeResponse.erase(it);
+        else                                 ++it;
+    }
+
+    for(int ig=0; ig<graphs.size() && ig<4; ig++)
+    {
+        Graph *pGraph = graphs.at(ig);
+        bool bState = pGraph->yVariable(0)<=0;
+        QString varname = pGraph->yVariableName(0);
+        for(int ic=0; ic<pGraph->curveCount(); ic++)
+        {
+            Curve *pCurve = pGraph->curve(ic);
+            auto it = m_TimeResponse.constFind(pCurve->name());
+            if(it==m_TimeResponse.constEnd()) continue;
+            TimeResponse const &response = it.value();
+            if(bState)
+                pCurve->setPoints(response.m_t, response.m_State[ig]);
+            else if(response.m_Deflection.contains(varname))
+                pCurve->setPoints(response.m_t, response.m_Deflection.value(varname));
+            else
+                pCurve->clear(); // flap not active when this response was computed
+        }
+        pGraph->invalidate();
+    }
+}
+
+
+void StabTimeCtrls::renameTimeResponse(QString const &oldname, QString const &newname)
+{
+    if(oldname==newname || !m_TimeResponse.contains(oldname)) return;
+    m_TimeResponse[newname] = m_TimeResponse.take(oldname);
 }
 
 

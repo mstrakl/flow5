@@ -142,7 +142,7 @@ class XPlane : public QObject
         Plane *setPlane(Plane *pPlane);
         Plane *setPlane(const QString &PlaneName=QString());
         Plane *setModPlane(Plane *pModPlane, bool bUsed, bool bAsNew);
-        void setStabTimeYVariables(bool bLong);
+        void setStabTimeYVariables(bool bLong, bool bResetVariables=false);
         void setView(xfl::enumGraphView eView);
         void setPolar(const QString &PlrName);
         void setPolar(PlanePolar *pPlPolar=nullptr);

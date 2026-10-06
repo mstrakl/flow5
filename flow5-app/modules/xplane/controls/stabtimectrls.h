@@ -32,6 +32,7 @@
 #include <QModelIndex>
 #include <QComboBox>
 #include <QStackedWidget>
+#include <QMap>
 
 #include <interfaces/graphs/graph/graph.h>
 #include <interfaces/graphs/containers/splinedgraphwt.h>
@@ -64,7 +65,9 @@ class StabTimeCtrls : public QFrame
 
         bool isStabLongitudinal() const {return m_prbLongitudinal->isChecked();}
 
-        void fillTimeCurve(PlaneOpp const*pPOpp, Curve **pCurve);
+        void computeTimeResponse(PlaneOpp const*pPOpp, QString const &curvename);
+        void fillTimeGraphCurves();
+        QStringList flapVariableNames() const;
         void setMode(int iMode=-1);
 
         double deltaT() const {return m_pfeDeltat->value();}
@@ -91,6 +94,27 @@ class StabTimeCtrls : public QFrame
         void addCurve();
         void fillCurveList();
         Curve *selectedCurve();
+        void renameTimeResponse(QString const &oldname, QString const &newname);
+
+        /** a control surface which is deflected in the T7 polar, either by the trim control or by an AVL-type control set */
+        struct ActiveFlap
+        {
+            QString m_Label;      /**< the graph variable name */
+            int m_iWing{0};       /**< the wing index in the plane */
+            int m_iFlap{0};       /**< the flap index in the wing */
+            int m_iGlobal{0};     /**< the flap index in the plane, used by the AVL-type controls */
+            double m_GeomAngle{0}; /**< the flap angle built into the wing's foils, in degrees */
+        };
+        std::vector<ActiveFlap> activeFlaps() const;
+
+        /** the time history of a response curve, cached so that each graph can display any of its variables */
+        struct TimeResponse
+        {
+            std::vector<double> m_t;
+            std::vector<double> m_State[4];                       /**< u,w,q,theta or v,p,r,phi, in display units */
+            QMap<QString, std::vector<double>> m_Deflection;      /**< total flap angle in degrees, keyed by the graph variable name */
+        };
+        QMap<QString, TimeResponse> m_TimeResponse; /**< keyed by curve name */
 
     private slots:
         void onDataChanged(QModelIndex,QModelIndex);
