@@ -44,6 +44,11 @@ linuxdeploy --appdir "$APPDIR" \
 for d in wayland-shell-integration wayland-decoration-client wayland-graphics-integration-client; do
     cp -r "$QTDIR/plugins/$d" "$APPDIR/usr/plugins/"
 done
+# ... and some of them link Qt libraries nothing else pulled in (e.g. Qt6WlShellIntegration)
+for lib in $(find "$APPDIR/usr/plugins"/wayland-* -name '*.so' -exec env LD_LIBRARY_PATH="$APPDIR/usr/lib" ldd {} \; \
+                 | awk '/not found/ {print $1}' | sort -u); do
+    [[ -f "$QTDIR/lib/$lib" ]] && cp -L "$QTDIR/lib/$lib" "$APPDIR/usr/lib/"
+done
 
 linuxdeploy --appdir "$APPDIR" --output appimage
 

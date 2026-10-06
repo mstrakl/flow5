@@ -18,7 +18,15 @@ case "$CONFIG" in
     *) echo "usage: $0 [release|debug]" >&2; exit 2 ;;
 esac
 
+# Start over when the toolchain changed (e.g. after a new container image): make
+# only compares timestamps and would link old objects with new ones.
+STAMP="$(g++ --version | head -1) | $QTDIR"
+if [[ -f "$BUILD/Makefile" && "$(cat "$BUILD/.toolchain" 2>/dev/null)" != "$STAMP" ]]; then
+    echo "==> toolchain changed, rebuilding $BUILD from scratch"
+    rm -rf "$BUILD"
+fi
 mkdir -p "$BUILD"
+echo "$STAMP" > "$BUILD/.toolchain"
 cd "$BUILD"
 
 # qmake computes header dependencies only when it runs, so rerun it every time to
