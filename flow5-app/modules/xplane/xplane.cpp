@@ -4501,8 +4501,23 @@ QString XPlane::planeOppData()
 
 void XPlane::onCalculate()
 {
-    if(!m_pCurPlane || !m_pCurPlPolar)   return;
-    if(m_pCurPlPolar->isExternalPolar()) return;
+    if(!m_pCurPlane)
+    {
+        displayMessage(tr("Calculation not started: no plane is selected.\n"), true, true);
+        return;
+    }
+    if(!m_pCurPlPolar)
+    {
+        displayMessage(tr("Calculation not started: no analysis polar is selected for the plane %1.\n")
+                       .arg(QString::fromStdString(m_pCurPlane->name())), true, true);
+        return;
+    }
+    if(m_pCurPlPolar->isExternalPolar())
+    {
+        displayMessage(tr("Calculation not started: the polar %1 is an external polar and cannot be analyzed.\n")
+                       .arg(QString::fromStdString(m_pCurPlPolar->name())), true, true);
+        return;
+    }
 
     stopAnimate();
 
@@ -4535,30 +4550,58 @@ void XPlane::onCalculate()
         }
     }
 
-    m_pAnalysisControls->enableAnalyze(false);
+    std::vector<T8Opp> xranges;
+    if(m_pCurPlPolar->isType8())
+    {
+        m_pAnalysisControls->getXRanges(xranges);
+        if(!xranges.size())
+        {
+            displayMessage(tr("Calculation not started: the T8 range table has no active operating point.\n"
+                              "Inactive rows are displayed in grey and are skipped. "
+                              "Activate a row by clicking its first cell, or with right-click > Activate/de-activate.\n"),
+                           true, true);
+            return;
+        }
+    }
+    else if(!m_pAnalysisControls->oppList().size())
+    {
+        displayMessage(tr("Calculation not started: the analysis range table has no active row.\n"
+                          "Inactive rows are displayed in grey and are skipped, even if they contain values. "
+                          "Activate a row by clicking its first cell, or with right-click > Activate/de-activate.\n"
+                          "A row with start = end and increment = 0 runs a single point at the start value.\n"),
+                       true, true);
+        return;
+    }
+
+    if(m_pCurPlPolar->isType7() && !m_pCurPlPolar->hasActiveAVLControl())
+    {
+        displayMessage(tr("Note: the T7 polar %1 has no AVL-type control set with a non-zero gain.\n"
+                          "The stability analysis will run, but no control derivatives will be computed "
+                          "and the forced time response will not be available.\n"
+                          "Define control sets in the polar's \"AVL-type ctrls\" tab.\n")
+                       .arg(QString::fromStdString(m_pCurPlPolar->name())), true, true);
+    }
+
     if(m_pCurPlPolar->isPanelMethod())
     {
-        std::vector<T8Opp> xranges;
-        if(m_pCurPlPolar->isType8())
-        {
-            m_pAnalysisControls->getXRanges(xranges);
-            if(!xranges.size())
-                return;
-        }
-        else if(!m_pAnalysisControls->oppList().size())
-            return;
-
+        m_pAnalysisControls->enableAnalyze(false);
         m_pPanelAnalysisDlg->show();
         m_pPanelAnalysisDlg->analyze(m_pCurPlane, m_pCurPlPolar, m_pAnalysisControls->oppList(), xranges);
     }
     else if(m_pCurPlane->isXflType() && m_pCurPlPolar->isLLTMethod())
     {
+        m_pAnalysisControls->enableAnalyze(false);
         PlaneXfl *pPlaneXfl = dynamic_cast<PlaneXfl*>(m_pCurPlane);
         m_pLLTAnalysisDlg->initDialog(pPlaneXfl, m_pCurPlPolar, m_pAnalysisControls->oppList());
         m_pLLTAnalysisDlg->show();
         m_pLLTAnalysisDlg->update();
 
         m_pLLTAnalysisDlg->analyze();
+    }
+    else
+    {
+        displayMessage(tr("Calculation not started: the analysis method of the polar %1 is not supported for the plane %2.\n")
+                       .arg(QString::fromStdString(m_pCurPlPolar->name()), QString::fromStdString(m_pCurPlane->name())), true, true);
     }
 }
 

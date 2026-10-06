@@ -60,6 +60,7 @@ class StabTimeCtrls : public QFrame
 
         void setControls();
         void fillAVLcontrols(PlanePolar const*pWPolar);
+        QString forcedResponseError(PlaneOpp const *pPOpp) const;
 
         bool isStabLongitudinal() const {return m_prbLongitudinal->isChecked();}
 
