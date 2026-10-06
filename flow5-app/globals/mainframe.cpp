@@ -578,6 +578,7 @@ void MainFrame::closeEvent(QCloseEvent *pEvent)
     m_pdwPlaneTree->close();
     m_pdwXPlaneResults3d->close();
     m_pdwStabTime->close();
+    m_bStabTimeOpen = false;
     m_pdwCp3d->close();
 
     m_pWPolarTiles->close();
@@ -1500,16 +1501,29 @@ void MainFrame::displayHtmlMessage(QString const &msg, bool bShowWindow)
 }
 
 
-void MainFrame::showStabTimeCtrls(bool bVisible)
+/**
+ * Shows or hides the stability time controls.
+ * The dock is tabified with the plane explorer and brought to the front only when it is opened, or when bRaise is set,
+ * e.g. when the user switches to the time response view; routine refreshes of the controls leave the user's tab choice alone.
+ */
+void MainFrame::showStabTimeCtrls(bool bVisible, bool bRaise)
 {
-    bool bfloat = m_pdwStabTime->isFloating();
-    if(s_iApp==xfl::XPLANE)
+    if(s_iApp!=xfl::XPLANE) return;
+
+    if(!bVisible)
     {
-        if(!bfloat)
-            tabifyDockWidget(m_pdwPlaneTree, m_pdwStabTime);
-        m_pdwStabTime->setVisible(bVisible);
-        m_pdwStabTime->raise();
+        m_pdwStabTime->setVisible(false);
+        m_bStabTimeOpen = false;
+        return;
     }
+
+    if(m_bStabTimeOpen && !bRaise) return;
+
+    if(!m_pdwStabTime->isFloating())
+        tabifyDockWidget(m_pdwPlaneTree, m_pdwStabTime);
+    m_pdwStabTime->setVisible(true);
+    m_pdwStabTime->raise();
+    m_bStabTimeOpen = true;
 }
 
 
@@ -2201,6 +2215,7 @@ void MainFrame::hideDockWindows()
     m_pdwPlaneTree->hide();
     m_pdwXPlaneResults3d->hide();
     m_pdwStabTime->hide();
+    m_bStabTimeOpen = false;
 
     m_pdwXSail->hide();
     m_pdwXSail3dCtrls->hide();

@@ -55,11 +55,15 @@
 #include <planeopp.h>
 #include <planepolar.h>
 #include <planexfl.h>
+#include <fuse.h>
+#include <pointmass.h>
+#include <surface.h>
 #include <polar.h>
 #include <stabderivatives.h>
 #include <units.h>
 #include <utils.h>
 #include <wingxfl.h>
+#include <vortex.h>
 #include <xfoiltask.h>
 
 
@@ -1963,6 +1967,9 @@ bool PlaneTask::T7Loop()
     m_Beta = 0.0;
     m_Phi  = m_pPlPolar->phi();
 
+    outputInertiaSummary();
+    resetDownwashSamples();
+
     for (m_qRHS=0; m_qRHS<m_nRHS; m_qRHS++)
     {
         if(s_bCancel)
@@ -2071,6 +2078,10 @@ bool PlaneTask::computeStability(PlaneOpp *pPOpp, bool bOutput)
     if(isCancelled()) return true;
 
 
+    if(!m_bWakeCheckDone) checkWakeProximity();
+    addViscousXu(pPOpp, pPOpp->m_SD, bOutput);
+    if(m_pPlPolar->bAlphaDotDerivatives()) addAlphaDotDerivatives(pPOpp, pPOpp->m_SD, bOutput);
+
     pPOpp->m_SD.setMetaData(m_pPlPolar->referenceSpanLength(), m_pPlPolar->referenceChordLength(), m_pPlPolar->referenceArea(),
                             pPOpp->QInf(), pPOpp->mass(), pPOpp->cog().x, m_pPlPolar->density());
     pPOpp->m_SD.computeNDStabDerivatives();
@@ -2118,6 +2129,7 @@ bool PlaneTask::computeStability(PlaneOpp *pPOpp, bool bOutput)
 
 bool PlaneTask::T123458Loop()
 {
+    resetDownwashSamples();
     std::string strange, str, outstring;
 
     traceStdLog("\nSolving the problem... \n\n");
@@ -2326,6 +2338,25 @@ void PlaneTask::outputNDStabDerivatives(double u0, StabDerivatives const &SD)
     str = std::format("Mq  = {:11.5g}         Cmq  = {:11.5g}\n", SD.Mq, SD.Cmq);
     logmsg += prefix + str;
 
+    if(m_pPlPolar->bAlphaDotDerivatives() && (fabs(SD.Zwp)>0.0 || fabs(SD.Mwp)>0.0))
+    {
+        // downwash lag estimate; same scaling as the q-derivatives so that the damping terms can be added
+        double rho = m_pPlPolar->density();
+        double S   = m_pPlPolar->referenceArea();
+        double c   = m_pPlPolar->referenceChordLength();
+        if(rho*S*c>PRECISION)
+        {
+            double CZad = SD.Zwp/(0.25*rho*S*c);
+            double Cmad = SD.Mwp/(0.25*rho*S*c*c);
+            str = std::format("Zwp = {:11.5g}         CZad = {:11.5g}   (estimate)\n", SD.Zwp, CZad);
+            logmsg += prefix + str;
+            str = std::format("Mwp = {:11.5g}         Cmad = {:11.5g}   (estimate)\n", SD.Mwp, Cmad);
+            logmsg += prefix + str;
+            str = std::format("Total pitch damping       Cmq+Cmad = {:11.5g}\n", SD.Cmq+Cmad);
+            logmsg += prefix + str;
+        }
+    }
+
     str = std::format("Neutral Point position = {:g} ", SD.XNP*Units::mtoUnit()) + Units::lengthUnitLabel();
     str +="\n\n";
     logmsg += prefix + str;
@@ -2486,9 +2517,609 @@ void PlaneTask::computeControlDerivatives(double t7ctrl, double alphaeq, double 
         SD.Lde[ie] = (Moment - m_Moment0).dot(is) / DeltaCtrl;  // N.m/ctrl
         SD.Mde[ie] = (Moment - m_Moment0).dot(js) / DeltaCtrl;
         SD.Nde[ie] = (Moment - m_Moment0).dot(ks) / DeltaCtrl;
+
+        // user-defined correction, e.g. for viscous losses not captured by the inviscid solution
+        double eta = m_pPlPolar->AVLCtrl(ie).effectiveness();
+        if(fabs(eta-1.0)>1.e-6)
+        {
+            SD.Xde[ie] *= eta;
+            SD.Yde[ie] *= eta;
+            SD.Zde[ie] *= eta;
+            SD.Lde[ie] *= eta;
+            SD.Mde[ie] *= eta;
+            SD.Nde[ie] *= eta;
+            traceStdLog(std::format("        Control derivatives multiplied by the effectiveness factor {:.3g}\n", eta));
+        }
     }
 
     m_pPA->restorePanels();
+}
+
+
+/**
+ * Adds the profile, fuselage and extra drag to X_u. The stability derivatives are otherwise built from the inviscid forces only.
+ * At constant alpha, D_visc = q.S.CDv so that dX/du = -2.D_visc/u0, neglecting the dependence of CDv on the Reynolds number.
+ * The viscous contribution to X_w would require the viscous drag at perturbed angles of attack, and is left out.
+ */
+void PlaneTask::addViscousXu(PlaneOpp const *pPOpp, StabDerivatives &SD, bool bOutput)
+{
+    if(!m_pPlPolar->isViscous())
+    {
+        if(bOutput) traceStdLog("          Inviscid polar: X_u includes only the inviscid forces\n");
+        return;
+    }
+    double u0 = pPOpp->QInf();
+    if(u0<PRECISION) return;
+    double Dvisc = 0.5*m_pPlPolar->density()*u0*u0 * pPOpp->aeroForces().viscousDrag(); // N
+    double dXu = -2.0*Dvisc/u0;
+    SD.Xu += dXu;
+    if(bOutput)
+        traceStdLog(std::format("          Viscous drag {:.4g} N added to X_u: dX_u = {:.4g} N.s/m\n", Dvisc, dXu));
+}
+
+
+/**
+ * Estimates the downwash lag derivatives from the geometry, since the quasi-steady panel solution does not provide them.
+ * The tail sees the wing's downwash with a delay l_t/V0, so that an increase of alpha at the rate alpha_dot adds a tail lift
+ *     dL_t = q.S_t.a_t.(deps/dalpha).alpha_dot.l_t/V0
+ * with a_t from Helmbold's formula.
+ * deps/dalpha is computed from the panel solution, i.e. from the flow induced at the tail by the wing, the fuselage
+ * and the wing's wake at alpha0 +/- 1 degree; this accounts for the actual geometry including the tail's position.
+ * If the tail lies too close to the wing's wake sheet for the induced velocity to be reliable, the DATCOM low speed
+ * method is used instead:
+ *     deps/dalpha = 4.44 [K_A.K_lambda.K_H.sqrt(cos(Lambda_c/4))]^1.19
+ *     K_A = 1/AR - 1/(1+AR^1.7),  K_lambda = (10-3.lambda)/7,  K_H = (1-|h_H/b|) / (2.l_H/b)^(1/3)
+ * Z_wdot = -dL_t/alpha_dot/V0 and M_wdot = Z_wdot.l_t, in stability axes.
+ */
+void PlaneTask::addAlphaDotDerivatives(PlaneOpp const *pPOpp, StabDerivatives &SD, bool bOutput)
+{
+    PlaneXfl const *pPlaneXfl = dynamic_cast<PlaneXfl const*>(m_pPlane);
+    WingXfl const *pWing = pPlaneXfl ? pPlaneXfl->mainWing() : nullptr;
+    WingXfl const *pTail = pPlaneXfl ? pPlaneXfl->elevator() : nullptr;
+    if(!pWing || !pTail)
+    {
+        if(bOutput) traceStdLog("          Downwash lag derivatives: no main wing or no elevator - skipping\n");
+        return;
+    }
+
+    double u0 = pPOpp->QInf();
+    if(u0<PRECISION) return;
+
+    // aerodynamic centre: area-weighted quarter-chord point of a wing's surfaces, in plane coordinates
+    auto acPoint = [](WingXfl const *pW, double &xac, double &zac)
+    {
+        double area(0);
+        xac = zac = 0.0;
+        for(int js=0; js<pW->nSurfaces(); js++)
+        {
+            Surface const &surf = pW->surfaceAt(js);
+            double ca = (surf.TA()-surf.LA()).norm();
+            double cb = (surf.TB()-surf.LB()).norm();
+            double sa = surf.spanLength()*(ca+cb)/2.0;
+            Vector3d qa = surf.LA() + (surf.TA()-surf.LA())*0.25;
+            Vector3d qb = surf.LB() + (surf.TB()-surf.LB())*0.25;
+            xac  += (qa.x+qb.x)/2.0*sa;
+            zac  += (qa.z+qb.z)/2.0*sa;
+            area += sa;
+        }
+        if(area<PRECISION) return false;
+        xac /= area;
+        zac /= area;
+        return true;
+    };
+
+    double xact(0), zact(0), xacw(0), zacw(0);
+    if(!acPoint(pTail, xact, zact) || !acPoint(pWing, xacw, zacw)) return;
+
+    double lt  = xact - pPOpp->cog().x;      // moment arm about the CoG
+    double lH  = xact - xacw;                // distance of the tail behind the wing, for the downwash
+    double hH  = zact - pWing->position().z; // height of the tail above the wing's root chord plane
+    double bw  = pWing->planformSpan();
+    double St  = pTail->planformArea();
+    double ARt = pTail->aspectRatio();
+    double ARw = pWing->aspectRatio();
+    double lambda = pWing->taperRatio();
+    double sweep  = pWing->averageSweep()*PI/180.0;
+    auto helmbold = [](double AR) {return 2.0*PI*AR/(2.0+sqrt(AR*AR+4.0));}; // per radian
+    double at = helmbold(ARt);
+
+    if(lH<PRECISION || bw<PRECISION)
+    {
+        if(bOutput) traceStdLog("          Downwash lag derivatives: the elevator is not behind the main wing - skipping\n");
+        return;
+    }
+    double KA = 1.0/ARw - 1.0/(1.0+pow(ARw, 1.7));
+    double Kl = (10.0-3.0*lambda)/7.0;
+    double KH0 = 1.0/cbrt(2.0*lH/bw);                     // tail in the wing's plane
+    double KH  = std::max(0.0, 1.0-fabs(hH/bw))/cbrt(2.0*lH/bw);
+    auto datcom = [&](double kh) {return 4.44*pow(std::max(0.0, KA*Kl*kh*sqrt(fabs(cos(sweep)))), 1.19);};
+    double depsda0 = std::clamp(datcom(KH0), 0.0, 0.8);
+    double depsdaDatcom = std::clamp(datcom(KH), 0.0, 0.8);
+
+    // the method is selected in the polar and kept for the whole run, so that the results are smooth along the control range
+    bool bPanel = m_pPlPolar->downwashMethod()==PlanePolar::PANELDOWNWASH;
+    double depsdaPanel(0), eps0(0), gap(1.e10);
+    if(bPanel)
+    {
+        if(!m_bDownwashSamplesSet)
+        {
+            std::string samplelog;
+            selectDownwashSamples(pWing, pTail, m_pPlPolar->bRegularizedWake(), samplelog);
+            traceStdLog(samplelog);
+            if(m_DownwashSamples.empty() || m_DownwashCoverage<0.5) m_bWarning = true;
+        }
+        if(m_DownwashSamples.empty()) return; // reported once at the start of the run
+        gap = downwashSampleGap(pWing);
+        if(!computePanelDownwashGradient(pTail, pPOpp->alpha(), depsdaPanel, eps0))
+        {
+            traceStdLog("          WARNING: the downwash gradient could not be computed for this point - downwash lag derivatives not included\n");
+            m_bWarning = true;
+            return;
+        }
+    }
+    else if(!m_bDownwashSamplesSet)
+    {
+        m_bDownwashSamplesSet = true;
+        traceStdLog("          Downwash gradient method for this run: DATCOM\n");
+    }
+    double depsda = bPanel ? depsdaPanel : depsdaDatcom;
+    if(bPanel && !m_pPlPolar->bRegularizedWake() && gap<0.03*pWing->MAC()) m_bWarning = true;
+    double q = 0.5*m_pPlPolar->density()*u0*u0;
+
+    double Zad = -q*St*at*depsda*lt/u0;  // N/(rad/s)
+    double Mad = Zad*lt;                 // N.m/(rad/s)
+    SD.Zwp = Zad/u0;
+    SD.Mwp = Mad/u0;
+
+    if(bOutput)
+    {
+        std::string str;
+        str  = "          Downwash lag derivatives (estimate):\n";
+        str += std::format("             tail arm from CoG l_t = {:.4g} m, S_t = {:.4g} m2, AR_t = {:.3g}, a_t = {:.3g}/rad\n", lt, St, ARt, at);
+        str += std::format("             tail behind wing a.c. l_H = {:.4g} m, tail height above wing root chord plane h_H = {:.4g} m (h_H/b = {:.3f})\n", lH, hH, hH/bw);
+        str += std::format("             AR_w = {:.3g}, taper = {:.3g}, sweep c/4 = {:.3g} deg\n", ARw, lambda, sweep*180.0/PI);
+        if(bPanel)
+        {
+            str += std::format("             deps/dalpha (panel solution) = {:.3g}  <- used;  downwash at the tail at trim = {:.3g} deg\n",
+                               depsdaPanel, eps0*180.0/PI);
+            if(depsdaPanel<0.0 || depsdaPanel>0.8)
+                str += "             WARNING: the panel downwash gradient is outside the usual 0-0.8 range - check the tail position and the wake\n";
+            if(!m_pPlPolar->bRegularizedWake() && gap<0.03*pWing->MAC())
+                str += std::format("             WARNING: a sample point lies {:.3g} m from the wing's wake sheet - the downwash gradient is unreliable at this point\n", gap);
+        }
+        str += std::format("             deps/dalpha (DATCOM)         = {:.3g}{}  (would be {:.3g} with the tail in the wing plane)\n",
+                           depsdaDatcom, bPanel ? "" : "  <- used", depsda0);
+        str += std::format("             Z_wdot = {:.4g} N.s2/m,  M_wdot = {:.4g} N.s2\n", SD.Zwp, SD.Mwp);
+        if(fabs(SD.Mq)>PRECISION)
+            str += std::format("             M_alphadot/M_q = {:.2f}\n", Mad/SD.Mq);
+        traceStdLog(str);
+    }
+}
+
+
+/**
+ * Selects the sample points on the tail's quarter-chord line used to compute the downwash gradient from the panel solution.
+ * Called once per run, at the first operating point, so that the same points are used for all the points of the run
+ * and the results remain smooth along the control range.
+ * Samples closer to the wing's wake sheet than 0.1 MAC are discarded, since the induced velocity is singular on the sheet,
+ * as are those within 15% of the tail's semi-span from the plane's symmetry plane, which may lie inside the fuselage.
+ */
+void PlaneTask::selectDownwashSamples(WingXfl const *pWing, WingXfl const *pTail, bool bRegularized, std::string &log)
+{
+    m_bDownwashSamplesSet = true;
+    m_DownwashSamples.clear();
+    m_DownwashWeights.clear();
+    m_DownwashCoverage = 0.0;
+
+    double halfspan = pTail->planformSpan()/2.0;
+    double gapmin = 0.1*pWing->MAC();
+    double wtotal(0), wused(0);
+    int nCandidates(0), nFuse(0), nWake(0);
+    int const NSTATIONS = 5;
+    for(int js=0; js<pTail->nSurfaces(); js++)
+    {
+        Surface const &surf = pTail->surfaceAt(js);
+        for(int k=0; k<NSTATIONS; k++)
+        {
+            double tau = (double(k)+0.5)/double(NSTATIONS);
+            Vector3d le = surf.LA() + (surf.LB()-surf.LA())*tau;
+            Vector3d te = surf.TA() + (surf.TB()-surf.TA())*tau;
+            double w = (te-le).norm() * surf.spanLength()/double(NSTATIONS);
+            Vector3d pt = le + (te-le)*0.25;
+            wtotal += w;
+            nCandidates++;
+            if(fabs(pt.y)<0.15*halfspan) {nFuse++; continue;}
+
+            m_DownwashSamples.push_back(pt);
+            m_DownwashWeights.push_back(w);
+            if(!bRegularized && wakeGaps(pWing, {pt}).front()<gapmin)
+            {
+                m_DownwashSamples.pop_back();
+                m_DownwashWeights.pop_back();
+                nWake++;
+                continue;
+            }
+            wused += w;
+        }
+    }
+    m_DownwashCoverage = wtotal>0.0 ? wused/wtotal : 0.0;
+
+    log  = std::format("          Downwash gradient method for this run: panel solution{}, {:d} of {:d} tail stations sampled ({:.0f}% of the tail span)\n",
+                       bRegularized ? std::format(", regularized wake (Lamb-Oseen core {:.3g} m at the trailing edge)", 0.025*pWing->MAC()) : std::string(),
+                       int(m_DownwashSamples.size()), nCandidates, m_DownwashCoverage*100.0);
+    if(nFuse) log += std::format("             {:d} stations near the symmetry plane skipped (may be inside the fuselage)\n", nFuse);
+    if(nWake) log += std::format("             {:d} stations closer than 0.1 MAC to the wing's wake sheet skipped\n", nWake);
+    if(m_DownwashSamples.empty())
+        log += "          WARNING: no tail station is usable - the downwash lag derivatives are not included in this run\n";
+    else if(m_DownwashCoverage<0.5)
+        log += "          WARNING: less than half of the tail span is sampled - the downwash gradient is uncertain for this run\n";
+}
+
+
+/** Returns, for each point, the vertical distance to the wing's wake sheet; 1.e10 if the point is not above or below the sheet */
+std::vector<double> PlaneTask::wakeGaps(WingXfl const *pWing, std::vector<Vector3d> const &pts) const
+{
+    std::vector<double> gaps(pts.size(), 1.e10);
+    bool bTri = m_pPlPolar->isTriangleMethod();
+    int N = m_pPA->nPanels();
+    for(int i=0; i<N; i++)
+    {
+        bool bWing = bTri ? pWing->hasPanel3(i) : pWing->hasPanel4(i);
+        if(!bWing) continue;
+        Panel const *pPanel = m_pPA->panelAt(i);
+        if(!pPanel->isTrailing()) continue;
+        int iw = pPanel->iWake();
+        while(iw>=0)
+        {
+            double xmin(1e10), xmax(-1e10), ymin(1e10), ymax(-1e10), z(0);
+            int inext = -1;
+            if(bTri)
+            {
+                if(iw>=int(m_pP3A->m_WakePanel3.size())) break;
+                Panel3 const &pw = m_pP3A->m_WakePanel3.at(iw);
+                for(int iv=0; iv<3; iv++)
+                {
+                    xmin = std::min(xmin, pw.vertexAt(iv).x); xmax = std::max(xmax, pw.vertexAt(iv).x);
+                    ymin = std::min(ymin, pw.vertexAt(iv).y); ymax = std::max(ymax, pw.vertexAt(iv).y);
+                }
+                z = pw.CoG().z;
+                inext = pw.iPD();
+            }
+            else
+            {
+                if(iw>=int(m_pP4A->m_WakePanel4.size())) break;
+                Panel4 const &pw = m_pP4A->m_WakePanel4.at(iw);
+                for(int iv=0; iv<4; iv++)
+                {
+                    xmin = std::min(xmin, pw.vertex(iv).x); xmax = std::max(xmax, pw.vertex(iv).x);
+                    ymin = std::min(ymin, pw.vertex(iv).y); ymax = std::max(ymax, pw.vertex(iv).y);
+                }
+                z = pw.CoG().z;
+                inext = pw.iPD();
+            }
+            for(unsigned int ip=0; ip<pts.size(); ip++)
+            {
+                Vector3d const &P = pts.at(ip);
+                if(P.x>=xmin && P.x<=xmax && P.y>=ymin && P.y<=ymax) gaps[ip] = std::min(gaps[ip], fabs(P.z-z));
+            }
+            iw = inext;
+        }
+    }
+    return gaps;
+}
+
+
+/** Returns the smallest vertical distance between the downwash sample points and the main wing's wake sheet */
+double PlaneTask::downwashSampleGap(WingXfl const *pWing) const
+{
+    double gap = 1.e10;
+    for(double g : wakeGaps(pWing, m_DownwashSamples)) gap = std::min(gap, g);
+    return gap;
+}
+
+
+/**
+ * Returns the velocity induced at C by all the wake panels, each evaluated as the vortex ring equivalent to a uniform doublet panel,
+ * with a Lamb-Oseen core. The core radius models the thickness of the viscous wake:
+ *     r_c = coreTE.sqrt(1 + x/refLength), x being the distance from the trailing edge.
+ * Same normalization as the solver's doublet velocities.
+ */
+Vector3d PlaneTask::regularizedWakeVelocity(Vector3d const &C, double const *Mu, double coreTE, double refLength) const
+{
+    Vector3d VT;
+    bool bTri = m_pPlPolar->isTriangleMethod();
+    int N = m_pPA->nPanels();
+    auto ringVelocity = [&](Vector3d const *nodes, int nNodes, double rc)
+    {
+        Vector3d V;
+        for(int k=0; k<nNodes; k++)
+            V += vortexInducedVelocity(nodes[k], nodes[(k+1)%nNodes], C, rc, Vortex::LAMB_OSEEN);
+        return V*(4.0*PI);
+    };
+
+    for(int i=0; i<N; i++)
+    {
+        Panel const *pPanel = m_pPA->panelAt(i);
+        if(!pPanel->isTrailing() || pPanel->iWake()<0) continue;
+        double sign = pPanel->isBotPanel() ? -1.0 : 1.0;
+        double mu = bTri ? (Mu[3*i+1]+Mu[3*i+2])/2.0 : Mu[i]; // uniform strength along the wake column
+        if(fabs(mu)<1.e-30) continue;
+
+        int iw = pPanel->iWake();
+        double xTE = 0.0;
+        bool bFirst = true;
+        while(iw>=0)
+        {
+            Vector3d nodes[4];
+            int nNodes(0), inext(-1);
+            if(bTri)
+            {
+                if(iw>=int(m_pP3A->m_WakePanel3.size())) break;
+                Panel3 const &pw = m_pP3A->m_WakePanel3.at(iw);
+                for(int k=0; k<3; k++) nodes[k] = pw.vertexAt(k);
+                nNodes = 3;
+                inext = pw.iPD();
+            }
+            else
+            {
+                if(iw>=int(m_pP4A->m_WakePanel4.size())) break;
+                Panel4 const &pw = m_pP4A->m_WakePanel4.at(iw);
+                for(int k=0; k<4; k++) nodes[k] = pw.vertex(k);
+                nNodes = 4;
+                inext = pw.iPD();
+            }
+            double xc(0), xmin(1e10);
+            for(int k=0; k<nNodes; k++) {xc += nodes[k].x/double(nNodes); xmin = std::min(xmin, nodes[k].x);}
+            if(bFirst) {xTE = xmin; bFirst = false;}
+            double rc = coreTE*sqrt(1.0 + std::max(0.0, xc-xTE)/refLength);
+            VT += ringVelocity(nodes, nNodes, rc) * (mu*sign);
+            iw = inext;
+        }
+    }
+    return VT;
+}
+
+
+/**
+ * Checks how close the main wing's wake sheet passes to the control points of the other surfaces.
+ * A control point within about one panel size of the sheet feels a near-singular induced velocity in the main solution,
+ * so that the tail's forces and the derived stability derivatives may be unreliable. Written once per run.
+ */
+void PlaneTask::checkWakeProximity()
+{
+    m_bWakeCheckDone = true;
+    PlaneXfl const *pPlaneXfl = dynamic_cast<PlaneXfl const*>(m_pPlane);
+    WingXfl const *pMain = pPlaneXfl ? pPlaneXfl->mainWing() : nullptr;
+    if(!pMain || !m_pPA || (!m_pP3A && !m_pP4A)) return;
+    bool bTri = m_pPlPolar->isTriangleMethod();
+    int N = m_pPA->nPanels();
+
+    std::string str = "          Wake proximity check: main wing's wake sheet vs the control points of the other surfaces\n";
+    bool bAny(false), bClose(false);
+    for(int iw=0; iw<pPlaneXfl->nWings(); iw++)
+    {
+        WingXfl const *pW = pPlaneXfl->wingAt(iw);
+        if(pW==pMain) continue;
+        std::vector<Vector3d> pts;
+        std::vector<double> sizes;
+        for(int i=0; i<N; i++)
+        {
+            bool bIn = bTri ? pW->hasPanel3(i) : pW->hasPanel4(i);
+            if(!bIn) continue;
+            Panel const *pPanel = m_pPA->panelAt(i);
+            pts.push_back(pPanel->CoG());
+            sizes.push_back(sqrt(pPanel->area()));
+        }
+        if(pts.empty()) continue;
+        std::vector<double> gaps = wakeGaps(pMain, pts);
+        int nUnder(0), nClose(0);
+        double gapmin(1.e10), ratiomin(1.e10);
+        for(unsigned int ip=0; ip<pts.size(); ip++)
+        {
+            if(gaps[ip]>=1.e9) continue;
+            nUnder++;
+            gapmin = std::min(gapmin, gaps[ip]);
+            ratiomin = std::min(ratiomin, gaps[ip]/std::max(sizes[ip], 1.e-12));
+            if(gaps[ip]<sizes[ip]) nClose++;
+        }
+        bAny = true;
+        if(nUnder==0)
+            str += "             " + pW->name() + ": not above or below the wake sheet\n";
+        else
+            str += std::format("             {}: min gap = {:.4g} m ({:.2f} panel sizes); {:d} of {:d} control points within one panel size of the sheet\n",
+                               pW->name(), gapmin, ratiomin, nClose, int(pts.size()));
+        if(nClose>0) bClose = true;
+    }
+    if(!bAny) return;
+    if(bClose)
+    {
+        str += "          WARNING: the wake sheet passes within one panel size of some control points; the forces on these surfaces and\n"
+               "                   the stability derivatives which depend on them (Cma, Cmq, control derivatives) may be unreliable.\n";
+        if(m_pPlPolar->bThinSurfaces())
+            str += "                   Thin surfaces use velocity boundary conditions, which are the most sensitive to the wake's proximity.\n";
+        str += "                   Consider offsetting the surface vertically, or comparing with a slightly different tail height.\n";
+        m_bWarning = true;
+    }
+    traceStdLog(str);
+}
+
+
+/**
+ * Computes the downwash gradient at the tail from the panel solution, using the sample points selected for the run.
+ * The flow induced by all panels except the tail's own, i.e. wing, fuselage and wing wake, is evaluated at the samples
+ * for unit-speed solutions at alpha0 +/- 1 degree, reconstructed from the unit RHS.
+ * The solver's doublet and source arrays are restored on exit.
+ */
+bool PlaneTask::computePanelDownwashGradient(WingXfl const *pTail, double alpha0, double &depsda, double &eps0)
+{
+    PlaneXfl const *pPlaneXfl = dynamic_cast<PlaneXfl const*>(m_pPlane);
+    WingXfl const *pMain = pPlaneXfl ? pPlaneXfl->mainWing() : nullptr;
+    bool bRegularized = m_pPlPolar->bRegularizedWake() && pMain;
+    double coreTE = pMain ? 0.025*pMain->MAC() : 0.0;
+    double refLength = pMain ? pMain->MAC() : 1.0;
+    if(!m_pPA || (!m_pP3A && !m_pP4A) || m_DownwashSamples.empty()) return false;
+    bool bTri = m_pPlPolar->isTriangleMethod();
+    int N = m_pPA->nPanels();
+    int nMu = bTri ? 3 : 1;
+    if(int(m_pPA->m_Mu.size())<N*nMu || int(m_pPA->m_Sigma.size())<N) return false;
+
+    std::vector<double> mu0    = m_pPA->m_Mu;
+    std::vector<double> sigma0 = m_pPA->m_Sigma;
+    auto meanDownwash = [&](double alpha)
+    {
+        m_pPA->makeSourceStrengths(objects::windDirection(alpha, 0.0));
+        m_pPA->makeUnitDoubletStrengths(alpha, 0.0);
+        std::vector<double> mu    = m_pPA->m_Mu;
+        std::vector<double> sigma = m_pPA->m_Sigma;
+        for(int i=0; i<N; i++)
+        {
+            bool bTail = bTri ? pTail->hasPanel3(i) : pTail->hasPanel4(i);
+            if(!bTail) continue;
+            sigma[i] = 0.0;
+            for(int k=0; k<nMu; k++) mu[nMu*i+k] = 0.0; // also removes the tail's own wake
+        }
+        Vector3d VInf = objects::windDirection(alpha, 0.0);
+        double eps(0), wsum(0);
+        for(unsigned int is=0; is<m_DownwashSamples.size(); is++)
+        {
+            Vector3d V;
+            m_pPA->getVelocityVector(m_DownwashSamples.at(is), mu.data(), sigma.data(), V, Vortex::coreRadius(), false, true);
+            if(bRegularized)
+            {
+                // replace the singular wake contribution by the regularized one
+                Vector3d Vwake;
+                m_pPA->getVelocityVector(m_DownwashSamples.at(is), mu.data(), sigma.data(), Vwake, Vortex::coreRadius(), true, true);
+                V += regularizedWakeVelocity(m_DownwashSamples.at(is), mu.data(), coreTE, refLength) - Vwake;
+            }
+            V += VInf;
+            eps  += (alpha*PI/180.0 - atan2(V.z, V.x)) * m_DownwashWeights.at(is);
+            wsum += m_DownwashWeights.at(is);
+        }
+        return eps/wsum;
+    };
+
+    double const dalpha = 1.0; // degrees
+    double epsp = meanDownwash(alpha0+dalpha);
+    double epsm = meanDownwash(alpha0-dalpha);
+    eps0 = meanDownwash(alpha0);
+    m_pPA->m_Mu    = mu0;
+    m_pPA->m_Sigma = sigma0;
+
+    depsda = (epsp-epsm)/(2.0*dalpha*PI/180.0);
+    return std::isfinite(depsda);
+}
+
+
+/** Writes the inertia used by the stability analysis, its source and a breakdown by component, as a check of the input data */
+void PlaneTask::outputInertiaSummary()
+{
+    PlaneXfl const *pPlaneXfl = dynamic_cast<PlaneXfl const*>(m_pPlane);
+    PlanePolar const *pPolar = m_pPlPolar;
+    double mass = pPolar->mass();
+    Vector3d CoG = pPolar->CoG();
+    double Ixx = pPolar->Ixx(), Iyy = pPolar->Iyy(), Izz = pPolar->Izz(), Ixz = pPolar->Ixz();
+
+    std::string str = "\n   Inertia used by the stability analysis\n";
+    if(pPolar->bAutoInertia())
+        str += std::string("      Source: plane inertia") + (m_pPlane->bAutoInertia() ? ", computed from the parts and point masses\n" : ", custom values defined in the plane\n");
+    else
+        str += "      Source: custom values defined in the polar\n";
+    str += std::format("      mass = {:.4g} kg,  CoG = ({:.4g}, {:.4g}) m\n", mass, CoG.x, CoG.z);
+    str += std::format("      Ixx = {:.4g}  Iyy = {:.4g}  Izz = {:.4g}  Ixz = {:.4g} kg.m2   (body axes, about the CoG; rotated to stability axes at each alpha)\n", Ixx, Iyy, Izz, Ixz);
+
+    // breakdown by component about the polar's CoG
+    if(pPlaneXfl && mass>PRECISION)
+    {
+        struct Item {std::string name; double m; Vector3d pos; double ixx, iyy, izz;};
+        std::vector<Item> items;
+        auto add = [&](std::string const &name, double m, Vector3d const &pos, double ixx, double iyy, double izz)
+        {
+            Vector3d d = pos-CoG;
+            items.push_back({name, m, pos, ixx+m*(d.y*d.y+d.z*d.z), iyy+m*(d.x*d.x+d.z*d.z), izz+m*(d.x*d.x+d.y*d.y)});
+        };
+        int nPointMasses = int(pPlaneXfl->inertia().pointMasses().size());
+        for(int iw=0; iw<pPlaneXfl->nWings(); iw++)
+        {
+            WingXfl const *pW = pPlaneXfl->wingAt(iw);
+            nPointMasses += int(pW->inertia().pointMasses().size());
+            add(pW->name(), pW->totalMass(), pW->CoG_t()+pW->position(), pW->Ixx_t(), pW->Iyy_t(), pW->Izz_t());
+        }
+        for(int ifu=0; ifu<pPlaneXfl->nFuse(); ifu++)
+        {
+            Fuse const *pF = pPlaneXfl->fuseAt(ifu);
+            nPointMasses += int(pF->inertia().pointMasses().size());
+            add(pF->name(), pF->totalMass(), pF->CoG_t()+pF->position(), pF->Ixx_t(), pF->Iyy_t(), pF->Izz_t());
+        }
+        for(PointMass const &pm : pPlaneXfl->inertia().pointMasses())
+            add(pm.tag().length() ? pm.tag() : std::string("point mass"), pm.mass(), pm.position(), 0.0, 0.0, 0.0);
+
+        double sx(0), sy(0), sz(0), sm(0);
+        for(Item const &it : items) {sx+=it.ixx; sy+=it.iyy; sz+=it.izz; sm+=it.m;}
+
+        str += "      Breakdown about the CoG, including the parallel axis terms (wing and fuselage values include their own point masses):\n";
+        str += "         component                 mass(kg)    x(m)     z(m)   Ixx(%)  Iyy(%)  Izz(%)\n";
+        for(Item const &it : items)
+        {
+            std::string name = it.name;
+            name.resize(24, ' ');
+            str += std::format("         {} {:9.4g} {:8.4g} {:8.4g} {:7.1f} {:7.1f} {:7.1f}\n", name, it.m, it.pos.x, it.pos.z,
+                               sx>0 ? 100.0*it.ixx/sx : 0.0, sy>0 ? 100.0*it.iyy/sy : 0.0, sz>0 ? 100.0*it.izz/sz : 0.0);
+        }
+        str += std::format("         sum of components: mass = {:.4g} kg, Ixx = {:.4g}, Iyy = {:.4g}, Izz = {:.4g} kg.m2\n", sm, sx, sy, sz);
+
+        if(nPointMasses==0)
+            str += "      WARNING: the plane has no point masses; structure-only inertia usually underestimates the real inertia\n";
+        if(!pPolar->bAutoInertia() && (fabs(Ixx-sx)>0.05*fabs(sx) || fabs(Iyy-sy)>0.05*fabs(sy) || fabs(Izz-sz)>0.05*fabs(sz)))
+            str += "      WARNING: the polar's inertia differs by more than 5% from the plane's current components\n";
+
+        // nondimensional radii of gyration, Roskam's definitions
+        double xmin(1.e10), xmax(-1.e10);
+        for(int iw=0; iw<pPlaneXfl->nWings(); iw++)
+        {
+            WingXfl const *pW = pPlaneXfl->wingAt(iw);
+            for(int js=0; js<pW->nSurfaces(); js++)
+            {
+                Surface const &surf = pW->surfaceAt(js);
+                xmin = std::min({xmin, surf.LA().x, surf.LB().x});
+                xmax = std::max({xmax, surf.TA().x, surf.TB().x});
+            }
+        }
+        if(m_pP3A) for(Panel3 const &p3 : m_pP3A->m_Panel3) for(int iv=0; iv<3; iv++) {xmin = std::min(xmin, p3.vertexAt(iv).x); xmax = std::max(xmax, p3.vertexAt(iv).x);}
+        if(m_pP4A) for(Panel4 const &p4 : m_pP4A->m_Panel4) for(int iv=0; iv<4; iv++) {xmin = std::min(xmin, p4.vertex(iv).x);   xmax = std::max(xmax, p4.vertex(iv).x);}
+        double b = pPlaneXfl->planformSpan();
+        double L = xmax-xmin;
+        double e = (b+L)/2.0;
+        if(b>PRECISION && L>PRECISION)
+        {
+            double Rx = 2.0*sqrt(std::max(Ixx,0.0)/mass)/b;
+            double Ry = 2.0*sqrt(std::max(Iyy,0.0)/mass)/L;
+            double Rz = 2.0*sqrt(std::max(Izz,0.0)/mass)/e;
+            str += std::format("      Nondimensional radii of gyration (Roskam): Rx = 2kx/b = {:.3f}, Ry = 2ky/L = {:.3f}, Rz = 2kz/e = {:.3f}  (b = {:.4g} m, L = {:.4g} m, e = (b+L)/2)\n",
+                               Rx, Ry, Rz, b, L);
+            str += "         typical values for conventional aircraft are in the range 0.2-0.4\n";
+            if(Rx<0.15 || Rx>0.5 || Ry<0.15 || Ry>0.5 || Rz<0.15 || Rz>0.5)
+                str += "      WARNING: at least one radius of gyration is outside 0.15-0.5; check the masses and their positions\n";
+        }
+    }
+
+    // inertia is not interpolated with the control variable
+    if(pPolar->m_InertiaRange.size()>=3)
+    {
+        bool bVaries = false;
+        for(int i=0; i<3; i++)
+            if(fabs(pPolar->m_InertiaRange.at(i).ctrlMax()-pPolar->m_InertiaRange.at(i).ctrlMin())>PRECISION) bVaries = true;
+        if(bVaries)
+            str += "      WARNING: the mass or the CoG vary with the control variable, but the inertia tensor is kept constant\n";
+    }
+
+    str += "      Note: the trim and the stability and control derivatives are computed from the inviscid solution.\n";
+    str += std::string("            Viscous drag in X_u: ")    + (pPolar->isViscous() ? "included\n" : "not included (inviscid polar)\n");
+    str += std::string("            Downwash lag derivatives: ") + (pPolar->bAlphaDotDerivatives() ? "estimated and included\n" : "not included\n");
+    for(int ic=0; ic<pPolar->nAVLCtrls(); ic++)
+        if(fabs(pPolar->AVLCtrl(ic).effectiveness()-1.0)>1.e-6)
+            str += std::format("            Control set {}: effectiveness {:.3g}\n", pPolar->AVLCtrl(ic).name(), pPolar->AVLCtrl(ic).effectiveness());
+    str += "\n";
+    traceStdLog(str);
 }
 
 

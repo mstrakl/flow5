@@ -3,6 +3,7 @@
 HEADERS += \
     $$PWD/actionitemmodel.h \
     $$PWD/cptableview.h \
+    $$PWD/flowlayout.h \
     $$PWD/crosscheckbox.h \
     $$PWD/ctrltabledelegate.h \
     $$PWD/exponentialslider.h \
@@ -21,6 +22,7 @@ HEADERS += \
 SOURCES += \
     $$PWD/actionitemmodel.cpp \
     $$PWD/cptableview.cpp \
+    $$PWD/flowlayout.cpp \
     $$PWD/crosscheckbox.cpp \
     $$PWD/ctrltabledelegate.cpp \
     $$PWD/exponentialslider.cpp \

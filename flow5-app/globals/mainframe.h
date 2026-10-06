@@ -103,7 +103,7 @@ class MainFrame : public QMainWindow
 
         void updateView();
 
-        void showStabTimeCtrls(bool bVisible);
+        void showStabTimeCtrls(bool bVisible, bool bRaise=false);
 
         void loadRecentProject(QString recentfilename=QString());
 
@@ -257,6 +257,7 @@ class MainFrame : public QMainWindow
         QDockWidget *m_pdwPlaneTree;
         QDockWidget *m_pdwXPlaneResults3d;
         QDockWidget *m_pdwStabTime;
+        bool m_bStabTimeOpen{false};      /**< true if the stability time controls have been opened, possibly behind another tab */
         QDockWidget *m_pdwGraphControls;
         QDockWidget *m_pdwCp3d;
 

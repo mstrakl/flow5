@@ -251,6 +251,7 @@ class Graph
         void drawYMinGrid(int iy, QPainter &painter) const;
         void drawXGrid(QPainter &painter) const;
         void drawYGrid(int iy, QPainter &painter) const;
+        void drawFusedRightAxis(QPainter &painter) const;
         void drawXLogGrid(QPainter &painter) const;
         void drawXLogMinGrid(QPainter &painter) const;
         void drawYLogGrid(int iy, QPainter &painter) const;
@@ -336,6 +337,11 @@ class Graph
         void enableRightAxis(bool bEnable) {m_bRightAxisEnabled=bEnable;}
         bool isRightAxisEnabled() const {return m_bRightAxisEnabled;}
 
+        /** if true and the right axis is shown, a single grid is drawn: the right axis' ticks are placed at the left axis'
+         * major gridlines and labelled with the right axis' values at these positions; the right axis' range is unchanged */
+        bool bFuseGrid() const {return m_bFuseGrid;}
+        void setFuseGrid(bool b) {m_bFuseGrid=b;}
+
         static void setHighLighting(bool bHighLight) {s_bHighlightObject = bHighLight;}
         static bool isHighLighting() {return s_bHighlightObject;}
 
@@ -356,6 +362,7 @@ class Graph
         bool m_bBorder;
         bool m_bRightAxis;         /**< if true, and if m_bRightAxisEnabled is true, the right axis is enabled */
         bool m_bRightAxisEnabled;  /**< if false, the right axis is disabled altogether for this graph; the default is false */
+        bool m_bFuseGrid{true};    /**< if true, the right axis uses the left axis' grid; on by default */
         bool m_bShowLegend;
 
         Qt::Alignment m_LegendPosition;

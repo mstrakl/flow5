@@ -81,6 +81,19 @@ class FL5LIB_EXPORT PlanePolar : public Polar3d
         bool bViscousLoop() const {return m_bViscLoop;}
         void setViscousLoop(bool b) {m_bViscLoop=b;}
 
+        /** T7: if true, estimates of the downwash lag derivatives Z_wdot and M_wdot are included in the stability derivatives */
+        bool bAlphaDotDerivatives() const {return m_bAlphaDot;}
+        void setAlphaDotDerivatives(bool b) {m_bAlphaDot=b;}
+
+        /** T7: source of the downwash gradient used for the downwash lag derivatives; the method is kept for the whole run */
+        enum enumDownwashMethod {PANELDOWNWASH=0, DATCOMDOWNWASH=1};
+        enumDownwashMethod downwashMethod() const {return m_DownwashMethod;}
+        void setDownwashMethod(enumDownwashMethod m) {m_DownwashMethod=m;}
+
+        /** T7, panel downwash: if true, the wing's wake is evaluated with a viscous core of the size of a real wake's thickness */
+        bool bRegularizedWake() const {return m_bRegularizedWake;}
+        void setRegularizedWake(bool b) {m_bRegularizedWake=b;}
+
         void addPlaneOpPointData(PlaneOpp const *pPOpp);
         void replacePOppDataAt(int pos, PlaneOpp const*pPOpp);
         void insertPOppDataAt(int pos, const PlaneOpp *pPOpp);
@@ -259,6 +272,9 @@ class FL5LIB_EXPORT PlanePolar : public Polar3d
         bool m_bThinSurfaces;      /**< true if VLM, false if 3D-panels */
 
         bool m_bViscLoop;
+        bool m_bAlphaDot;
+        enumDownwashMethod m_DownwashMethod;
+        bool m_bRegularizedWake;
         bool m_bAdjustedVelocity;  /** for a control polar, this flag determins if the velocity is calculated to balance the weight */
 
 

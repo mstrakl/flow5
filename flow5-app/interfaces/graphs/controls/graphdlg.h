@@ -130,6 +130,7 @@ class GraphDlg : public QDialog
         QTabWidget *m_pTabWidget;
 
         QCheckBox *m_pchRightAxis;
+        QCheckBox *m_pchFuseGrid;
         QListWidget *m_plwXSel;
         QListWidget *m_plwYSel[2];
 

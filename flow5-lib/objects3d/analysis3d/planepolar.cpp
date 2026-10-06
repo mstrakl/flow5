@@ -82,6 +82,9 @@ void PlanePolar::setDefaults()
     m_bThinSurfaces     = true;
     m_bTrefftz          = true;
     m_bViscLoop         = false;
+    m_bAlphaDot         = false;
+    m_DownwashMethod    = PANELDOWNWASH;
+    m_bRegularizedWake  = true;
     m_bViscous          = true;
     m_bVortonWake       = false;
     m_bWingTipMi        = false;
@@ -466,6 +469,9 @@ void PlanePolar::duplicateSpec(Polar3d const *pPolar3d)
     m_theStyle = pPlPolar->theStyle();
 
     m_bViscLoop = pPlPolar->m_bViscLoop;
+    m_bAlphaDot = pPlPolar->m_bAlphaDot;
+    m_DownwashMethod = pPlPolar->m_DownwashMethod;
+    m_bRegularizedWake = pPlPolar->m_bRegularizedWake;
 
     // general aerodynamic data - specific to a polar
     m_bAdjustedVelocity = pPlPolar->m_bAdjustedVelocity;
@@ -1323,6 +1329,9 @@ void PlanePolar::getProperties(std::string &props, Plane const *pPlane) const
 
 
 
+    if(isType7())
+        PolarProps += std::string("Downwash lag derivatives: ") + (m_bAlphaDot ? (m_DownwashMethod==DATCOMDOWNWASH ? "included, DATCOM downwash\n" : (m_bRegularizedWake ? "included, panel downwash, regularized wake\n" : "included, panel downwash\n")) : "not included\n");
+
     if((isType123458() || isType7()) && pPlaneXfl)
     {
         if(nAVLCtrls())
@@ -1332,7 +1341,9 @@ void PlanePolar::getProperties(std::string &props, Plane const *pPlane) const
             for(int ic=0; ic<nAVLCtrls(); ic++)
             {
                 AngleControl const& avlc = m_AVLControls.at(ic);
-                PolarProps += "   " + avlc.name()+ EOLstr;
+                PolarProps += "   " + avlc.name();
+                if(fabs(avlc.effectiveness()-1.0)>1.e-6) PolarProps += std::format("  (effectiveness {:.3g})", avlc.effectiveness());
+                PolarProps += EOLstr;
 
                 for(int ig=0; ig<avlc.nValues(); ig++)
                 {

@@ -27,6 +27,7 @@
 
 #include <QPainter>
 #include <QVBoxLayout>
+#include <interfaces/widgets/customwts/flowlayout.h>
 #include <QLabel>
 
 #include "xsaillegendwt.h"
@@ -92,23 +93,12 @@ void XSailLegendWt::makePolarLegendBtns(bool bHighlight)
                                             DisplayOptions::textFontStruct().family().toStdString().c_str(),
                                             DisplayOptions::textFontStruct().pointSize());
 
-    QVBoxLayout *pLegendLayout = dynamic_cast<QVBoxLayout*>(layout());
-    if(!pLegendLayout)
-    {
-        pLegendLayout = new QVBoxLayout;
-        setLayout(pLegendLayout);
-    }
-    else
-    {
-        wt::clearLayout(pLegendLayout);
-    }
+    FlowLayout *pLegendLayout = flowLayout();
 
     for (int j=0; j<Boatlist.count(); j++)
     {
         Boat *pBoat = Boatlist.at(j);
-        QLabel *pBoatLab = new QLabel(QString::fromStdString(pBoat->name()));
-        pBoatLab->setAttribute(Qt::WA_NoSystemBackground);
-        pBoatLab->setStyleSheet(stylestring);
+        QLabel *pBoatLab = makeHeading(QString::fromStdString(pBoat->name()), true);
         pLegendLayout->addWidget(pBoatLab);
 
 
@@ -134,9 +124,7 @@ void XSailLegendWt::makePolarLegendBtns(bool bHighlight)
                 pLegendLayout->addWidget(pLegendBtn);
             }
         }
-        pLegendLayout->addSpacing(16);
     }
-    pLegendLayout->addStretch();
 }
 
 

@@ -43,6 +43,7 @@
 
 class CPTableView;
 class CtrlTableModel;
+class QComboBox;
 
 
 class T1234578PolarDlg : public PlanePolarDlg
@@ -101,6 +102,10 @@ class T1234578PolarDlg : public PlanePolarDlg
 
         CPTableView *m_pcptAVLCtrls;
         QStandardItemModel *m_pAVLCtrlModel;
+        QCheckBox *m_pchAlphaDot;
+        QComboBox *m_pcbDownwashMethod;
+        QCheckBox *m_pchRegularizedWake;
+        void enableDownwashControls();
         CPTableView *m_pcptAVLGains;
         CtrlTableModel *m_pAVLGainModel;
         CtrlTableDelegate *m_pAVLGainDelegate;

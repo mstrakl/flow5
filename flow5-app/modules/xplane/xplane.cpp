@@ -294,9 +294,10 @@ XPlane::XPlane(MainFrame *pMainFrame) : QObject()
         m_TimeGraph[ig]->setScaleType(GRAPH::RESETTING);
         m_TimeGraph[ig]->setMargins(50);
         m_TimeGraph[ig]->setYInverted(0, false);
-        m_TimeGraph[ig]->setName("Time Response");
+        m_TimeGraph[ig]->setName(QString("Time Response %1").arg(ig+1)); // unique names, so that each graph's settings are saved separately
         m_TimeGraph[ig]->setXVariableList({"time (s)"});
         m_TimeGraph[ig]->setVariables(0,0);
+        m_TimeGraph[ig]->enableRightAxis(true);
         m_TimeGraph.at(ig)->setTitleFont(graphfont);
         m_TimeGraph.at(ig)->setLabelFont(graphfont);
     }
@@ -948,14 +949,14 @@ void XPlane::createStabilityCurves()
             return;//nothing to plot
         }
 
-        // recompute the selected curve with the current input, then refill all curves
+        // compute the selected curve only on an explicit Add or Recompute, then refill all curves
         // with the variable selected in each graph
         QString curvetitle = m_pStabTimeControls->selectedCurveName();
         bool bSelected = true;
         for(int ig=0; ig<m_TimeGraph.size(); ig++)
             if(!m_TimeGraph[ig]->curve(curvetitle)) bSelected = false;
 
-        if(bSelected)
+        if(m_pStabTimeControls->takeComputeRequest() && bSelected)
         {
             m_pStabTimeControls->computeTimeResponse(m_pCurPOpp, curvetitle);
             for(int ig=0; ig<m_TimeGraph.size(); ig++) m_TimeGraph[ig]->curve(curvetitle)->setVisible(true);
@@ -4146,7 +4147,7 @@ void XPlane::updateStabilityDirection(bool bLongitudinal)
     setControls();
     setGraphTiles(); //needed to switch between longitudinal and lateral graphs
     s_pMainFrame->m_pStabTimeTiles->makeLegend(true);
-    setStabTimeYVariables(bLongitudinal);
+    setStabTimeYVariables(bLongitudinal, true);
 
     m_bResetCurves = true;
     updateView();
@@ -4163,6 +4164,7 @@ void XPlane::onStabTimeView()
 
     m_pPlaneExplorer->setCurveParams();
     setControls();
+    s_pMainFrame->showStabTimeCtrls(true, true); // bring the controls to the front when entering the view
     setStabTimeYVariables(m_pStabTimeControls->isStabLongitudinal());
 
     m_bResetCurves = true;
@@ -4180,18 +4182,44 @@ void XPlane::setStabTimeYVariables(bool bLong, bool bResetVariables)
 
     // the perturbation comes first, followed by the flight parameters and the flaps active in the current T7 polar
     QStringList extravars = m_pStabTimeControls->extraVariableNames(bLong);
+
+    // default graphs: the perturbations, except for the longitudinal forced response which shows the true flight values
+    // V, q, theta and n_z; extravars starts with the flight values in the order V, alpha, theta, gamma, q, n_z, dh
+    // the right axis is shown by default only on the first graph of the longitudinal forced response, with alpha
+    QStringList defaults, defaults1;
+    if(bLong && m_pStabTimeControls->isForcedResponse() && extravars.size()>=6)
+    {
+        defaults  = {extravars.at(0), extravars.at(4), extravars.at(2), extravars.at(5)};
+        defaults1 = {extravars.at(1), QString(), QString(), QString()};
+    }
     for(int ig=0; ig<m_TimeGraph.size() && ig<statevars.size(); ig++)
     {
         Graph *pGraph = m_TimeGraph[ig];
-        QString prevvar = pGraph->yVariable(0)>0 ? pGraph->yVariableName(0) : QString();
+        QString prevvar  = pGraph->yVariable(0)>0 ? pGraph->yVariableName(0) : QString();
+        QString prevvar1 = pGraph->yVariable(1)>0 ? pGraph->yVariableName(1) : QString();
+        int rawvar1 = pGraph->yVariable(1); // index read from the settings, before the variable list is known
 
         pGraph->setYVariableList(QStringList{statevars.at(ig)} + extravars);
 
         // keep the selected variable if it is still available; the saved index may be stale at startup
         int iVar = 0;
-        if(!bResetVariables && prevvar.length())
+        if(bResetVariables)
+        {
+            if(ig<defaults.size()) iVar = std::max(0, int(pGraph->YVariableList().indexOf(defaults.at(ig))));
+        }
+        else if(prevvar.length())
             iVar = std::max(0, int(pGraph->YVariableList().indexOf(prevvar)));
-        pGraph->setVariables(0, iVar);
+
+        // the right axis keeps its variable if it is still available
+        int iVar1 = prevvar1.length() ? std::max(0, int(pGraph->YVariableList().indexOf(prevvar1))) : 0;
+        if(prevvar1.isEmpty() && rawvar1>0 && rawvar1<pGraph->YVariableList().size()) iVar1 = rawvar1;
+        if(bResetVariables)
+        {
+            bool bRight = ig<defaults1.size() && defaults1.at(ig).length();
+            pGraph->showRightAxis(bRight);
+            if(bRight) iVar1 = std::max(0, int(pGraph->YVariableList().indexOf(defaults1.at(ig))));
+        }
+        pGraph->setVariables(0, iVar, iVar1);
     }
 }
 

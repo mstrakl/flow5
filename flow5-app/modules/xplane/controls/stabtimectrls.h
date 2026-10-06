@@ -65,8 +65,11 @@ class StabTimeCtrls : public QFrame
         void setControls();
         void fillAVLcontrols(PlanePolar const*pWPolar);
         QString forcedResponseError(PlaneOpp const *pPOpp) const;
+        /** returns true once after Add or Recompute: only these compute a curve, other refreshes redraw the stored responses */
+        bool takeComputeRequest() {bool b=m_bComputeRequested; m_bComputeRequested=false; return b;}
 
         bool isStabLongitudinal() const {return m_prbLongitudinal->isChecked();}
+        bool isForcedResponse() const {return m_ResponseType==FORCEDRESPONSE;}
 
         void computeTimeResponse(PlaneOpp const*pPOpp, QString const &curvename);
         void fillTimeGraphCurves();
@@ -134,6 +137,7 @@ class StabTimeCtrls : public QFrame
         void onReadData();
         void onResponseType();
         void onAddCurve();
+        void onRecomputeCurve();
         void onDeleteCurve();
         void onRenameCurve();
         void onSelChangeCurve(int sel);
@@ -153,7 +157,9 @@ class StabTimeCtrls : public QFrame
         QLabel *m_plabStab1, *m_plabStab2, *m_plabStab3;
         FloatEdit  *m_pfeStabVar1, *m_pfeStabVar2, *m_pfeStabVar3;
         FloatEdit *m_pfeTotalTime, *m_pfeDeltat;
-        QPushButton *m_ppbAddCurve;
+        QPushButton *m_ppbAddCurve, *m_ppbRecomputeCurve;
+        bool m_bComputeRequested{false};
+        bool checkForcedInputs();
 
         CPTableView *m_pcpCurveTable;
         ActionItemModel *m_pCurveModel;

@@ -49,11 +49,16 @@ class FL5LIB_EXPORT AngleControl
         inline void setValue( int iCtrl, double g) {if (iCtrl>=0 && iCtrl<nValues())   m_Value[iCtrl]=g;}
         inline void addValue(double g) {m_Value.push_back(g);}
 
+        /** for AVL-type controls: factor applied to the control derivatives, e.g. to account for viscous losses; the deflections are not affected */
+        inline double effectiveness() const {return m_Effectiveness;}
+        inline void setEffectiveness(double eta) {m_Effectiveness=eta;}
+
         inline bool hasActiveAngle() const {for(int ig=0; ig<nValues(); ig++) {if(fabs(m_Value.at(ig))>FLAPANGLEPRECISION) return true;} return false;}
 
     private:
 
         std::string m_Name;     /**< The control's name which serves as its unique identifier */
         std::vector<double> m_Value; /**< The flap angles in degrees or the gains in degrees/ctrl unit depending on the use.*/
+        double m_Effectiveness{1.0}; /**< AVL-type controls only: multiplies the control derivatives */
 };
 

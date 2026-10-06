@@ -125,6 +125,16 @@ class FL5LIB_EXPORT PlaneTask : public Task3d
         bool setLinearSolution();
 
         bool computeStability(PlaneOpp *pPOpp, bool bOutput);
+        void addViscousXu(PlaneOpp const *pPOpp, StabDerivatives &SD, bool bOutput);
+        void addAlphaDotDerivatives(PlaneOpp const *pPOpp, StabDerivatives &SD, bool bOutput);
+        void resetDownwashSamples() {m_bDownwashSamplesSet=false; m_DownwashSamples.clear(); m_DownwashWeights.clear(); m_DownwashCoverage=0.0; m_bWakeCheckDone=false;}
+        void selectDownwashSamples(WingXfl const *pWing, WingXfl const *pTail, bool bRegularized, std::string &log);
+        double downwashSampleGap(WingXfl const *pWing) const;
+        std::vector<double> wakeGaps(WingXfl const *pWing, std::vector<Vector3d> const &pts) const;
+        Vector3d regularizedWakeVelocity(Vector3d const &C, double const *Mu, double coreTE, double refLength) const;
+        void checkWakeProximity();
+        bool computePanelDownwashGradient(WingXfl const *pTail, double alpha0, double &depsda, double &eps0);
+        void outputInertiaSummary();
 
         void storePOpp(PlaneOpp *pPOpp);
 
@@ -135,6 +145,13 @@ class FL5LIB_EXPORT PlaneTask : public Task3d
         std::vector<PlaneOpp*> m_PlaneOppList;
 
         bool m_bDerivatives;       /**< if true, computes the eigenthings when running a T123458 polar */
+
+        // downwash gradient from the panel solution: the sample points are selected at the first point of a run and kept for the whole run
+        bool m_bDownwashSamplesSet{false};
+        std::vector<Vector3d> m_DownwashSamples;
+        std::vector<double> m_DownwashWeights;
+        double m_DownwashCoverage{0.0};
+        bool m_bWakeCheckDone{false};
 
         double m_Ctrl;             /**< the oppoint currently calculated */
         double m_Alpha;            /**< the aoa currently calculated */
