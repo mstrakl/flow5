@@ -1,12 +1,13 @@
 name: build
 
-# Builds installable packages on every push / PR; a tag "v*" also publishes them
-# as a GitHub Release.
+# Builds the installable packages for Linux, Windows and macOS only for releases:
+# pushing a tag "v*" (matching the version in flow5-lib/api/fl5core.h, e.g. v7.60)
+# builds all three and publishes them as a GitHub Release.
+# Branch pushes and pull requests are not built. A manual run (workflow_dispatch)
+# builds the packages as artifacts without publishing a release.
 on:
   push:
-    branches: ["**"]
     tags: ["v*"]
-  pull_request:
   workflow_dispatch:
 
 concurrency:
