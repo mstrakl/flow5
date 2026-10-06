@@ -1,22 +1,56 @@
 name: build
 
-# Builds the installable packages for Linux, Windows and macOS only for releases:
-# pushing a tag "v*" (matching the version in flow5-lib/api/fl5core.h, e.g. v7.60)
-# builds all three and publishes them as a GitHub Release.
-# Branch pushes and pull requests are not built. A manual run (workflow_dispatch)
-# builds the packages as artifacts without publishing a release.
+# Releases are made from the "release" branch only:
+#  - every push to "release" builds the Linux, Windows and macOS packages and publishes them
+#    as a GitHub Release tagged v<version>, the version being read from flow5-lib/api/fl5core.h;
+#  - the push is rejected (the run fails before building) if that version is not higher than
+#    the latest v* release tag, i.e. MAJOR_VERSION/MINOR_VERSION must be increased for each release;
+#  - pull requests into "release" run the version check only, so that it can be made a required check.
+# No other branch, tag or pull request is built.
 on:
   push:
-    tags: ["v*"]
-  workflow_dispatch:
+    branches: ["release"]
+  pull_request:
+    branches: ["release"]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false   # never cancel a release half-way
 
 jobs:
+  version:
+    name: Version check
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0          # all tags, to find the latest release
+
+      - name: Check that the version was increased
+        id: check
+        run: |
+          VERSION="$(packaging/version.sh)"
+          IFS=. read -r MAJ MIN <<<"$VERSION"
+          latest=""; lmaj=-1; lmin=-1
+          for t in $(git tag -l 'v*'); do
+            if [[ $t =~ ^v([0-9]+)\.([0-9]+)$ ]]; then
+              a=$((10#${BASH_REMATCH[1]})); b=$((10#${BASH_REMATCH[2]}))
+              if (( a>lmaj || (a==lmaj && b>lmin) )); then lmaj=$a; lmin=$b; latest=$t; fi
+            fi
+          done
+          if [[ -n "$latest" ]] && ! (( 10#$MAJ>lmaj || (10#$MAJ==lmaj && 10#$MIN>lmin) )); then
+            echo "::error title=Version not increased::fl5core.h defines version $VERSION, which is not higher than the latest release $latest. Increase MAJOR_VERSION/MINOR_VERSION in flow5-lib/api/fl5core.h before pushing to the release branch."
+            exit 1
+          fi
+          echo "Releasing v$VERSION (previous release: ${latest:-none})"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
   linux:
     name: Linux AppImage
+    needs: version
+    if: github.event_name == 'push'
     runs-on: ubuntu-24.04
     env:
       XDG_CACHE_HOME: ${{ github.workspace }}/.cache   # ccache lives here (see docker/dev.sh)
@@ -45,7 +79,7 @@ jobs:
 
       - name: Build and package
         run: |
-          if [[ "$GITHUB_REF_TYPE" == tag ]]; then export VERSION="${GITHUB_REF_NAME#v}"; fi
+          export VERSION="${{ needs.version.outputs.version }}"
           packaging/ci-run.sh ./docker/dev.sh appimage
 
       - uses: actions/upload-artifact@v4
@@ -56,6 +90,8 @@ jobs:
 
   windows:
     name: Windows installer
+    needs: version
+    if: github.event_name == 'push'
     runs-on: windows-2025
     defaults:
       run:
@@ -78,7 +114,7 @@ jobs:
 
       - name: Build and package
         run: |
-          if [[ "$GITHUB_REF_TYPE" == tag ]]; then export VERSION="${GITHUB_REF_NAME#v}"; fi
+          export VERSION="${{ needs.version.outputs.version }}"
           packaging/ci-run.sh packaging/windows/package.sh
 
       - uses: actions/upload-artifact@v4
@@ -91,6 +127,8 @@ jobs:
 
   macos:
     name: macOS dmg (arm64)
+    needs: version
+    if: github.event_name == 'push'
     runs-on: macos-14
     env:
       HOMEBREW_NO_AUTO_UPDATE: "1"
@@ -104,7 +142,7 @@ jobs:
 
       - name: Build and package
         run: |
-          if [[ "$GITHUB_REF_TYPE" == tag ]]; then export VERSION="${GITHUB_REF_NAME#v}"; fi
+          export VERSION="${{ needs.version.outputs.version }}"
           packaging/ci-run.sh packaging/macos/package.sh
 
       - uses: actions/upload-artifact@v4
@@ -115,8 +153,8 @@ jobs:
 
   release:
     name: Publish release
-    if: startsWith(github.ref, 'refs/tags/v')
-    needs: [linux, windows, macos]
+    if: github.event_name == 'push'
+    needs: [version, linux, windows, macos]
     runs-on: ubuntu-24.04
     permissions:
       contents: write
@@ -128,5 +166,8 @@ jobs:
           merge-multiple: true
       - uses: softprops/action-gh-release@v2
         with:
+          tag_name: v${{ needs.version.outputs.version }}     # created on the pushed commit
+          target_commitish: ${{ github.sha }}
+          name: flow5 v${{ needs.version.outputs.version }}
           files: dist/*
           generate_release_notes: true
