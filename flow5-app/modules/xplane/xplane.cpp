@@ -467,6 +467,7 @@ void XPlane::connectSignals()
 
     connect(s_pMainFrame->m_pWPolarTiles,   SIGNAL(graphChanged(int)),     SLOT(onGraphChanged(int)));
     connect(s_pMainFrame->m_pPOppTiles,     SIGNAL(graphChanged(int)),     SLOT(onGraphChanged(int)));
+    connect(s_pMainFrame->m_pStabTimeTiles, SIGNAL(graphChanged(int)),     SLOT(onGraphChanged(int)));
 
     connect(m_pTimerMode,                   SIGNAL(timeout()),             SLOT(onAnimateModeSingle()));
 
@@ -947,26 +948,21 @@ void XPlane::createStabilityCurves()
             return;//nothing to plot
         }
 
-        Curve *pCurve[]{nullptr, nullptr, nullptr, nullptr};
+        // recompute the selected curve with the current input, then refill all curves
+        // with the variable selected in each graph
         QString curvetitle = m_pStabTimeControls->selectedCurveName();
-        pCurve[0] = m_TimeGraph[0]->curve(curvetitle);
-        if(pCurve[0]) pCurve[0]->clear();        else return;
-        pCurve[1] = m_TimeGraph[1]->curve(curvetitle);
-        if(pCurve[1]) pCurve[1]->clear();        else return;
-        pCurve[2] = m_TimeGraph[2]->curve(curvetitle);
-        if(pCurve[2]) pCurve[2]->clear();        else return;
-        pCurve[3] = m_TimeGraph[3]->curve(curvetitle);
-        if(pCurve[3]) pCurve[3]->clear();        else return;
+        bool bSelected = true;
+        for(int ig=0; ig<m_TimeGraph.size(); ig++)
+            if(!m_TimeGraph[ig]->curve(curvetitle)) bSelected = false;
 
-        m_pStabTimeControls->fillTimeCurve(m_pCurPOpp, pCurve);
-
-        pCurve[0]->setVisible(true);
-        pCurve[1]->setVisible(true);
-        pCurve[2]->setVisible(true);
-        pCurve[3]->setVisible(true);
+        if(bSelected)
+        {
+            m_pStabTimeControls->computeTimeResponse(m_pCurPOpp, curvetitle);
+            for(int ig=0; ig<m_TimeGraph.size(); ig++) m_TimeGraph[ig]->curve(curvetitle)->setVisible(true);
+        }
+        m_pStabTimeControls->fillTimeGraphCurves();
 
         m_bResetCurves = false;
-        for(int ig=0; ig<m_TimeGraph.size(); ig++) m_TimeGraph[ig]->invalidate();
     }
     else if(isStabPolarView())
     {
@@ -1649,6 +1645,8 @@ bool XPlane::loadSettings(QSettings &settings)
     }
 
     m_pStabTimeControls->loadSettings(settings);
+    // the app may start directly in the time view without going through onStabTimeView()
+    setStabTimeYVariables(m_pStabTimeControls->isStabLongitudinal(), true);
     m_pPOpp3dCtrls->loadSettings(settings);
 
     m_pPlaneExplorer->setTreeFont(DisplayOptions::treeFontStruct().font());
@@ -4172,21 +4170,28 @@ void XPlane::onStabTimeView()
 }
 
 
-void XPlane::setStabTimeYVariables(bool bLong)
+void XPlane::setStabTimeYVariables(bool bLong, bool bResetVariables)
 {
+    QStringList statevars;
     if(bLong)
-    {
-        m_TimeGraph[0]->setYVariableList({"u ("+Units::speedUnitQLabel()+")"});
-        m_TimeGraph[1]->setYVariableList({"w ("+Units::speedUnitQLabel()+")"});
-        m_TimeGraph[2]->setYVariableList({"q ("+DEGch+"/s)"});
-        m_TimeGraph[3]->setYVariableList({THETAch + " ("+DEGch+")"});
-    }
+        statevars = {"u ("+Units::speedUnitQLabel()+")", "w ("+Units::speedUnitQLabel()+")", "q ("+DEGch+"/s)", THETAch + " ("+DEGch+")"};
     else
+        statevars = {"v ("+Units::speedUnitQLabel()+")", "p ("+DEGch+"/s)", "r ("+DEGch+"/s)", PHIch + " ("+DEGch+")"};
+
+    // the state variable comes first, followed by the deflections of the flaps active in the current T7 polar
+    QStringList flapvars = m_pStabTimeControls->flapVariableNames();
+    for(int ig=0; ig<m_TimeGraph.size() && ig<statevars.size(); ig++)
     {
-        m_TimeGraph[0]->setYVariableList({"v ("+Units::speedUnitQLabel()+")"});
-        m_TimeGraph[1]->setYVariableList({"p ("+DEGch+"/s)"});
-        m_TimeGraph[2]->setYVariableList({"r ("+DEGch+"/s)"});
-        m_TimeGraph[3]->setYVariableList({PHIch + " ("+DEGch+")"});
+        Graph *pGraph = m_TimeGraph[ig];
+        QString prevvar = pGraph->yVariable(0)>0 ? pGraph->yVariableName(0) : QString();
+
+        pGraph->setYVariableList(QStringList{statevars.at(ig)} + flapvars);
+
+        // keep a selected flap if it is still active; the saved index may be stale at startup
+        int iVar = 0;
+        if(!bResetVariables && prevvar.length())
+            iVar = std::max(0, int(pGraph->YVariableList().indexOf(prevvar)));
+        pGraph->setVariables(0, iVar);
     }
 }
 
@@ -5020,6 +5025,7 @@ void XPlane::setPolar(PlanePolar *pPlPolar)
 
     m_pAnalysisControls->setAnalysisRange();
     m_pStabTimeControls->fillAVLcontrols(m_pCurPlPolar);
+    setStabTimeYVariables(m_pStabTimeControls->isStabLongitudinal()); // the active flaps depend on the polar
 
     m_pgl3dXPlaneView->resetglMesh();
     m_bResetCurves = true;
