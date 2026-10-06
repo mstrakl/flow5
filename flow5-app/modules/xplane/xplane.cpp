@@ -4178,16 +4178,16 @@ void XPlane::setStabTimeYVariables(bool bLong, bool bResetVariables)
     else
         statevars = {"v ("+Units::speedUnitQLabel()+")", "p ("+DEGch+"/s)", "r ("+DEGch+"/s)", PHIch + " ("+DEGch+")"};
 
-    // the state variable comes first, followed by the deflections of the flaps active in the current T7 polar
-    QStringList flapvars = m_pStabTimeControls->flapVariableNames();
+    // the perturbation comes first, followed by the flight parameters and the flaps active in the current T7 polar
+    QStringList extravars = m_pStabTimeControls->extraVariableNames(bLong);
     for(int ig=0; ig<m_TimeGraph.size() && ig<statevars.size(); ig++)
     {
         Graph *pGraph = m_TimeGraph[ig];
         QString prevvar = pGraph->yVariable(0)>0 ? pGraph->yVariableName(0) : QString();
 
-        pGraph->setYVariableList(QStringList{statevars.at(ig)} + flapvars);
+        pGraph->setYVariableList(QStringList{statevars.at(ig)} + extravars);
 
-        // keep a selected flap if it is still active; the saved index may be stale at startup
+        // keep the selected variable if it is still available; the saved index may be stale at startup
         int iVar = 0;
         if(!bResetVariables && prevvar.length())
             iVar = std::max(0, int(pGraph->YVariableList().indexOf(prevvar)));

@@ -40,6 +40,7 @@ SplinedGraphWt::SplinedGraphWt() : GraphWt()
     m_bAutoConvert = false;
     m_bConstrainEndPoints = false;
     m_bOnCurve = false;
+    m_bMonotonicX = false;
 
     m_CurveIdxMin = m_CurveIdxMax = -1;
 
@@ -231,7 +232,15 @@ void SplinedGraphWt::mousePressEvent(QMouseEvent *pEvent)
         }
         else if (bShift)
         {
-            m_Spline.insertCtrlPoint(xd,yd);
+            if(m_bMonotonicX)
+            {
+                // insert at the position which keeps the points sorted by x
+                int idx = 0;
+                while(idx<m_Spline.ctrlPointCount() && m_Spline.controlPoint(idx).x<=xd) idx++;
+                m_Spline.insertCtrlPointAt(idx, xd, yd);
+            }
+            else
+                m_Spline.insertCtrlPoint(xd,yd);
             m_Spline.updateSpline();
             m_Spline.makeCurve();
             convertSpline();
@@ -259,6 +268,12 @@ void SplinedGraphWt::mouseMoveEvent(QMouseEvent *pEvent)
             x1 = std::min(x1, m_XMax);
             y1 = std::max(y1, m_YMin);
             y1 = std::min(y1, m_YMax);
+            if(m_bMonotonicX)
+            {
+                // a point cannot be dragged past its neighbours
+                if(ns>0)                            x1 = std::max(x1, m_Spline.controlPoint(ns-1).x);
+                if(ns<m_Spline.ctrlPointCount()-1)  x1 = std::min(x1, m_Spline.controlPoint(ns+1).x);
+            }
             m_Spline.setCtrlPoint(ns, x1, y1);
         }
 

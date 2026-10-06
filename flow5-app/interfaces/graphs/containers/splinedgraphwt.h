@@ -42,6 +42,7 @@ class SplinedGraphWt : public GraphWt
         void setAutoConvert(bool bauto) {m_bAutoConvert=bauto;}
         void setEndPointConstrain(bool b) {m_bConstrainEndPoints=b;}
         void setEndPtsOnCurve(bool b) {m_bOnCurve=b;}
+        void setMonotonicX(bool b) {m_bMonotonicX=b;}
         void convertSpline();
 
         void setXLimits(double xmin, double xmax) {m_XMin=xmin; m_XMax=xmax;}
@@ -81,6 +82,7 @@ class SplinedGraphWt : public GraphWt
         bool m_bAutoConvert;        /**< if true, converts the spline to the first curve in the graph each time it is modified */
         bool m_bConstrainEndPoints; /**< if true, the first control point is forced at (0,0) and the last is forced at (x,0) */
         bool m_bOnCurve;            /**< if true, the end points are constrained on the curve */
+        bool m_bMonotonicX;         /**< if true, the control points are kept sorted by increasing x, e.g. for a time function */
         double m_XMin, m_XMax; /** the limits along the x-axis for the control points */
         double m_YMin, m_YMax; /** the limits along the y-axis for the control points */
 
