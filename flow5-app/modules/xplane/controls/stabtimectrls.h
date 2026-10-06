@@ -45,6 +45,9 @@ class PlaneOpp;
 class PlanePolar;
 
 class CPTableView;
+class XflDelegate;
+class QCheckBox;
+class QStandardItemModel;
 class ActionItemModel;
 
 class StabTimeCtrls : public QFrame
@@ -67,7 +70,7 @@ class StabTimeCtrls : public QFrame
 
         void computeTimeResponse(PlaneOpp const*pPOpp, QString const &curvename);
         void fillTimeGraphCurves();
-        QStringList flapVariableNames() const;
+        QStringList extraVariableNames(bool bLongitudinal) const;
         void setMode(int iMode=-1);
 
         double deltaT() const {return m_pfeDeltat->value();}
@@ -89,16 +92,22 @@ class StabTimeCtrls : public QFrame
         void appendRow(const Curve *pCurve);
 
         double getControlInput(const double &time) const;
-        void fillCurvesForcedResponse(const PlaneOpp *pPOpp, Curve **pCurve);
-        void fillCurvesPerturbation(const PlaneOpp *pPOpp, Curve **pCurve);
+        void solveForcedResponse(PlaneOpp const *pPOpp, std::vector<double> &time, std::vector<double> (&x)[4]);
+        void solvePerturbationResponse(PlaneOpp const *pPOpp, std::vector<double> &time, std::vector<double> (&x)[4]);
         void addCurve();
         void fillCurveList();
         Curve *selectedCurve();
         void renameTimeResponse(QString const &oldname, QString const &newname);
 
+        void fillInputTable();
+        void setInputPoints(std::vector<Node2d> pts);
+        void setInputInterpolation();
+        void updateGainHint();
+
         /** a control surface which is deflected in the T7 polar, either by the trim control or by an AVL-type control set */
         struct ActiveFlap
         {
+            QString m_Name;       /**< wing name and flap number */
             QString m_Label;      /**< the graph variable name */
             int m_iWing{0};       /**< the wing index in the plane */
             int m_iFlap{0};       /**< the flap index in the wing */
@@ -106,13 +115,14 @@ class StabTimeCtrls : public QFrame
             double m_GeomAngle{0}; /**< the flap angle built into the wing's foils, in degrees */
         };
         std::vector<ActiveFlap> activeFlaps() const;
+        static QStringList flightVariableNames(bool bLongitudinal);
 
         /** the time history of a response curve, cached so that each graph can display any of its variables */
         struct TimeResponse
         {
             std::vector<double> m_t;
             std::vector<double> m_State[4];                       /**< u,w,q,theta or v,p,r,phi, in display units */
-            QMap<QString, std::vector<double>> m_Deflection;      /**< total flap angle in degrees, keyed by the graph variable name */
+            QMap<QString, std::vector<double>> m_Series;          /**< flight parameters and flap angles in display units, keyed by the graph variable name */
         };
         QMap<QString, TimeResponse> m_TimeResponse; /**< keyed by curve name */
 
@@ -129,6 +139,10 @@ class StabTimeCtrls : public QFrame
         void onSelChangeCurve(int sel);
         void onStabilityDirection();
         void onResizeColumns();
+        void onInputTableChanged();
+        void onInputSplineModified();
+        void onInputInterpolation();
+        void onInputTableContextMenu(QPoint pos);
 
     private:
 
@@ -160,6 +174,16 @@ class StabTimeCtrls : public QFrame
 
         Graph m_InputGraph;
         SplinedGraphWt *m_pSplGraphWt;
+
+        // control input table
+        CPTableView *m_pcptInputTable;
+        QStandardItemModel *m_pInputModel;
+        XflDelegate *m_pInputDelegate;
+        QRadioButton *m_prbInputLinear, *m_prbInputSmooth;
+        QCheckBox *m_pchHoldLastInput;
+        QLabel *m_plabGainHint;
+        bool m_bLinearInput;     /**< if true, the control input is interpolated linearly between the points; otherwise it is the B-spline */
+        bool m_bHoldLastInput;   /**< if true, the control input keeps the last point's value after the last point's time */
 
         // time curve data
         double m_TimeInput[4];

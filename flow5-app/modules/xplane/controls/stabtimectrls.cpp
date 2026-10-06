@@ -36,6 +36,9 @@
 #include <QVBoxLayout>
 #include <QHeaderView>
 #include <QTimer>
+#include <QCheckBox>
+#include <QMenu>
+#include <QStandardItemModel>
 #include <complex>
 
 
@@ -73,8 +76,11 @@ StabTimeCtrls::StabTimeCtrls(QWidget *pParent) : QFrame(pParent)
 
     m_InputGraph.setName("StabTime graph");
     m_InputGraph.setCurveModel(new CurveModel);
-    m_InputGraph.setXVariableList({"s"});
-    m_InputGraph.setYVariableList({"amp."});
+    m_InputGraph.setXVariableList({"t (s)"});
+    m_InputGraph.setYVariableList({"u (ctrl units)"});
+
+    m_bLinearInput   = true;
+    m_bHoldLastInput = true;
 
     m_ResponseType = MODALRESPONSE;
 
@@ -125,6 +131,15 @@ void StabTimeCtrls::connectSignals()
 
     connect(m_pcpCurveTable, SIGNAL(clicked(QModelIndex)), SLOT(onCurveTableClicked(QModelIndex)));
     connect(m_pCurveModel, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)), SLOT(onDataChanged(QModelIndex,QModelIndex)));
+
+    connect(m_pInputDelegate,   SIGNAL(closeEditor(QWidget*)),             SLOT(onInputTableChanged()));
+    connect(m_pcptInputTable,   SIGNAL(dataPasted()),                      SLOT(onInputTableChanged()));
+    connect(m_pcptInputTable,   SIGNAL(customContextMenuRequested(QPoint)), SLOT(onInputTableContextMenu(QPoint)));
+    connect(m_pSplGraphWt,      SIGNAL(splineModified(int,int)),           SLOT(onInputSplineModified()));
+    connect(m_prbInputLinear,   SIGNAL(clicked(bool)),                     SLOT(onInputInterpolation()));
+    connect(m_prbInputSmooth,   SIGNAL(clicked(bool)),                     SLOT(onInputInterpolation()));
+    connect(m_pchHoldLastInput, &QCheckBox::toggled, this, [this](bool b){m_bHoldLastInput=b;});
+    connect(m_pcbAVLControls,   &QComboBox::currentIndexChanged, this, [this](int){updateGainHint();});
 }
 
 
@@ -457,14 +472,59 @@ void StabTimeCtrls::setupLayout()
                 m_pSplGraphWt = new SplinedGraphWt;
                 {
                     m_pSplGraphWt->setGraph(&m_InputGraph);
-                    m_pSplGraphWt->setEndPointConstrain(true);
+                    m_pSplGraphWt->setEndPointConstrain(false); // the input may start and end at any value
+                    m_pSplGraphWt->setXLimits(0.0, 1.e10);
                     m_pSplGraphWt->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+                    m_pSplGraphWt->setToolTip(tr("<p>Drag a point to move it, Shift+click to insert a point, Ctrl+click to delete a point.</p>"));
                     GraphOptions::resetGraphSettings(m_InputGraph);
                 }
+
+                QHBoxLayout *pInterpolationLayout = new QHBoxLayout;
+                {
+                    m_prbInputLinear = new QRadioButton(tr("Linear"));
+                    m_prbInputLinear->setToolTip(tr("<p>The control input is interpolated linearly between the points; "
+                                                    "each point is a value of the input.<br>"
+                                                    "Two points at the same time make a step.</p>"));
+                    m_prbInputSmooth = new QRadioButton(tr("Smooth"));
+                    m_prbInputSmooth->setToolTip(tr("<p>The control input is a B-spline; "
+                                                    "the points are the spline's control points and the input passes only through the first and last ones.</p>"));
+                    m_pchHoldLastInput = new QCheckBox(tr("Hold last value"));
+                    m_pchHoldLastInput->setToolTip(tr("<p>If checked, the input keeps the last point's value until the end of the simulation; "
+                                                      "otherwise it returns to 0 after the last point.<br>"
+                                                      "Before the first point the input is 0.</p>"));
+                    pInterpolationLayout->addWidget(m_prbInputLinear);
+                    pInterpolationLayout->addWidget(m_prbInputSmooth);
+                    pInterpolationLayout->addStretch();
+                    pInterpolationLayout->addWidget(m_pchHoldLastInput);
+                }
+
+                m_pcptInputTable = new CPTableView(this);
+                {
+                    m_pcptInputTable->setEditable(true);
+                    m_pcptInputTable->setWindowTitle(tr("Control input"));
+                    m_pcptInputTable->setContextMenuPolicy(Qt::CustomContextMenu);
+                    m_pcptInputTable->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+                    m_pInputModel = new QStandardItemModel(this);
+                    m_pInputModel->setColumnCount(2);
+                    m_pInputModel->setHeaderData(0, Qt::Horizontal, tr("t (s)"));
+                    m_pInputModel->setHeaderData(1, Qt::Horizontal, tr("u (ctrl units)"));
+                    m_pcptInputTable->setModel(m_pInputModel);
+                    m_pcptInputTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+                    m_pInputDelegate = new XflDelegate(this);
+                    m_pInputDelegate->setNCols(2, XflDelegate::DOUBLE);
+                    m_pInputDelegate->setDigits({3,3});
+                    m_pcptInputTable->setItemDelegate(m_pInputDelegate);
+                }
+
+                m_plabGainHint = new QLabel;
+                m_plabGainHint->setWordWrap(true);
 
                 pForcedResponseLayout->addWidget(m_pcbAVLControls);
                 pForcedResponseLayout->addWidget(pForcedText);
                 pForcedResponseLayout->addWidget(m_pSplGraphWt);
+                pForcedResponseLayout->addLayout(pInterpolationLayout);
+                pForcedResponseLayout->addWidget(m_pcptInputTable);
+                pForcedResponseLayout->addWidget(m_plabGainHint);
             }
             pgbForcedResponse->setLayout(pForcedResponseLayout);
         }
@@ -630,7 +690,12 @@ void StabTimeCtrls::setControls()
     m_pfeTotalTime->setEnabled(bEnableTimeCtrl);
 
     m_pcbAVLControls->setEnabled(bEnableTimeCtrl && m_prbForcedResponse->isChecked());
-    m_pSplGraphWt->initialize();
+
+    m_prbInputLinear->setChecked(m_bLinearInput);
+    m_prbInputSmooth->setChecked(!m_bLinearInput);
+    m_pchHoldLastInput->setChecked(m_bHoldLastInput);
+    setInputInterpolation();
+    updateGainHint();
 }
 
 
@@ -875,8 +940,26 @@ void StabTimeCtrls::fillCurveList()
 double StabTimeCtrls::getControlInput(const double &time) const
 {
     BSpline const &spline = m_pSplGraphWt->spline();
-    if(time<0.0) return 0.0;
-    if(time>=spline.lastCtrlPoint().x) return 0.0;
+    if(time<0.0 || spline.ctrlPointCount()==0) return 0.0;
+
+    Node2d const &first = spline.controlPoint(0);
+    Node2d const &last  = spline.lastCtrlPoint();
+    if(time<first.x) return 0.0;
+    if(time>=last.x) return m_bHoldLastInput ? last.y : 0.0;
+
+    if(m_bLinearInput)
+    {
+        // exact linear interpolation between the points; points at equal times make a step
+        for(int ic=1; ic<spline.ctrlPointCount(); ic++)
+        {
+            Node2d const &p0 = spline.controlPoint(ic-1);
+            Node2d const &p1 = spline.controlPoint(ic);
+            if(p0.x<=time && time<p1.x)
+                return p0.y + (time-p0.x)/(p1.x-p0.x) * (p1.y-p0.y);
+        }
+        return 0.0;
+    }
+
     for(int io=1; io<spline.outputSize(); io++)
     {
         if(spline.outputPt(io-1).x<=time && time<spline.outputPt(io).x)
@@ -886,6 +969,149 @@ double StabTimeCtrls::getControlInput(const double &time) const
         }
     }
     return 0.0;
+}
+
+
+/** Copies the input points into the table */
+void StabTimeCtrls::fillInputTable()
+{
+    BSpline const &spline = m_pSplGraphWt->spline();
+    m_pInputModel->setRowCount(spline.ctrlPointCount());
+    for(int ic=0; ic<spline.ctrlPointCount(); ic++)
+    {
+        m_pInputModel->setData(m_pInputModel->index(ic, 0), spline.controlPoint(ic).x);
+        m_pInputModel->setData(m_pInputModel->index(ic, 1), spline.controlPoint(ic).y);
+    }
+}
+
+
+/** Sets the input points sorted by time, keeping the order of points at equal times, and updates the graph and the table */
+void StabTimeCtrls::setInputPoints(std::vector<Node2d> pts)
+{
+    for(Node2d &pt : pts) pt.x = std::max(pt.x, 0.0);
+    std::stable_sort(pts.begin(), pts.end(), [](Node2d const &a, Node2d const &b){return a.x<b.x;});
+
+    BSpline &spline = m_pSplGraphWt->spline();
+    spline.setCtrlPoints(pts);
+    spline.updateSpline();
+    spline.makeCurve();
+    m_pSplGraphWt->onResetGraphScales();
+    fillInputTable();
+}
+
+
+void StabTimeCtrls::setInputInterpolation()
+{
+    BSpline &spline = m_pSplGraphWt->spline();
+    spline.setDegree(m_bLinearInput ? 1 : 3);
+    m_pSplGraphWt->setMonotonicX(m_bLinearInput);
+    m_pInputModel->setHeaderData(1, Qt::Horizontal, m_bLinearInput ? tr("u (ctrl units)") : tr("ctrl point (ctrl units)"));
+
+    std::vector<Node2d> pts;
+    for(int ic=0; ic<spline.ctrlPointCount(); ic++) pts.push_back(spline.controlPoint(ic));
+    setInputPoints(pts);
+}
+
+
+void StabTimeCtrls::onInputInterpolation()
+{
+    m_bLinearInput = m_prbInputLinear->isChecked();
+    setInputInterpolation();
+}
+
+
+void StabTimeCtrls::onInputTableChanged()
+{
+    std::vector<Node2d> pts;
+    for(int row=0; row<m_pInputModel->rowCount(); row++)
+    {
+        bool bOkt=false, bOku=false;
+        double t = m_pInputModel->index(row, 0).data().toDouble(&bOkt);
+        double u = m_pInputModel->index(row, 1).data().toDouble(&bOku);
+        if(bOkt && bOku) pts.push_back(Node2d(t, u));
+    }
+
+    if(pts.size()<2)
+    {
+        s_pXPlane->displayMessage(tr("The control input needs at least two points; the table has been restored.\n"), true, true);
+        fillInputTable();
+        return;
+    }
+    setInputPoints(pts);
+}
+
+
+void StabTimeCtrls::onInputSplineModified()
+{
+    fillInputTable();
+}
+
+
+void StabTimeCtrls::onInputTableContextMenu(QPoint pos)
+{
+    int row = m_pcptInputTable->indexAt(pos).row();
+    BSpline const &spline = m_pSplGraphWt->spline();
+    std::vector<Node2d> pts;
+    for(int ic=0; ic<spline.ctrlPointCount(); ic++) pts.push_back(spline.controlPoint(ic));
+
+    QMenu menu(this);
+    QAction *pInsertBefore = menu.addAction(tr("Insert before"));
+    QAction *pInsertAfter  = menu.addAction(tr("Insert after"));
+    QAction *pAppend       = menu.addAction(tr("Append"));
+    QAction *pDelete       = menu.addAction(tr("Delete"));
+    menu.addSeparator();
+    QAction *pCopy         = menu.addAction(tr("Copy"));
+    QAction *pPaste        = menu.addAction(tr("Paste"));
+    bool bRow = row>=0 && row<int(pts.size());
+    pInsertBefore->setEnabled(bRow);
+    pInsertAfter->setEnabled(bRow);
+    pDelete->setEnabled(bRow && pts.size()>2);
+
+    QAction *pAction = menu.exec(m_pcptInputTable->viewport()->mapToGlobal(pos));
+    if(!pAction) return;
+
+    if(pAction==pCopy)  {m_pcptInputTable->copySelection(); return;}
+    if(pAction==pPaste) {m_pcptInputTable->pasteClipboard(); onInputTableChanged(); return;}
+
+    if(pAction==pDelete)
+        pts.erase(pts.begin()+row);
+    else if(pAction==pInsertBefore)
+    {
+        // midway between the previous point and this one, or at this point's time if it is the first
+        Node2d pt = row>0 ? Node2d((pts[row-1].x+pts[row].x)/2.0, (pts[row-1].y+pts[row].y)/2.0) : pts[row];
+        pts.insert(pts.begin()+row, pt);
+    }
+    else if(pAction==pInsertAfter)
+    {
+        Node2d pt = row<int(pts.size())-1 ? Node2d((pts[row].x+pts[row+1].x)/2.0, (pts[row].y+pts[row+1].y)/2.0) : Node2d(pts[row].x+1.0, pts[row].y);
+        pts.insert(pts.begin()+row+1, pt);
+    }
+    else if(pAction==pAppend)
+    {
+        Node2d pt = pts.size() ? Node2d(pts.back().x+1.0, pts.back().y) : Node2d(0.0, 0.0);
+        pts.push_back(pt);
+    }
+    setInputPoints(pts);
+}
+
+
+/** Shows the deflection which one control unit gives to each surface of the selected AVL-type control set */
+void StabTimeCtrls::updateGainHint()
+{
+    PlanePolar const *pPolar = s_pXPlane->curPlPolar();
+    int iAVLCtrl = m_pcbAVLControls->currentIndex();
+    QStringList parts;
+    if(pPolar && iAVLCtrl>=0 && iAVLCtrl<pPolar->nAVLCtrls())
+    {
+        for(ActiveFlap const &flap : activeFlaps())
+        {
+            double gain = pPolar->AVLGain(iAVLCtrl, flap.m_iGlobal);
+            if(fabs(gain)>FLAPANGLEPRECISION)
+                parts.append(QString("%1: %2%3").arg(flap.m_Name).arg(gain, 0, 'f', 3).arg(DEGch));
+        }
+    }
+    if(parts.isEmpty()) m_plabGainHint->setText(tr("u = 1 deflects no surface."));
+    else                m_plabGainHint->setText(tr("u = 1 adds, relative to trim: ") + parts.join(", "));
 }
 
 
@@ -915,7 +1141,8 @@ std::vector<StabTimeCtrls::ActiveFlap> StabTimeCtrls::activeFlaps() const
             if(bActive)
             {
                 ActiveFlap flap;
-                flap.m_Label = DELTAch + " " + QString::fromStdString(pWing->name()) + QString::asprintf(" flap_%d (", iFlap+1) + DEGch + ")";
+                flap.m_Name  = QString::fromStdString(pWing->name()) + QString::asprintf(" flap_%d", iFlap+1);
+                flap.m_Label = DELTAch + " " + flap.m_Name + " (" + DEGch + ")";
                 flap.m_iWing   = iw;
                 flap.m_iFlap   = iFlap;
                 flap.m_iGlobal = iGlobal;
@@ -934,9 +1161,31 @@ std::vector<StabTimeCtrls::ActiveFlap> StabTimeCtrls::activeFlaps() const
 }
 
 
-QStringList StabTimeCtrls::flapVariableNames() const
+/** The flight parameters reconstructed from the trimmed state and the perturbations */
+QStringList StabTimeCtrls::flightVariableNames(bool bLongitudinal)
 {
-    QStringList names;
+    if(bLongitudinal)
+        return {"V ("+Units::speedUnitQLabel()+")",
+                ALPHAch+" ("+DEGch+")",
+                THETAch+" pitch attitude ("+DEGch+")",
+                GAMMAch+" flight path ("+DEGch+")",
+                "q pitch rate ("+DEGch+"/s)",
+                "n_z load factor (-)",
+                DELTAch+"h height change ("+Units::lengthUnitQLabel()+")"};
+    else
+        return {BETAch+" ("+DEGch+")",
+                PHIch+" bank angle ("+DEGch+")",
+                "p body roll rate ("+DEGch+"/s)",
+                "r body yaw rate ("+DEGch+"/s)",
+                QString(QChar(0x03C8))+" heading change ("+DEGch+")",
+                "n_y lateral load factor (-)"};
+}
+
+
+/** The graph variables offered after the default perturbation: flight parameters, then active flap angles */
+QStringList StabTimeCtrls::extraVariableNames(bool bLongitudinal) const
+{
+    QStringList names = flightVariableNames(bLongitudinal);
     for(ActiveFlap const &flap : activeFlaps()) names.append(flap.m_Label);
     return names;
 }
@@ -945,20 +1194,99 @@ QStringList StabTimeCtrls::flapVariableNames() const
 /** Computes the response for the current input and stores it under the curve's name */
 void StabTimeCtrls::computeTimeResponse(PlaneOpp const*pPOpp, QString const &curvename)
 {
-    Curve c[4];
-    Curve *pCurve[]{&c[0], &c[1], &c[2], &c[3]};
     bool bForced = m_ResponseType==FORCEDRESPONSE;
-    if(bForced) fillCurvesForcedResponse(pPOpp, pCurve);
-    else        fillCurvesPerturbation(pPOpp, pCurve);
+    bool bLong   = isStabLongitudinal();
 
     TimeResponse response;
-    for(int i=0; i<c[0].size(); i++) response.m_t.push_back(c[0].x(i));
-    for(int iv=0; iv<4; iv++)
-        for(int i=0; i<c[iv].size(); i++) response.m_State[iv].push_back(c[iv].y(i));
+    std::vector<double> x[4]; // u,w,q,theta or v,p,r,phi, SI units, stability axes
+    if(bForced) solveForcedResponse(      pPOpp, response.m_t, x);
+    else        solvePerturbationResponse(pPOpp, response.m_t, x);
 
-    // flap angle = built-in angle + trim angle at the opp's control value + AVL gain x control input
+    std::vector<double> const &time = response.m_t;
+    int n = int(time.size());
+
+    // the perturbations, as displayed by default
+    for(int i=0; i<n; i++)
+    {
+        response.m_State[0].push_back(x[0][i]*Units::mstoUnit());
+        response.m_State[1].push_back(bLong ? x[1][i]*Units::mstoUnit() : x[1][i]*180.0/PI);
+        response.m_State[2].push_back(x[2][i]*180.0/PI);
+        response.m_State[3].push_back(x[3][i]*180.0/PI);
+    }
+
+    // control input applied to the state equations
     PlanePolar const *pPolar = s_pXPlane->curPlPolar();
     int iAVLCtrl = m_pcbAVLControls->currentIndex();
+    double B[]{0,0,0,0};
+    if(bForced && iAVLCtrl>=0)
+    {
+        if(bLong && iAVLCtrl<int(pPOpp->m_BLong.size())) for(int k=0; k<4; k++) B[k] = pPOpp->m_BLong.at(iAVLCtrl).at(k);
+        if(!bLong && iAVLCtrl<int(pPOpp->m_BLat.size())) for(int k=0; k<4; k++) B[k] = pPOpp->m_BLat.at(iAVLCtrl).at(k);
+    }
+    auto derivative = [&](int row, int i)
+    {
+        double const (&A)[4][4] = bLong ? pPOpp->m_ALong : pPOpp->m_ALat;
+        double d = B[row] * (bForced ? getControlInput(time[i]) : 0.0);
+        for(int k=0; k<4; k++) d += A[row][k]*x[k][i];
+        return d;
+    };
+
+    // flight parameters: the linear model is about level flight in stability axes,
+    // so that theta0 = alpha0, gamma0 = 0 and q0 = p0 = r0 = phi0 = beta0 = 0
+    double const g      = 9.81;
+    double const V0     = pPOpp->QInf();
+    double const alpha0 = pPOpp->alpha()*PI/180.0;
+    QStringList names = flightVariableNames(bLong);
+    std::vector<std::vector<double>> series(names.size());
+    for(auto &v : series) v.reserve(n);
+
+    double h=0.0, psi=0.0;
+    double hdot_prev=0.0, r_prev=0.0;
+    for(int i=0; i<n; i++)
+    {
+        double dt = i>0 ? time[i]-time[i-1] : 0.0;
+        if(bLong)
+        {
+            double u=x[0][i], w=x[1][i], q=x[2][i], dtheta=x[3][i];
+            double V     = sqrt((V0+u)*(V0+u) + w*w);
+            double alpha = alpha0 + atan2(w, V0+u);
+            double theta = alpha0 + dtheta;
+            double gamma = theta - alpha;
+            double nz    = 1.0 + (V0*q - derivative(1, i))/g;
+            double hdot  = V*sin(gamma);
+            if(i>0) h += 0.5*(hdot+hdot_prev)*dt;
+            hdot_prev = hdot;
+
+            series[0].push_back(V*Units::mstoUnit());
+            series[1].push_back(alpha*180.0/PI);
+            series[2].push_back(theta*180.0/PI);
+            series[3].push_back(gamma*180.0/PI);
+            series[4].push_back(q*180.0/PI);
+            series[5].push_back(nz);
+            series[6].push_back(h*Units::mtoUnit());
+        }
+        else
+        {
+            double v=x[0][i], p=x[1][i], r=x[2][i], phi=x[3][i];
+            double beta  = V0>0.0 ? asin(std::clamp(v/V0, -1.0, 1.0)) : 0.0;
+            double pbody = p*cos(alpha0) - r*sin(alpha0);
+            double rbody = p*sin(alpha0) + r*cos(alpha0);
+            if(i>0) psi += 0.5*(r+r_prev)*dt;
+            r_prev = r;
+            // specific force along y: v' + V0.r - g.phi, i.e. the side force over the weight
+            double ny = (derivative(0, i) + V0*r)/g - phi;
+
+            series[0].push_back(beta*180.0/PI);
+            series[1].push_back(phi*180.0/PI);
+            series[2].push_back(pbody*180.0/PI);
+            series[3].push_back(rbody*180.0/PI);
+            series[4].push_back(psi*180.0/PI);
+            series[5].push_back(ny);
+        }
+    }
+    for(int iv=0; iv<names.size(); iv++) response.m_Series[names.at(iv)] = series[iv];
+
+    // flap angle = built-in angle + trim angle at the opp's control value + AVL gain x control input
     for(ActiveFlap const &flap : activeFlaps())
     {
         double trim = 0.0;
@@ -966,8 +1294,8 @@ void StabTimeCtrls::computeTimeResponse(PlaneOpp const*pPOpp, QString const &cur
             trim = pPolar->flapCtrls(flap.m_iWing).value(flap.m_iFlap) * pPOpp->ctrl();
         double gain = (bForced && pPolar) ? pPolar->AVLGain(iAVLCtrl, flap.m_iGlobal) : 0.0;
 
-        std::vector<double> &angle = response.m_Deflection[flap.m_Label];
-        for(double t : response.m_t)
+        std::vector<double> &angle = response.m_Series[flap.m_Label];
+        for(double t : time)
             angle.push_back(flap.m_GeomAngle + trim + gain*getControlInput(t));
     }
 
@@ -1001,10 +1329,10 @@ void StabTimeCtrls::fillTimeGraphCurves()
             TimeResponse const &response = it.value();
             if(bState)
                 pCurve->setPoints(response.m_t, response.m_State[ig]);
-            else if(response.m_Deflection.contains(varname))
-                pCurve->setPoints(response.m_t, response.m_Deflection.value(varname));
+            else if(response.m_Series.contains(varname))
+                pCurve->setPoints(response.m_t, response.m_Series.value(varname));
             else
-                pCurve->clear(); // flap not active when this response was computed
+                pCurve->clear(); // e.g. flap not active when this response was computed
         }
         pGraph->invalidate();
     }
@@ -1018,7 +1346,7 @@ void StabTimeCtrls::renameTimeResponse(QString const &oldname, QString const &ne
 }
 
 
-void StabTimeCtrls::fillCurvesForcedResponse(PlaneOpp const*pPOpp, Curve **pCurve)
+void StabTimeCtrls::solveForcedResponse(PlaneOpp const*pPOpp, std::vector<double> &time, std::vector<double> (&x)[4])
 {
     // Builds the forced response from the state matrix and the forced input matrix
     // using a RK4 integration scheme.
@@ -1076,10 +1404,8 @@ void StabTimeCtrls::fillCurvesForcedResponse(PlaneOpp const*pPOpp, Curve **pCurv
     // initial conditions to 0
     double t=0.0, ctrl_t=0.0;
     y[0] = y[1] = y[2] = y[3] = 0.0;
-    pCurve[0]->appendPoint(0.0, y[0]);
-    pCurve[1]->appendPoint(0.0, y[1]);
-    pCurve[2]->appendPoint(0.0, y[2]);
-    pCurve[3]->appendPoint(0.0, y[3]);
+    time.push_back(0.0);
+    for(int iv=0; iv<4; iv++) x[iv].push_back(y[iv]);
 
     // RK4
     for(int i=0; i<TotalPoints; i++)
@@ -1164,26 +1490,14 @@ void StabTimeCtrls::fillCurvesForcedResponse(PlaneOpp const*pPOpp, Curve **pCurv
 
         if(i%PlotInterval==0)
         {
-            if(bLongitudinal)
-            {
-                pCurve[0]->appendPoint(t, y[0]*Units::mstoUnit());
-                pCurve[1]->appendPoint(t, y[1]*Units::mstoUnit());
-                pCurve[2]->appendPoint(t, y[2]*180.0/PI);//deg/s
-                pCurve[3]->appendPoint(t, y[3]*180.0/PI);//deg
-            }
-            else
-            {
-                pCurve[0]->appendPoint(t, y[0]*Units::mstoUnit());
-                pCurve[1]->appendPoint(t, y[1]*180.0/PI);//deg/s
-                pCurve[2]->appendPoint(t, y[2]*180.0/PI);//deg/s
-                pCurve[3]->appendPoint(t, y[3]*180.0/PI);//deg
-            }
+            time.push_back(t);
+            for(int iv=0; iv<4; iv++) x[iv].push_back(y[iv]); // SI units
         }
     }
 }
 
 
-void StabTimeCtrls::fillCurvesPerturbation(PlaneOpp const*pPOpp, Curve **pCurve)
+void StabTimeCtrls::solvePerturbationResponse(PlaneOpp const*pPOpp, std::vector<double> &time, std::vector<double> (&x)[4])
 {
     // The time response is calculated analytically based on the eigenvalues and eigenvectors
     std::complex<double> M[16];// the modal matrix
@@ -1210,11 +1524,12 @@ void StabTimeCtrls::fillCurvesPerturbation(PlaneOpp const*pPOpp, Curve **pCurve)
 
     if(m_ResponseType==INITIALCONDITIONS)
     {
-        //start with the user input initial conditions
-        in[0] = std::complex<double>(m_TimeInput[0], 0.0);
-        in[1] = std::complex<double>(m_TimeInput[1], 0.0);
-        in[2] = std::complex<double>(m_TimeInput[2], 0.0);
-        in[3] = std::complex<double>(m_TimeInput[3], 0.0);
+        //start with the user input initial conditions, converted from display units to SI
+        in[0] = std::complex<double>(m_TimeInput[0]/Units::mstoUnit(), 0.0);
+        if(bLongitudinal) in[1] = std::complex<double>(m_TimeInput[1]/Units::mstoUnit(), 0.0);
+        else              in[1] = std::complex<double>(m_TimeInput[1]*PI/180.0, 0.0);
+        in[2] = std::complex<double>(m_TimeInput[2]*PI/180.0, 0.0);
+        in[3] = std::complex<double>(m_TimeInput[3]*PI/180.0, 0.0);
     }
     else if(m_ResponseType==MODALRESPONSE)
     {
@@ -1262,11 +1577,8 @@ void StabTimeCtrls::fillCurvesPerturbation(PlaneOpp const*pPOpp, Curve **pCurve)
             y[3] = *(M+4*3+0) * q[0] +*(M+4*3+1) * q[1] +*(M+4*3+2) * q[2] +*(M+4*3+3) * q[3];
             if(std::abs(q[0])>1.e10 || std::abs(q[1])>1.e10 || std::abs(q[2])>1.e10  || std::abs(q[3])>1.e10 ) break;
 
-            pCurve[0]->appendPoint(t, y[0].real());
-            if(bLongitudinal) pCurve[1]->appendPoint(t, y[1].real());
-            else                           pCurve[1]->appendPoint(t, y[1].real()*180.0/PI);
-            pCurve[2]->appendPoint(t, y[2].real()*180.0/PI);
-            pCurve[3]->appendPoint(t, y[3].real()*180.0/PI);
+            time.push_back(t);
+            for(int iv=0; iv<4; iv++) x[iv].push_back(y[iv].real()); // SI units
         }
     }
 }
@@ -1290,6 +1602,13 @@ void StabTimeCtrls::loadSettings(QSettings &settings)
             pts[i].y =settings.value(strong, double(i)).toDouble();
         }
         m_pSplGraphWt->spline().setCtrlPoints(pts);
+
+        m_bLinearInput      = settings.value("LinearInput",   m_bLinearInput).toBool();
+        m_bHoldLastInput    = settings.value("HoldLastInput", m_bHoldLastInput).toBool();
+        m_prbInputLinear->setChecked(m_bLinearInput);
+        m_prbInputSmooth->setChecked(!m_bLinearInput);
+        m_pchHoldLastInput->setChecked(m_bHoldLastInput);
+        setInputInterpolation();
 
         m_TotalTime         = settings.value("TotalTime",1.0).toDouble();
         m_Deltat            = settings.value("Delta_t",0.001).toDouble();
@@ -1322,6 +1641,8 @@ void StabTimeCtrls::saveSettings(QSettings &settings)
             strong = QString("ForcedAmplitude%1").arg(i);
             settings.setValue(strong, bSpline.controlPoint(i).y);
         }
+        settings.setValue("LinearInput",   m_bLinearInput);
+        settings.setValue("HoldLastInput", m_bHoldLastInput);
         settings.setValue("TotalTime", m_TotalTime);
         settings.setValue("Delta_t", m_Deltat);
 
