@@ -1,7 +1,9 @@
 # flow5 Linux build / dev / packaging image
 #
-#   Base: Ubuntu 24.04 (glibc 2.39) -> the AppImage runs on distros from ~2024 on
-#         (Ubuntu 24.04+, Debian 13+, Fedora 40+, openSUSE Tumbleweed, ...).
+#   Base: AlmaLinux 9 (RHEL 9, glibc 2.34) with gcc-toolset-14 -> the AppImage runs on
+#         Ubuntu 22.04+, Debian 12+, RHEL/Alma/Rocky 9+, Fedora 35+, ...
+#         gcc-toolset links whatever the system's older libstdc++ lacks statically,
+#         so the binaries only need the distro's own libstdc++ (GCC 11 or newer).
 #
 #   OpenCascade and gmsh are built from source: the distro packages are either too
 #   old (flow5 needs OCCT >= 7.8) or linked against another OCCT than the one flow5
@@ -9,49 +11,41 @@
 #
 #   Build:  ./docker/dev.sh image
 
-FROM ubuntu:24.04
+FROM almalinux:9
 
 # Versions are declared next to the step that uses them, so bumping one only
 # rebuilds from that step on.
 
-ENV DEBIAN_FRONTEND=noninteractive \
-    LANG=C.UTF-8 \
+ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8
 
 # ---------------------------------------------------------------- system packages
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN dnf install -y epel-release dnf-plugins-core \
+    && dnf config-manager --set-enabled crb \
+    && dnf install -y --setopt=install_weak_deps=False \
         # toolchain
-        build-essential g++-14 gcc-14 gfortran cmake ninja-build pkg-config \
-        ccache mold git curl ca-certificates file xz-utils python3-venv \
-        # numerics
-        libopenblas-dev liblapack-dev liblapacke-dev \
+        gcc-toolset-14-gcc gcc-toolset-14-gcc-c++ gcc-toolset-14-binutils \
+        make cmake ninja-build pkgconf-pkg-config ccache mold \
+        git file which xz findutils python3.12 \
+        # numerics (EPEL, Fedora layout: <openblas/cblas.h>, -lopenblasp)
+        openblas-devel \
         # OpenCascade / gmsh build deps
-        libfreetype-dev libfontconfig-dev libgl-dev libegl-dev libglu1-mesa-dev \
-        libx11-dev libxi-dev libxext-dev libxmu-dev \
+        freetype-devel fontconfig-devel mesa-libGL-devel mesa-libEGL-devel mesa-libGLU-devel \
+        libX11-devel libXi-devel libXext-devel libXmu-devel \
         # Qt runtime (xcb platform plugin + OpenGL), also needed by linuxdeploy-plugin-qt
-        libxkbcommon-x11-0 libxkbcommon-dev libxcb-cursor0 libxcb-icccm4 libxcb-image0 \
-        libxcb-keysyms1 libxcb-render-util0 libxcb-shape0 libxcb-xinerama0 libxcb-xkb1 \
-        libxcb-randr0 libxcb-sync1 libxcb-xfixes0 libxcb-shm0 libxcb-util1 libx11-xcb1 \
-        libwayland-client0 libwayland-cursor0 libwayland-egl1 libdbus-1-3 \
-        libglib2.0-0t64 libgl1 libegl1 libglx-mesa0 libegl-mesa0 libgl1-mesa-dri mesa-utils \
-        fonts-dejavu-core \
-    && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 \
-    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100 \
-    && update-alternatives --install /usr/bin/cc  cc  /usr/bin/gcc-14 100 \
-    && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-14 100 \
-    && rm -rf /var/lib/apt/lists/*
+        libxkbcommon libxkbcommon-x11 libxkbcommon-devel xcb-util-cursor xcb-util-image \
+        xcb-util-keysyms xcb-util-renderutil xcb-util-wm libxcb libXrender \
+        libwayland-client libwayland-cursor libwayland-egl dbus-libs glib2 \
+        mesa-dri-drivers mesa-libEGL mesa-libGL libglvnd-glx glx-utils \
+        dejavu-sans-fonts \
+    && dnf clean all \
+    && echo -e "/usr/local/lib\n/usr/local/lib64" > /etc/ld.so.conf.d/usr-local.conf
 
-# flow5's .pro files use Fedora's layout: #include <openblas/cblas.h> and -lopenblasp.
-# Map Ubuntu's pthread OpenBLAS onto those names instead of patching the sources.
-# (Ubuntu's OpenBLAS has no lapack.h; the reference LAPACK one from liblapacke-dev is identical.)
-RUN mkdir -p /usr/local/include/openblas /usr/local/lib \
-    && ln -s /usr/include/x86_64-linux-gnu/openblas-pthread/*.h /usr/local/include/openblas/ \
-    && ln -s /usr/include/lapack.h /usr/local/include/openblas/lapack.h \
-    && ln -s /usr/lib/x86_64-linux-gnu/libopenblas.so /usr/local/lib/libopenblasp.so
+ENV PATH=/opt/rh/gcc-toolset-14/root/usr/bin:${PATH}
 
 # ---------------------------------------------------------------- Qt (official binaries)
 ARG QT_VERSION=6.11.2
-RUN python3 -m venv /opt/aqt \
+RUN python3.12 -m venv /opt/aqt \
     && /opt/aqt/bin/pip install --no-cache-dir aqtinstall \
     && /opt/aqt/bin/aqt install-qt linux desktop ${QT_VERSION} linux_gcc_64 -O /opt/Qt \
     && rm -rf /opt/aqt /root/.cache
@@ -113,10 +107,12 @@ RUN mkdir -p /opt/linuxdeploy && cd /opt/linuxdeploy \
     && ln -s /opt/linuxdeploy/plugin-qt/AppRun  /usr/local/bin/linuxdeploy-plugin-qt
 
 # Any uid can use the image (dev.sh runs as the host user); keep caches out of $HOME.
-ENV PATH=/usr/lib/ccache:${PATH} \
+# ccache's compiler links come first, they call the gcc-toolset compilers.
+ENV PATH=/usr/lib64/ccache:${PATH} \
     CCACHE_DIR=/ccache \
     CCACHE_MAXSIZE=5G \
     APPIMAGE_EXTRACT_AND_RUN=1
-RUN mkdir -p /ccache && chmod 1777 /ccache
+RUN mkdir -p /ccache && chmod 1777 /ccache \
+    && for c in gcc g++ cc c++; do ln -sf /usr/bin/ccache /usr/lib64/ccache/$c; done
 
 WORKDIR /src

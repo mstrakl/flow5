@@ -1,7 +1,7 @@
 # Building flow5 in a container
 
 Everything needed to build flow5 on Linux (Qt, OpenCascade, gmsh, OpenBLAS, GCC 14,
-ccache, mold, linuxdeploy) lives in one image. The same image is used for day-to-day
+ccache, mold, linuxdeploy) lives in one AlmaLinux 9 image. The same image is used for day-to-day
 development and for producing the AppImage in CI.
 
 Requirements: Docker (or Podman) on a Linux host.
@@ -39,5 +39,8 @@ software OpenGL (llvmpipe), which works but is slower.
 ## Versions
 
 Pinned in `docker/Dockerfile` (`ARG ...`): Qt, OpenCascade, gmsh, linuxdeploy.
-The image is based on Ubuntu 24.04, so the AppImage needs glibc >= 2.39
-(Ubuntu 24.04+, Debian 13+, Fedora 40+).
+The image is based on AlmaLinux 9 (glibc 2.34) with GCC 14 from gcc-toolset, which
+links what the older system libstdc++ lacks into the binaries. The AppImage therefore
+runs on Ubuntu 22.04+, Debian 12+, RHEL/Alma/Rocky 9+ and Fedora 35+.
+
+After an image change, `build` notices the new compiler and rebuilds from scratch.
