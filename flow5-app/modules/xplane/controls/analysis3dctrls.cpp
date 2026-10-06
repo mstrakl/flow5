@@ -288,20 +288,11 @@ void Analysis3dCtrls::onSetControls()
         return;
     }
 
-    if(pCurPlPolar->isType7())
-    {
-        // no range needed
-        m_ppbAnalyze->setEnabled(true);
-    }
-    else if(pCurPlPolar->isType8())
-    {
-        m_ppbAnalyze->setEnabled(m_pXRangeTable->hasActiveAnalysis());
-    }
-    else
-    {
+    // Keep the button enabled even without an active range,
+    // so that XPlane::onCalculate() can tell the user what is missing
+    if(!pCurPlPolar->isType8())
         m_pAnalysisRangeTable->setControls(pCurPlPolar->type());
-        m_ppbAnalyze->setEnabled(m_pAnalysisRangeTable->hasActiveAnalysis());
-    }
+    m_ppbAnalyze->setEnabled(true);
 
     if(pCurPlPolar && pCurPlPolar->isExternalPolar())
     {

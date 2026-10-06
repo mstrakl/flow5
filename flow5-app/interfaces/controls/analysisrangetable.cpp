@@ -377,6 +377,11 @@ int AnalysisRangeTable::readTable(QVector<AnalysisRange> &Range)
 
 void AnalysisRangeTable::onRangeModelChanged()
 {
+    // editing the values of a row implies that the user wants it to be analyzed
+    QModelIndex edited = currentIndex();
+    if(edited.isValid() && edited.column()>0)
+        setRowEnabled(edited.row(), true);
+
     QVector<AnalysisRange> ranges;
     int nRows = readTable(ranges);
 
@@ -806,7 +811,7 @@ void AnalysisRangeTable::loadSettings(QSettings &settings)
         {
             // force one line
             s_T7Range.resize(1);
-            s_T7Range.front() = {false, 0,0,0};
+            s_T7Range.front() = {true, 0,0,0}; // single run at control=0
         }
 
         nRange = settings.value("NBoatRange", s_BtRange.size()).toInt();

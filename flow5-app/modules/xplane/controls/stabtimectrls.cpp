@@ -544,6 +544,31 @@ void StabTimeCtrls::fillAVLcontrols(PlanePolar const*pWPolar)
             m_pcbAVLControls->addItem(QString::fromStdString(pWPolar->AVLCtrl(ic).name()));
         }
     }
+    m_pcbAVLControls->setPlaceholderText(tr("No AVL-type control set in the polar"));
+}
+
+
+/** Returns an explanation of why the forced response cannot be computed, or an empty string if it can */
+QString StabTimeCtrls::forcedResponseError(PlaneOpp const *pPOpp) const
+{
+    PlanePolar const *pPolar = s_pXPlane->curPlPolar();
+    if(!pPOpp || !pPOpp->isType7())
+        return tr("No T7 stability operating point is selected. Run a T7 analysis and select one of its operating points.");
+    if(!pPolar || pPolar->nAVLCtrls()==0)
+        return tr("The T7 polar has no AVL-type control set, so no control derivatives are available.\n"
+                  "Define a control set with a non-zero gain in the polar's \"AVL-type ctrls\" tab, then re-run the analysis.");
+    if(pPOpp->m_BLong.size()==0 || pPOpp->m_BLat.size()==0)
+        return tr("The selected operating point has no control derivatives. "
+                  "It was probably computed before the AVL-type control sets were defined; re-run the T7 analysis.");
+    int iCtrl = m_pcbAVLControls->currentIndex();
+    if(iCtrl<0 || iCtrl>=int(pPOpp->m_BLong.size()))
+        return tr("No control set is selected in the forced response list, or the selected set does not match "
+                  "the operating point's control derivatives; re-run the T7 analysis.");
+    if(!pPolar->AVLCtrl(iCtrl).hasActiveAngle())
+        return tr("The control set %1 has only zero gains, so its control derivatives are zero. "
+                  "Set a non-zero gain in the polar's \"AVL-type ctrls\" tab, then re-run the analysis.")
+                .arg(QString::fromStdString(pPolar->AVLCtrl(iCtrl).name()));
+    return QString();
 }
 
 
@@ -783,6 +808,16 @@ void StabTimeCtrls::appendRow(Curve const *pCurve)
 
 void StabTimeCtrls::onAddCurve()
 {
+    if(m_ResponseType==FORCEDRESPONSE)
+    {
+        QString strange = forcedResponseError(s_pXPlane->curPOpp());
+        if(strange.length())
+        {
+            s_pXPlane->displayMessage(tr("Forced response not computed: ") + strange + "\n", true, true);
+            return;
+        }
+    }
+
     addCurve();
 
     onPlotStabilityGraph();
