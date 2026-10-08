@@ -48,21 +48,22 @@ rm -f "$DIST"/flow5-*-win64*
 (cd "$(dirname "$DEPLOY")" && zip -qr "$DIST/flow5-$VERSION-win64.zip" flow5)
 
 # installer
-# Recent MSYS2 nsis packages no longer tell makensis where their plugins are (the log shows an
-# empty "Plugin directories:" and "Plugin not found, cannot call nsDialogs::Create"), so locate
-# the Unicode plugins in the MSYS2 prefix and register them explicitly.
-NSIS_PLUGIN="$(find "$(cygpath -u "$MINGW_PREFIX")" -type f -iname 'nsDialogs.dll' -ipath '*x86-unicode*' 2>/dev/null | head -1)"
-if [[ -z "$NSIS_PLUGIN" ]]; then
-    echo "package.sh: NSIS plugin nsDialogs.dll (x86-unicode) not found under $MINGW_PREFIX; NSIS files present:" >&2
-    find "$(cygpath -u "$MINGW_PREFIX")" -maxdepth 5 -ipath '*nsis*' 2>/dev/null | head -60 >&2
+# The MSYS2 nsis package ships makensis without its plugin DLLs (nsDialogs etc., required by the
+# Modern UI pages), so the official NSIS for Windows is used: set MAKENSIS to its makensis.exe,
+# e.g. "C:\Program Files (x86)\NSIS\makensis.exe" (done by the CI workflow).
+if [[ -n "${MAKENSIS:-}" ]]; then
+    MAKENSIS_EXE="$(cygpath -u "$MAKENSIS")"
+else
+    MAKENSIS_EXE="$(cygpath -u "${PROGRAMFILES:-C:\Program Files}") (x86)/NSIS/makensis.exe"
+    [[ -x "$MAKENSIS_EXE" ]] || MAKENSIS_EXE="/c/Program Files (x86)/NSIS/makensis.exe"
+fi
+if [[ ! -x "$MAKENSIS_EXE" ]]; then
+    echo "package.sh: official NSIS not found ($MAKENSIS_EXE); install it from https://nsis.sourceforge.io or set MAKENSIS" >&2
     exit 1
 fi
-NSIS_PLUGINDIR="$(cygpath -w "$(dirname "$NSIS_PLUGIN")")"
-echo "NSIS plugins: $NSIS_PLUGINDIR"
+echo "NSIS: $MAKENSIS_EXE"
 
-# MSYS2 must not rewrite the "/x86-unicode" switch inside the -X argument as a path
-MSYS2_ARG_CONV_EXCL='-X' \
-makensis -V2 "-X!addplugindir /x86-unicode \"$NSIS_PLUGINDIR\"" \
+"$MAKENSIS_EXE" -V2 \
     -DVERSION="$VERSION" -DSRCDIR="$(cygpath -w "$DEPLOY")" \
     -DOUTFILE="$(cygpath -w "$DIST/flow5-$VERSION-win64-setup.exe")" \
     -DICON="$(cygpath -w "$ROOT/meta/win64/flow5.ico")" \
