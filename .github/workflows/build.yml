@@ -88,10 +88,15 @@ jobs:
           export VERSION="${{ needs.version.outputs.version }}"
           packaging/ci-run.sh ./docker/dev.sh appimage
 
+      - name: Name the package after the version
+        run: |
+          f=(build/dist/*.AppImage); [[ ${#f[@]} == 1 && -f "${f[0]}" ]] || { echo "expected one AppImage, found: ${f[*]}"; exit 1; }
+          mv "${f[0]}" "build/dist/flow5_v${{ needs.version.outputs.version }}.AppImage"
+
       - uses: actions/upload-artifact@v4
         with:
-          name: flow5-linux
-          path: build/dist/*.AppImage
+          name: flow5_v${{ needs.version.outputs.version }}_linux
+          path: build/dist/flow5_v${{ needs.version.outputs.version }}.AppImage
           if-no-files-found: error
 
   windows:
@@ -133,12 +138,15 @@ jobs:
           export VERSION="${{ needs.version.outputs.version }}"
           packaging/ci-run.sh packaging/windows/package.sh
 
+      - name: Name the installer after the version
+        run: |
+          f=(build/dist/*-setup.exe); [[ ${#f[@]} == 1 && -f "${f[0]}" ]] || { echo "expected one installer, found: ${f[*]}"; exit 1; }
+          mv "${f[0]}" "build/dist/flow5_v${{ needs.version.outputs.version }}_win64.exe"
+
       - uses: actions/upload-artifact@v4
         with:
-          name: flow5-windows
-          path: |
-            build/dist/*.exe
-            build/dist/*.zip
+          name: flow5_v${{ needs.version.outputs.version }}_win64
+          path: build/dist/flow5_v${{ needs.version.outputs.version }}_win64.exe
           if-no-files-found: error
 
   macos:
@@ -161,10 +169,15 @@ jobs:
           export VERSION="${{ needs.version.outputs.version }}"
           packaging/ci-run.sh packaging/macos/package.sh
 
+      - name: Name the disk image after the version
+        run: |
+          f=(build/dist/*.dmg); [[ ${#f[@]} == 1 && -f "${f[0]}" ]] || { echo "expected one dmg, found: ${f[*]}"; exit 1; }
+          mv "${f[0]}" "build/dist/flow5_v${{ needs.version.outputs.version }}.dmg"
+
       - uses: actions/upload-artifact@v4
         with:
-          name: flow5-macos
-          path: build/dist/*.dmg
+          name: flow5_v${{ needs.version.outputs.version }}_macos
+          path: build/dist/flow5_v${{ needs.version.outputs.version }}.dmg
           if-no-files-found: error
 
   release:
@@ -178,7 +191,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: dist
-          pattern: flow5-*          # skip the docker build record artifact
+          pattern: flow5_v*         # the three packages; skips the docker build record artifact
           merge-multiple: true
       - uses: softprops/action-gh-release@v2
         with:
