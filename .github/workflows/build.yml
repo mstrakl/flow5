@@ -5,13 +5,16 @@ name: build
 #    as a GitHub Release tagged v<version>, the version being read from flow5-lib/api/fl5core.h;
 #  - the push is rejected (the run fails before building) if that version is not higher than
 #    the latest v* release tag, i.e. MAJOR_VERSION/MINOR_VERSION must be increased for each release;
-#  - pull requests into "release" run the version check only, so that it can be made a required check.
-# No other branch, tag or pull request is built.
+#  - pull requests into "release" run the version check only, so that it can be made a required check;
+#  - a manual run (Actions > build > Run workflow, any branch) builds the three packages as artifacts
+#    for testing, without publishing a release; the version check only reports the version.
+# No other push, tag or pull request is built.
 on:
   push:
     branches: ["release"]
   pull_request:
     branches: ["release"]
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -40,7 +43,10 @@ jobs:
               if (( a>lmaj || (a==lmaj && b>lmin) )); then lmaj=$a; lmin=$b; latest=$t; fi
             fi
           done
-          if [[ -n "$latest" ]] && ! (( 10#$MAJ>lmaj || (10#$MAJ==lmaj && 10#$MIN>lmin) )); then
+          if [[ -n "$latest" ]] && ! (( 10#$MAJ>lmaj || (10#$MAJ==lmaj && 10#$MIN>lmin) )) \
+             && [[ "$GITHUB_EVENT_NAME" == workflow_dispatch ]]; then
+            echo "::notice title=Test build::version $VERSION is not higher than the latest release $latest; fine for a test build, which does not publish anything"
+          elif [[ -n "$latest" ]] && ! (( 10#$MAJ>lmaj || (10#$MAJ==lmaj && 10#$MIN>lmin) )); then
             echo "::error title=Version not increased::fl5core.h defines version $VERSION, which is not higher than the latest release $latest. Increase MAJOR_VERSION/MINOR_VERSION in flow5-lib/api/fl5core.h before pushing to the release branch."
             exit 1
           fi
@@ -50,7 +56,7 @@ jobs:
   linux:
     name: Linux AppImage
     needs: version
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     env:
       XDG_CACHE_HOME: ${{ github.workspace }}/.cache   # ccache lives here (see docker/dev.sh)
@@ -91,7 +97,7 @@ jobs:
   windows:
     name: Windows installer
     needs: version
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: windows-2025
     defaults:
       run:
@@ -110,9 +116,19 @@ jobs:
             gcc:p make:p lld:p
             qt6-base:p qt6-svg:p qt6-imageformats:p qt6-tools:p
             opencascade:p gmsh:p openblas:p
-            nsis:p
+
+      # The MSYS2 nsis package lacks the plugin DLLs used by the installer's Modern UI pages:
+      # use the official NSIS, preinstalled on some runner images, otherwise from Chocolatey.
+      - name: Install NSIS
+        shell: pwsh
+        run: |
+          $makensis = "${env:ProgramFiles(x86)}\NSIS\makensis.exe"
+          if (-not (Test-Path $makensis)) { choco install nsis -y --no-progress }
+          & $makensis /VERSION
 
       - name: Build and package
+        env:
+          MAKENSIS: C:\Program Files (x86)\NSIS\makensis.exe
         run: |
           export VERSION="${{ needs.version.outputs.version }}"
           packaging/ci-run.sh packaging/windows/package.sh
@@ -128,7 +144,7 @@ jobs:
   macos:
     name: macOS dmg (arm64)
     needs: version
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: macos-14
     env:
       HOMEBREW_NO_AUTO_UPDATE: "1"
@@ -153,7 +169,7 @@ jobs:
 
   release:
     name: Publish release
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/release'
     needs: [version, linux, windows, macos]
     runs-on: ubuntu-24.04
     permissions:
