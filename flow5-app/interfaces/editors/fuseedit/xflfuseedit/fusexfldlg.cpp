@@ -622,6 +622,15 @@ void FuseXflDlg::onRemoveSelectedPoint()
 {
     int iSel = m_pSelectionModelPoint->currentIndex().row();
 
+    int degree = m_pFuseXfl->nurbs().vDegree();
+    if(m_pFuseXfl->nurbs().framePointCount()<=degree)
+    {
+        QString strange(tr("<p>The degree in the hoop direction must be less than the number of side lines</p>"));
+        QMessageBox::warning(this, tr("Warning"), strange);
+        return;
+    }
+
+
     if (iSel>=0)  m_pFuseXfl->removeSideLine(iSel);
     fillPointDataTable();
 
@@ -663,7 +672,7 @@ void FuseXflDlg::onSelChangeXDegree(int sel)
     if (sel <0) return;
 
     int deg = sel+1;
-    if(deg>=m_pFuseXfl->nurbs().frameCount())
+    if(deg>=m_pFuseXfl->nurbs().frameCount() && m_pFuseXfl->isSplineType())
     {
         QString strange = tr("<p>The degree must be less than the number of frames</p>");
         QMessageBox::warning(this, tr("Warning"), strange);
@@ -689,7 +698,7 @@ void FuseXflDlg::onSelChangeHoopDegree(int sel)
     if (sel<0) return;
 
     int deg = sel+1;
-    if(deg>=m_pFuseXfl->nurbs().framePointCount())
+    if(deg>=m_pFuseXfl->nurbs().framePointCount() && m_pFuseXfl->isSplineType())
     {
         QString strange(tr("<p>The degree must be less than the number of side lines</p>"));
         QMessageBox::warning(this, tr("Warning"), strange);
@@ -1374,6 +1383,15 @@ void FuseXflDlg::onInsertFrame(Vector3d const &pos)
 
 void FuseXflDlg::onRemovePoint(int iPt)
 {
+    int degree = m_pFuseXfl->nurbs().vDegree();
+    int nSideLines = m_pFuseXfl->nurbs().framePointCount();
+    if(nSideLines<=degree+1 && m_pFuseXfl->isSplineType())
+    {
+        QString strange(tr("<p>The degree in the hoop direction must be less than the number of side lines</p>"));
+        QMessageBox::warning(this, tr("Warning"), strange);
+        return;
+    }
+
     m_pFuseXfl->removeSideLine(iPt);
 
     m_bChanged = true;
