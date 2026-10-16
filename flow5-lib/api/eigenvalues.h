@@ -115,7 +115,7 @@ struct EigenValues
 
 
         /** Splits n eigenvalues into the complex conjugate pairs, one representative with a positive imaginary part for each and sorted by decreasing frequency, and the real roots */
-        static void splitRoots(std::complex<double> const *ev, int n, std::vector<std::complex<double>> &pairs, std::vector<double> &reals)
+        void splitRoots(std::complex<double> const *ev, int n, std::vector<std::complex<double>> &pairs, std::vector<double> &reals) const
         {
             pairs.clear();
             reals.clear();
