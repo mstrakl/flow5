@@ -1707,69 +1707,25 @@ void gl3dXPlaneView::makeTriVelocityBlock(int iBlock, QVector<Vector3d> const &C
 bool gl3dXPlaneView::intersectTheObject(Vector3d const &AA, Vector3d const &BB, Vector3d &I)
 {
     Plane    const *pPlane    = s_pXPlane->curPlane();
-    PlaneXfl const *pPlaneXfl = dynamic_cast<PlaneXfl*>(s_pXPlane->curPlane());
-
     if(!pPlane) return false;
+
+    PlaneXfl const *pPlaneXfl = dynamic_cast<PlaneXfl*>(s_pXPlane->curPlane());
+    PlaneSTL const *pPlaneSTL = dynamic_cast<PlaneSTL*>(s_pXPlane->curPlane());
 
     Vector3d U = (BB-AA).normalized();
 
-    QVector4D v4d;
-    float zmax = LARGEVALUE;
-    Vector3d INear, ITmp;
     bool bIntersect = false;
-    for(int i3=0; i3<pPlane->nPanel3(); i3++)
+
+    if(pPlaneSTL)
     {
-        Panel3 const &p3 = pPlane->panel3At(i3);
-        if(p3.intersect(AA, U, ITmp))
-        {
-            worldToScreen(ITmp, v4d);
-            if(v4d.z()<zmax)
-            {
-                zmax = v4d.z();
-                I = ITmp;
-                bIntersect = true;
-            }
-        }
+        bIntersect = pPlaneSTL->intersectTriangles(AA,BB,I);
+    }
+    else if(pPlaneXfl)
+    {
+        Part const *pPart = intersectPlaneXfl(pPlaneXfl, AA, U, I);
+        if(pPart) bIntersect = true;
     }
 
-    PlanePolar const *pWPolar = s_pXPlane->curPlPolar();
-    if(m_pPOpp3dControls->m_bWakePanels && pPlane && pWPolar && pWPolar->isType6() && s_pXPlane->m_pCurPOpp)
-    {
-        if(pWPolar->isTriangleMethod())
-        {
-            for(uint i3=0; i3<pPlane->triMesh().wakePanels().size(); i3++)
-            {
-                Panel3 const &p3 = pPlane->triMesh().wakePanelAt(i3);
-                if(p3.intersect(AA, U, ITmp))
-                {
-                    worldToScreen(ITmp, v4d);
-                    if(v4d.z()<zmax)
-                    {
-                        zmax = v4d.z();
-                        I = ITmp;
-                        bIntersect = true;
-                    }
-                }
-            }
-        }
-        else if(pPlaneXfl && pWPolar->isQuadMethod())
-        {
-            for(uint i4=0; i4<pPlaneXfl->quadMesh().wakePanels().size(); i4++)
-            {
-                Panel4 const &p4 = pPlaneXfl->quadMesh().wakePanel(i4);
-                if(p4.intersect(AA, U, ITmp))
-                {
-                    worldToScreen(ITmp, v4d);
-                    if(v4d.z()<zmax)
-                    {
-                        zmax = v4d.z();
-                        I = ITmp;
-                        bIntersect = true;
-                    }
-                }
-            }
-        }
-    }
     return bIntersect;
 }
 

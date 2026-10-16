@@ -206,6 +206,9 @@ class gl3dXflView : public gl3dView
         void setMeasure(Segment3d const &seg) {m_Measure=seg;}
         void clearMeasure() {m_Measure.reset(); m_PickType=xfl::NOPICK;}
 
+        Part const * intersectPlaneXfl(const PlaneXfl *pPlaneXfl, const Vector3d &AA,  Vector3d  &U, Vector3d &I) const;
+
+
         virtual double objectReferenceLength() const {return 1.0;}
 
 

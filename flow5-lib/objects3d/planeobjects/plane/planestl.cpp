@@ -229,7 +229,7 @@ void PlaneSTL::makeTriMesh(bool)
 }
 
 
-bool PlaneSTL::intersectTriangles(Vector3d A, Vector3d B, Vector3d &I, bool bMultiThreaded)
+bool PlaneSTL::intersectTriangles(Vector3d A, Vector3d B, Vector3d &I, bool bMultiThreaded) const
 {
     Node nd;
     bool b = geom::intersectTriangles(m_Triangulation.triangles(), A, B, nd, bMultiThreaded);

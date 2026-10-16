@@ -1185,3 +1185,58 @@ QPair<int, int> gl3dXflView::pickFace(const QPoint &point, NCollection_List<Topo
 }
 
 
+Part const * gl3dXflView::intersectPlaneXfl(PlaneXfl const* pPlaneXfl, Vector3d const&AA, Vector3d  &U, Vector3d &I) const
+{
+    QVector4D v4d;
+    float zmax = LARGEVALUE;
+
+    Vector3d PickedPoint;
+
+    double dist=0;
+    int idxSurf=-1;
+    Part const *pSelectedPart = nullptr;
+    for(int iw=0; iw<pPlaneXfl->nWings(); iw++)
+    {
+        if (pPlaneXfl->wingAt(iw)->isVisible())
+        {
+            if(pPlaneXfl->wingAt(iw)->intersectWing(AA, U, PickedPoint, idxSurf, dist, false))
+            {
+                worldToScreen(PickedPoint, v4d);
+                if(v4d.z()<zmax)
+                {
+                    pSelectedPart = pPlaneXfl->wingAt(iw);
+                    zmax = v4d.z();
+                    I = PickedPoint;
+                }
+            }
+        }
+    }
+
+    for(int ifuse=0; ifuse<pPlaneXfl->nFuse(); ifuse++)
+    {
+        Fuse const *pFuse = pPlaneXfl->fuseAt(ifuse);
+        Vector3d OT = AA - pPlaneXfl->fusePos(ifuse);
+
+        if(pFuse->isVisible())
+        {
+            for(int i3=0; i3<pFuse->nTriangles(); i3++)
+            {
+                Triangle3d const &p3 = pFuse->triangleAt(i3);
+                if(p3.intersectRayInside(OT, U, PickedPoint))
+                {
+                    PickedPoint += pPlaneXfl->fusePos(ifuse); //???
+                    worldToScreen(p3.CoG_g(), v4d);
+                    if(v4d.z()<zmax)
+                    {
+                        pSelectedPart = pFuse;
+                        zmax = v4d.z();
+                        I = PickedPoint;
+                    }
+                }
+            }
+        }
+    }
+
+    return pSelectedPart;
+}
+
