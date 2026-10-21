@@ -126,6 +126,7 @@ void StabDerivatives::computeNDStabDerivatives()
 
     XNP = m_CoG_x + Cma/CZa * mac; //E&R (eq. 2.3.5 p.29)
 
+    //E&R p. 118, table 4.5
     CYb = Yv*    u0     /(q*S);
     CYp = Yp* 2.*u0     /(q*S*b);
     CYr = Yr* 2.*u0     /(q*S*b);
