@@ -457,12 +457,13 @@ void BatchDlg::hideEvent(QHideEvent *pEvent)
     if(m_pHSplitter) s_HSplitterSizes = m_pHSplitter->saveState();
 }
 
-
+#include <options/prefsdlg.h>
 void BatchDlg::batchLaunch()
 {
     m_ppto->appendPlainText("\nStarted/Done/Total\n\n");
 
     int nTasks = std::min(QThread::idealThreadCount(), int(m_AnalysisPair.size()));
+    nTasks = std::min(nTasks, xfl::maxThreadCount());
 
     for(int i=0; i<nTasks; i++)
     {
