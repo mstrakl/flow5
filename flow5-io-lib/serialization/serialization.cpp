@@ -2722,7 +2722,6 @@ bool serial::serializePlanePolarExtFl5v726(PlanePolarExt *pPolar, QDataStream &a
 }
 
 
-
 bool serial::serializePlanePolarExtFl5v750(PlanePolarExt *pPolar, QDataStream &ar, bool bIsStoring)
 {
     if(!serial::serializePolar3dFl5v750(pPolar, ar, bIsStoring)) return false;
@@ -2784,8 +2783,8 @@ bool serial::serializePlanePolarExtFl5v750(PlanePolarExt *pPolar, QDataStream &a
             for(int ipt=0; ipt<nDataPoints; ipt++)
             {
                 ar >> dble;
-                if(ivar<int(pPolar->dataSize()) && (ipt<pPolar->dataSize()))
-                    pPolar->setData(ivar, ipt, dble);
+//                if(ivar<int(pPolar->dataSize()) && (ipt<pPolar->dataSize())) // removed in v7.58; array size verification is done in setData() anyway; fixes issue #114
+                pPolar->setData(ivar, ipt, dble);
             }
             ivar++;
         }
