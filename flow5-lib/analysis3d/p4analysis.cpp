@@ -1081,39 +1081,38 @@ void P4Analysis::forces(double const *Mu4, double const *Sigma4, double alpha, d
             if(p4.isTrailing())
             {
                 assert(p4.isMidPanel());
-                int pp = i4;
+                C = p4.m_CtrlPt;
+                // evaluate at half the ff distance, so that we get influence of upstream and downstream parts of the vortices
+                C.x = m_pPolar3d->TrefftzDistance()/2.0;
 
-                do
-                {
-                    Panel4 const &pp4 = m_Panel4.at(pp);
-                    if(m_pPolar3d->isVLM1() || pp4.isTrailing())
-                    {
-                        C = p4.m_CtrlPt;
-                        // evaluate at half the ff distance, so that we get influence of upstream and downstream parts of the vortices
-                        // then divide the influence by 2.0
-                        C.x = m_pPolar3d->TrefftzDistance()/2.0;
+                vortex = p4.trailingVortex();
 
-                        getVelocityVector(C, Mu4, Sigma4, Wg, Vortex::coreRadius(), true);
+                getVelocityVector(C, Mu4, Sigma4, Wg, Vortex::coreRadius(), true);
 
-                        // The trailing point sees both the upstream and downstream parts of the trailing vortices
-                        // Hence it sees twice the downwash.
-                        // So divide by 2 to account for this.
-                        Wg *= 1.0/2.0;
+                // The trailing point sees both the upstream and downstream parts of the trailing vortices
+                // Hence it sees twice the downwash.
+                // So divide by 2 to account for this.
+                Wg *= 1.0/2.0;
 
-                        Wg += VInf.at(i4);
+//                Wg += VInf.at(i4);
 
-                        //induced force
-                        Vector3d vortex = p4.trailingVortex();
-                        Vector3d dF = Wg * vortex;
-                        dF *= Mu4[i4];           // N/rho
-                        Force += dF;    // N/rho
-                    }
-                    if(pp4.isLeading()) break; // is the next strip
-                    pp++;
-                    if(pp>=nPanels()) break; // safety break
-                }while(true);
+                //induced drag
+                Vector3d dF = Wg * vortex;
+                dF *= Mu4[i4];           // N/rho
+                Force += dF;    // N/rho
+            }
 
-//                m++;
+            if(m_pPolar3d->isVLM1() || p4.isTrailing())
+            {
+                // add the induced  force
+                Wg = VInf.at(i4);
+
+                vortex = p4.trailingVortex();
+
+                Vector3d dF = Wg * vortex;
+                dF *= Mu4[i4];           // N/rho
+                Force += dF;    // N/rho
+
             }
         }
     }
@@ -1422,10 +1421,6 @@ void P4Analysis::inducedForce(int nPanels, double QInf, double alpha, double bet
                     Panel4 const &pp4 = m_Panel4.at(pp+pos);
                     if(m_pPolar3d->isVLM1() || pp4.isTrailing())
                     {
-                        // The trailing point sees both the upstream and downstream parts of the trailing vortices
-                        // Hence it sees twice the downwash.
-                        // So divide by 2 to account for this.
-
                         SpanResFF.m_Gamma[m] += Mu4[pp+pos];
 
                         //induced force
@@ -1440,9 +1435,7 @@ void P4Analysis::inducedForce(int nPanels, double QInf, double alpha, double bet
                 while(true);
 
                 stripforce *= 2./QInf/QInf; //N/q
-                //____________________________
-                // Project on wind axes
-                //qDebug(" {:2d}  {:13.7f}  {:13.7f}  {:13.7f}  {:13.7f}",m, C.y, stripforce.x,stripforce.y,stripforce.z);
+
                 SpanResFF.m_Cl[m]  = stripforce.dot(surfacenormal) /SpanResFF.stripArea(m);
                 ForceBodyAxes     += stripforce;                           // N/q
                 SpanResFF.m_F[m]   = stripforce * qDyn;                       // N,  V=1
