@@ -67,8 +67,6 @@ class gl3dPlaneXflView : public gl3dXflView
         void mouseMoveEvent(QMouseEvent *pEvent) override;
         void mouseReleaseEvent(QMouseEvent *pEvent) override;
 
-        const Part *intersectPart(const Vector3d &AA,  Vector3d &U, Vector3d &I);
-
         virtual void paintMeshPanels();
 
     protected slots:

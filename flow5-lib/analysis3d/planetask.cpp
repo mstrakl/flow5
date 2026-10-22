@@ -2000,7 +2000,7 @@ bool PlaneTask::T7Loop()
 
         m_pPA->makeWakePanels(objects::windDirection(0,0), false);
 
-        setLinearSolution();
+        if(!setLinearSolution()) continue;     // the matrix could not be built or factorized: no solution for this control value
 
         traceStdLog("   Making unit panel velocities...");
         m_pPA->makeLocalVelocities(m_pPA->m_uRHS, m_pPA->m_vRHS, m_pPA->m_wRHS, m_pPA->m_uVLocal, m_pPA->m_vVLocal, m_pPA->m_wVLocal, objects::windDirection(0,0));
@@ -2139,7 +2139,7 @@ bool PlaneTask::T123458Loop()
     m_pPA->makeWakePanels(objects::windDirection(0,0), false);
     m_pPA->savePanels();
 
-    setLinearSolution();
+    if(!setLinearSolution()) return false;     // the matrix could not be built or factorized: no operating point can be computed
 
     traceStdLog("   Making unit panel velocities... ");
     int N = int(m_pPA->m_uVLocal.size());
@@ -2783,7 +2783,7 @@ std::vector<double> PlaneTask::wakeGaps(WingXfl const *pWing, std::vector<Vector
                     ymin = std::min(ymin, pw.vertexAt(iv).y); ymax = std::max(ymax, pw.vertexAt(iv).y);
                 }
                 z = pw.CoG().z;
-                inext = pw.iPD();
+                inext = pw.iDownstream();
             }
             else
             {
@@ -2858,7 +2858,7 @@ Vector3d PlaneTask::regularizedWakeVelocity(Vector3d const &C, double const *Mu,
                 Panel3 const &pw = m_pP3A->m_WakePanel3.at(iw);
                 for(int k=0; k<3; k++) nodes[k] = pw.vertexAt(k);
                 nNodes = 3;
-                inext = pw.iPD();
+                inext = pw.iDownstream();
             }
             else
             {

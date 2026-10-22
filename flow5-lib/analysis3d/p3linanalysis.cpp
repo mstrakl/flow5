@@ -366,8 +366,8 @@ bool P3LinAnalysis::scalarProductWake(Panel3 const &panel0, int iWake, double *s
                 }
             }
 
-            if(p3w.iPD()<0) break;
-            iWakeinitial = p3w.iPD();
+            if(p3w.iDownstream()<0) break;
+            iWakeinitial = p3w.iDownstream();
         } while(true && iter++<1000);
 //            assert(iter+1==m_pWPolar->m_nXWakePanel4*2);
 
@@ -854,7 +854,7 @@ void P3LinAnalysis::makeUnitRHSBlock(int iBlock)
         for(int k3=0; k3<nPanels(); k3++)
         {
             Panel3 const &p3k = m_Panel3.at(k3);
-            leverarm_k3.set(p3i.CoG()-m_pPolar3d->CoG());
+            leverarm_k3.set(p3k.CoG()-m_pPolar3d->CoG());
 
             if(p3k.isMidPanel())
             {

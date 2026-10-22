@@ -180,7 +180,7 @@ XDirect::XDirect(MainFrame *pMainFrame)
 void XDirect::makeBLGraphs()
 {
     QStringList XVarList = {"X"};
-    QStringList OppVarList = {"Cp", "Ue", "D*", THETAch, "H"};
+    QStringList OppVarList = {"Cp", "Ue", "D*", THETAch, "H", TAUch};
 
     for(int ig=0; ig<MAXGRAPHS; ig++)
     {
@@ -796,6 +796,36 @@ void XDirect::fillBLXFoilCurves(OpPoint *pOpp, Graph *pGraph, bool bInviscid)
                 for (int i=iStart; i<=pOpp->m_BLXFoil.nside2-1; i++)
                 {
                     pBotCurve->appendPoint(pOpp->m_BLXFoil.xbl[i][2], pOpp->m_BLXFoil.Hk[i][2]);
+                }
+            }
+
+            break;
+        }
+        case 5: //Tau  - Wall shear stress
+        {
+            if(s_bBLTopSide)
+            {
+                Curve * pTopCurve(nullptr);
+                pTopCurve = pGraph->addCurve();
+                pTopCurve->setName("Top");
+                pTopCurve->setTheStyle(s_lsTopBL);
+                pOpp->appendCurve(pTopCurve);
+                for (int i=iStart; i<=pOpp->m_BLXFoil.nside1; i++)
+                {
+                    pTopCurve->appendPoint(pOpp->m_BLXFoil.xbl[i][1], pOpp->m_BLXFoil.tau[i][1]);
+                }
+            }
+            if(s_bBLBotSide)
+            {
+                Curve * pBotCurve(nullptr);
+                pBotCurve = pGraph->addCurve();
+                pBotCurve->setName("Bottom");
+                pBotCurve->setTheStyle(s_lsBotBL);
+                pOpp->appendCurve(pBotCurve);
+
+                for (int i=iStart; i<=pOpp->m_BLXFoil.nside2-1; i++)
+                {
+                    pBotCurve->appendPoint(pOpp->m_BLXFoil.xbl[i][2], pOpp->m_BLXFoil.tau[i][2]);
                 }
             }
 

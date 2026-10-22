@@ -66,7 +66,7 @@ void FoilTEGapDlg::setupLayout()
 
             m_pfeGap = new FloatEdit;
 
-            QLabel *plab3 = new QLabel(tr("Characteristic blending distance from T.E.="));
+            QLabel *plab3 = new QLabel(tr("Characteristic blending distance from L.E.="));
             QLabel *plab4 = new QLabel(tr("% chord"));
 
             m_pfeBlend = new FloatEdit;

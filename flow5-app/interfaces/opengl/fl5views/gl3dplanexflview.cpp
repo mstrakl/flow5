@@ -629,65 +629,9 @@ void gl3dPlaneXflView::mouseReleaseEvent(QMouseEvent *pEvent)
 bool gl3dPlaneXflView::intersectTheObject(Vector3d const &AA, Vector3d const &BB, Vector3d &I)
 {
     Vector3d U = (BB-AA).normalized();
-    Part const *pPart = intersectPart(AA, U, I);
+    Part const *pPart = intersectPlaneXfl(m_pPlaneXfl, AA, U, I);
     if(pPart) return true;
     return false;
-}
-
-
-Part const * gl3dPlaneXflView::intersectPart(Vector3d const&AA,  Vector3d  &U, Vector3d &I)
-{
-    QVector4D v4d;
-    float zmax = +1.e10;
-
-    Vector3d PickedPoint;
-
-    double dist=0;
-    int idxSurf=-1;
-    m_pSelectedPart = nullptr;
-    for(int iw=0; iw<m_pPlaneXfl->nWings(); iw++)
-    {
-        if (m_pPlaneXfl->wingAt(iw)->isVisible())
-        {
-            if(m_pPlaneXfl->wingAt(iw)->intersectWing(AA, U, PickedPoint, idxSurf, dist, false))
-            {
-                worldToScreen(PickedPoint, v4d);
-                if(v4d.z()<zmax)
-                {
-                    m_pSelectedPart = m_pPlaneXfl->wingAt(iw);
-                    zmax = v4d.z();
-                    I = PickedPoint;
-                }
-            }
-        }
-    }
-
-    for(int ifuse=0; ifuse<m_pPlaneXfl->nFuse(); ifuse++)
-    {
-        Fuse const *pFuse = m_pPlaneXfl->fuseAt(ifuse);
-        Vector3d OT = AA - m_pPlaneXfl->fusePos(ifuse);
-
-        if(pFuse->isVisible())
-        {
-            for(int i3=0; i3<pFuse->nTriangles(); i3++)
-            {
-                Triangle3d const &p3 = pFuse->triangleAt(i3);
-                if(p3.intersectRayInside(OT, U, PickedPoint))
-                {
-                    PickedPoint += m_pPlaneXfl->fusePos(ifuse); //???
-                    worldToScreen(p3.CoG_g(), v4d);
-                    if(v4d.z()<zmax)
-                    {
-                        m_pSelectedPart = pFuse;
-                        zmax = v4d.z();
-                        I = PickedPoint;
-                    }
-                }
-            }
-        }
-    }
-
-    return m_pSelectedPart;
 }
 
 

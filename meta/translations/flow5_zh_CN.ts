@@ -164,208 +164,208 @@
 <context>
     <name>Analysis3dSettings</name>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="78"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="79"/>
         <source>3d analysis advanced settings</source>
         <translation>3D 分析高级设置</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="126"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="127"/>
         <source>Max. number of operating points/analysis=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="128"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="129"/>
         <source>&lt;p&gt;Defines the maximum number of operating points to be calculated in a single run.Intended as a safety limit to prevent excessively lengthy analyses.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="132"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="133"/>
         <source>Keep analysis window opened on errors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="134"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="135"/>
         <source>&lt;p&gt;Ignore wing surfaces with span width &amp;lt;&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="137"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="138"/>
         <source>&lt;p&gt;Wing surfaces with span width less than this value will be ignored in the mesh operation.&lt;br&gt;This is to allow the definition of duplicate sections at a given span positions.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="141"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="142"/>
         <source>Far field factor=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="143"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="144"/>
         <source>&lt;p&gt;RFF is the far-field radius factor used in the evaluation of influence coefficients. If the evaluation point is at a distance greater than  RFF &amp;times; panel_size, then the panel is considered to be a point source or point doublet with strength = area &amp;times; density.&lt;br&gt;This reduces significantly the computation times at the expense of precision. Practically, the difference is in the order of 0.5% at RFF=7.&lt;br&gt;RFF=10 is the recommended value.&lt;br&gt;Cf. Report NASA 4023 for a more detailed explanation.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="169"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="170"/>
         <source>Number of spanwise stations=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="170"/>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="282"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="171"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="283"/>
         <source>Relaxation factor=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="171"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="172"/>
         <source>&lt;p&gt;&amp;alpha; precision=&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="172"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="173"/>
         <source>Maximum iterations=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="201"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="202"/>
         <source>Vortex position=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="202"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="203"/>
         <source>Control point position=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="227"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="228"/>
         <source>Order of 2d Gaussian quadrature for triangle scalar products=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="257"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="258"/>
         <source>Matrix float precision:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="258"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="259"/>
         <source>Single precision, 4 bytes/value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="259"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="260"/>
         <source>Double precision, 8 bytes/value (recommended)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="260"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="261"/>
         <source>&lt;p&gt;This defines with what precision the influence matrix will be stored. Single precision will use half the memory required for double precision. Accuracy of the results may also be reduced by a few percent.&lt;br&gt;Use single precision only for large calculations where memory allocation may be an issue.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="283"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="284"/>
         <source>Virtual twist precision=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="284"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="285"/>
         <source>Max. iterations=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="289"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="290"/>
         <source>&lt;p&gt;The relaxation factor is a multiplier applied to the increase of virtual twist at each viscous iteration. At low Reynolds numbers, convergence may be improved by reducing this coefficient to a value less than 1.The coefficient should always be greater than zero and less than 1.&lt;br&gt;Recommendation: 0.3 &lt; relax &lt; 0.7&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="297"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="298"/>
         <source>&lt;p&gt;This parameter controls the maximum acceptable error for virtual twist. Convergence is achieved if the max. increase of virtual twist from one viscous iteration to the next is less than this value.&lt;br&gt;Recommendation: 0.01&amp;deg;&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="304"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="305"/>
         <source>&lt;p&gt;This parameter sets the maximum number of viscous iterations.&lt;br&gt;Recommendation: max. iter = 30&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="308"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="309"/>
         <source>Initialize the virtual twist at each new operating point calculation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="309"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="310"/>
         <source>&lt;p&gt;If activated the virtual twist will be set to 0 when starting the calculation of a new operating point. Otherwise the iterations will start with the virtual twist from the previous converged operating point.&lt;br&gt;Recommendation: do not activate&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="441"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="442"/>
         <source>Wind</source>
         <translation type="unfinished">风</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="467"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="468"/>
         <source>Display</source>
         <translation type="unfinished">显示</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="472"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="473"/>
         <source>&lt;p&gt;The frame in which the geometry is defined, and which is displayed by default in all 3d views. It is defined such that:&lt;ul&gt;  &lt;li&gt;the x-axis lies in a horizontal plane and points backwards&lt;/li&gt;  &lt;li&gt;the y-axis lies in a horizontal plane and points to the right&lt;/li&gt;&lt;/ul&gt;The geometric axes are a case of body axes i.e. they move with the body, as if painted on.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="480"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="481"/>
         <source>&lt;p&gt; The frame such that&lt;ul&gt;  &lt;li&gt;the x-axis is aligned with the wind direction&lt;/li&gt;  &lt;li&gt;the z-axis lies in the x-z plane  and points upwards&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="487"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="488"/>
         <source>&lt;p&gt;The frame in which the stability derivatives are calculated.&lt;br&gt;It is defined such that:&lt;ul&gt;  &lt;li&gt;the x-axis is rotated from the geometry x-axis by an angle 180&amp;deg; - &amp;alpha; around the geometry y-axis; i.e. it points forward&lt;/li&gt;  &lt;li&gt;the y-axis lies in a horizontal plane and points to the right; it is identical to the geometric y-axis&lt;/li&gt;&lt;/ul&gt;The stability axes are a case of body axes i.e. they move with the body, as if painted on. This is an assumption required for the calculation of stability modes.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="498"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="499"/>
         <source>Geometry axes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="501"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="502"/>
         <source>Wind axes</source>
         <translation type="unfinished">风轴</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="504"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="505"/>
         <source>Stability axes</source>
         <translation type="unfinished">稳定轴</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="542"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="551"/>
         <source>Common</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="545"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="554"/>
         <source>3d linear panels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="546"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="555"/>
         <source>Solver</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="547"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="556"/>
         <source>Viscous loop</source>
         <translation type="unfinished">粘性循环</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="548"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="557"/>
         <source>Vortex</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="549"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="558"/>
         <source>Vorton wake</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="550"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/analysis3dsettings.cpp" line="559"/>
         <source>Axes</source>
         <translation type="unfinished">轴</translation>
     </message>
@@ -378,62 +378,62 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="81"/>
+        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="76"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="82"/>
+        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="77"/>
         <source>End</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="160"/>
+        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="155"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="163"/>
+        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="158"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="167"/>
+        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="162"/>
         <source>Activate/de-activate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="169"/>
+        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="164"/>
         <source>De-activate all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="170"/>
+        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="165"/>
         <source>Move up</source>
         <translation type="unfinished">上移</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="171"/>
+        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="166"/>
         <source>Move down</source>
         <translation type="unfinished">下移</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="172"/>
+        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="167"/>
         <source>Duplicate</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="173"/>
+        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="168"/>
         <source>Delete</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="174"/>
+        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="169"/>
         <source>Insert before</source>
         <translation type="unfinished">在前插入</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="175"/>
+        <location filename="../../flow5-app/interfaces/controls/analysisrangetable.cpp" line="170"/>
         <source>Insert after</source>
         <translation type="unfinished">在后插入</translation>
     </message>
@@ -493,29 +493,6 @@ Select the analyses to duplicate</source>
     </message>
 </context>
 <context>
-    <name>BatchAltDlg</name>
-    <message>
-        <source>Multi-threaded batch analysis</source>
-        <translation type="vanished">多线程批处理分析</translation>
-    </message>
-    <message>
-        <source>Objects</source>
-        <translation type="vanished">对象</translation>
-    </message>
-    <message>
-        <source>Analyses</source>
-        <translation type="vanished">分析</translation>
-    </message>
-    <message>
-        <source>Operating points</source>
-        <translation type="vanished">操作点</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">取消</translation>
-    </message>
-</context>
-<context>
     <name>BatchCalcDlg</name>
     <message>
         <location filename="../../flow5-app/modules/xdirect/analysis/batchcalcdlg.cpp" line="72"/>
@@ -559,16 +536,6 @@ Select the analyses to duplicate</source>
         <location filename="../../flow5-app/modules/xdirect/analysis/batchdlg.cpp" line="156"/>
         <source>Store operating points</source>
         <translation>保存操作点</translation>
-    </message>
-    <message>
-        <source>Update polar view</source>
-        <translation type="vanished">更新极曲线视图</translation>
-    </message>
-    <message>
-        <source>Update the polar graphs after the completion of each foil/polar pair.
-Uncheck for increased analysis speed.</source>
-        <translation type="vanished">在每个翼型/极曲线对完成后更新极曲线图。
-取消勾选以提高分析速度。</translation>
     </message>
     <message>
         <location filename="../../flow5-app/modules/xdirect/analysis/batchdlg.cpp" line="181"/>
@@ -764,300 +731,201 @@ Uncheck for increased analysis speed.</source>
     </message>
 </context>
 <context>
-    <name>BatchXFoilDlg</name>
-    <message>
-        <source>Multi-threaded batch analysis</source>
-        <translation type="vanished">多线程批处理分析</translation>
-    </message>
-    <message>
-        <source>Polar type</source>
-        <translation type="vanished">极曲线类型</translation>
-    </message>
-    <message>
-        <source>T1</source>
-        <translation type="vanished">T1</translation>
-    </message>
-    <message>
-        <source>Fixed speed polar</source>
-        <translation type="vanished">固定速度极曲线</translation>
-    </message>
-    <message>
-        <source>T2</source>
-        <translation type="vanished">T2</translation>
-    </message>
-    <message>
-        <source>Fixed lift polar</source>
-        <translation type="vanished">固定升力极曲线</translation>
-    </message>
-    <message>
-        <source>T3</source>
-        <translation type="vanished">T3</translation>
-    </message>
-    <message>
-        <source>Rubber chord polar</source>
-        <translation type="vanished">弹性弦长极曲线</translation>
-    </message>
-    <message>
-        <source>Re</source>
-        <translation type="vanished">Re</translation>
-    </message>
-    <message>
-        <source>Mach</source>
-        <translation type="vanished">Mach</translation>
-    </message>
-    <message>
-        <source>NCrit</source>
-        <translation type="vanished">NCrit</translation>
-    </message>
-    <message>
-        <source>Actions</source>
-        <translation type="vanished">操作</translation>
-    </message>
-    <message>
-        <source>Insert before</source>
-        <translation type="vanished">在前插入</translation>
-    </message>
-    <message>
-        <source>Insert after</source>
-        <translation type="vanished">在后插入</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">删除</translation>
-    </message>
-    <message>
-        <source>Forced Transitions</source>
-        <translation type="vanished">强制转捩</translation>
-    </message>
-    <message>
-        <source>Top transition location (x/c)</source>
-        <translation type="vanished">上表面转捩位置 (x/c)</translation>
-    </message>
-    <message>
-        <source>Bottom transition location (x/c)</source>
-        <translation type="vanished">下表面转捩位置 (x/c)</translation>
-    </message>
-    <message>
-        <source>Force transition at hinge location</source>
-        <translation type="vanished">强制在铰链位置转捩</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Forces the laminar to turbulent transition at the hinge&apos;s location on both the top and bottom surfaces.&lt;br&gt;The transition location is set as the most upwind position between the hinge&apos;s location and the forced transition location.&lt;br&gt;Only used in the case of flapped surfaces.&lt;br&gt;This greatly increases the convergence success rate and the speed of XFoil calculations.&lt;/p&gt;</source>
-        <translation type="vanished">&lt;p&gt;强制上下表面的层流到湍流的转捩发生在铰链位置。&lt;br&gt;转捩位置设定为铰链位置和强制转捩位置中更靠上游（前方）的那个。&lt;br&gt;仅用于带襟翼的翼面。&lt;br&gt;这可以大大提高收敛成功率和 XFoil 计算速度。&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Foils</source>
-        <translation type="vanished">翼型</translation>
-    </message>
-    <message>
-        <source>Polars</source>
-        <translation type="vanished">极曲线</translation>
-    </message>
-    <message>
-        <source>Operating points</source>
-        <translation type="vanished">操作点</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">取消</translation>
-    </message>
-</context>
-<context>
     <name>BatchXmlDlg</name>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="89"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="90"/>
         <source>Batch analysis</source>
         <translation>批处理分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="123"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="124"/>
         <source>Plane name</source>
         <translation>飞机名称</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="136"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="137"/>
         <source>Define and activate the generic analyses to associate to the planes.
 </source>
         <translation>定义并激活要关联到飞机的通用分析。
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="137"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="138"/>
         <source>Note that if the plane name is defined, the analysis will only be created
 </source>
         <translation>注意：如果定义了飞机名称，则分析只会
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="138"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="139"/>
         <source>for that specific plane. Leave the plane name blank otherwise.</source>
         <translation>为该特定飞机创建。否则，请将飞机名称留空。</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="153"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="154"/>
         <source>File name</source>
         <translation>文件名</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="183"/>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="234"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="184"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="235"/>
         <source>Actions</source>
         <translation>操作</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="189"/>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="248"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="190"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="249"/>
         <source>Select all</source>
         <translation>全选</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="193"/>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="252"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="194"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="253"/>
         <source>De-select all</source>
         <translation>取消全选</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="242"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="243"/>
         <source>Change directory</source>
         <translation>更改目录</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="245"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="246"/>
         <source>Refresh list</source>
         <translation>刷新列表</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="256"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="257"/>
         <source>Add a T123 analysis</source>
         <translation>添加 T123 分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="262"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="263"/>
         <source>Add a T6 analysis</source>
         <translation>添加 T6 分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="268"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="269"/>
         <source>Add a T7 analysis</source>
         <translation>添加 T7 分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="340"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="341"/>
         <source>Store operating points</source>
         <translation>保存操作点</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="352"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="353"/>
         <source>Not running.</source>
         <translation>未运行。</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="356"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="357"/>
         <source>Clear output</source>
         <translation>清除输出</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="357"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="358"/>
         <source>&lt;p&gt;Clears the text output&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="359"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="360"/>
         <source>Calculate</source>
         <translation>计算</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="484"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="485"/>
         <source>Select directory</source>
         <translation>选择目录</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="586"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="587"/>
         <source>Analysis</source>
         <translation>分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="588"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="589"/>
         <source>Edit analysis</source>
         <translation>编辑分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="591"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="592"/>
         <source>Clear plane name</source>
         <translation>清除飞机名称</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="594"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="595"/>
         <source>Rename</source>
         <translation>重命名</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="597"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="598"/>
         <source>Duplicate</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="600"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="601"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="606"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="607"/>
         <source>File</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="679"/>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="748"/>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="1087"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="680"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="749"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="1088"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="679"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="680"/>
         <source>Replace the existing file?</source>
         <translation>替换现有文件？</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="707"/>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="1051"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="708"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="1052"/>
         <source>XML file (*.xml)</source>
         <translation>XML 文件 (*.xml)</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="708"/>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="1063"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="709"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="1064"/>
         <source>Export analysis definition to xml file</source>
         <translation>将分析定义导出为 XML 文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="717"/>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="724"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="718"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="725"/>
         <source>Write error</source>
         <translation>写入错误</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="717"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="718"/>
         <source>Failed to read the file</source>
         <translation>读取文件失败</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="724"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="725"/>
         <source>Failed to save the new file</source>
         <translation>保存新文件失败</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="748"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="749"/>
         <source>Really delete this file?</source>
         <translation>确定删除此文件？</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="1087"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="1088"/>
         <source>Discard the analysis </source>
         <translation>放弃分析 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="1248"/>
+        <location filename="../../flow5-app/modules/xplane/analysis/batchxmldlg.cpp" line="1253"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -1530,17 +1398,17 @@ Uncheck for increased analysis speed.</source>
 <context>
     <name>CPTableView</name>
     <message>
-        <location filename="../../flow5-app/interfaces/widgets/customwts/cptableview.cpp" line="268"/>
+        <location filename="../../flow5-app/interfaces/widgets/customwts/cptableview.cpp" line="269"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/widgets/customwts/cptableview.cpp" line="271"/>
+        <location filename="../../flow5-app/interfaces/widgets/customwts/cptableview.cpp" line="272"/>
         <source>Paste</source>
         <translation>粘贴</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/widgets/customwts/cptableview.cpp" line="279"/>
+        <location filename="../../flow5-app/interfaces/widgets/customwts/cptableview.cpp" line="280"/>
         <source>context menu</source>
         <translation>上下文菜单</translation>
     </message>
@@ -1847,62 +1715,82 @@ Uncheck for increased analysis speed.</source>
 <context>
     <name>FlowCtrls</name>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="101"/>
+        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="102"/>
         <source>Box limits</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="108"/>
+        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="109"/>
         <source>Min.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="109"/>
+        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="110"/>
         <source>Max.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="143"/>
+        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="144"/>
+        <source>Seed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="150"/>
+        <source>&lt;p&gt;If Uniform is selected, the particles are generated uniformly in the starting y-z face of the box&lt;/p&gt;&lt;p&gt;If Gaussian is selected, the particles are generated according to a normal distribution using the box limits as the standard deviations in the y and z directions.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="153"/>
+        <source>Uniform</source>
+        <translation type="unfinished">均匀</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="154"/>
+        <source>Gaussian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="170"/>
         <source>ODE</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="149"/>
+        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="176"/>
         <source>Method:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="155"/>
+        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="182"/>
         <source>&lt;p&gt;The forward Euler method is the simplest, fastest and least precise method to calculate the flow lines.&lt;br&gt;The Runge-Kutta methods at order 2 and 4 are more accurate and more computationally expensive.&lt;br&gt;&lt;b&gt;Recommendation:&lt;/b&gt; select the most accurate method which does not slow down the frame rate.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="176"/>
+        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="203"/>
         <source>&lt;p&gt;Defines the time increment used to move the particles:&lt;br&gt;At each frame update, the particles move in the x-direction a distance equal to V&lt;sub&gt;&amp;infin;&lt;/sub&gt;.dt&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="192"/>
+        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="219"/>
         <source>Particles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="198"/>
+        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="225"/>
         <source>Nbr. of groups=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="200"/>
+        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="227"/>
         <source>&lt;p&gt;The calculation of the flow is dispatched to the GPU where it is broken down into groups of %1 particles.&lt;br&gt;The number of groups should be less than the max. number of groups accepted by the GPU.&lt;br&gt;The GroupSize is hard-coded in the compute shader.&lt;br&gt;The number of particles is NGroups x GroupSize.&lt;br&gt;In the present case the main limitation to the number of groups is the number of particles that can be computed and rendered without loss of frame rate.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="221"/>
+        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="249"/>
         <source>Flow lines style:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="237"/>
+        <location filename="../../flow5-app/interfaces/controls/poppctrls/flowctrls.cpp" line="264"/>
         <source>FPS</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2433,10 +2321,6 @@ Uncheck for increased analysis speed.</source>
 <context>
     <name>FoilScaleDlg</name>
     <message>
-        <source>Foil Geometry</source>
-        <translation type="vanished">翼型几何</translation>
-    </message>
-    <message>
         <location filename="../../flow5-app/interfaces/editors/foiledit/foilscaledlg.cpp" line="41"/>
         <source>Foil scaling</source>
         <translation type="unfinished"></translation>
@@ -2484,7 +2368,7 @@ Uncheck for increased analysis speed.</source>
     </message>
     <message>
         <location filename="../../flow5-app/interfaces/editors/foiledit/foiltegapdlg.cpp" line="69"/>
-        <source>Characteristic blending distance from T.E.=</source>
+        <source>Characteristic blending distance from L.E.=</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2891,303 +2775,199 @@ Uncheck for increased analysis speed.</source>
     </message>
 </context>
 <context>
-    <name>FuseXflDefDlg</name>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="138"/>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="143"/>
-        <source>NPanels</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="139"/>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="144"/>
-        <source>Actions</source>
-        <translation type="unfinished">操作</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="303"/>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="410"/>
-        <source>Section</source>
-        <translation type="unfinished">截面</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="305"/>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="412"/>
-        <source>Insert before</source>
-        <translation type="unfinished">在前插入</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="309"/>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="416"/>
-        <source>Insert after</source>
-        <translation type="unfinished">在后插入</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="313"/>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="420"/>
-        <source>Delete</source>
-        <translation type="unfinished">删除</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="600"/>
-        <source>&lt;p&gt;The degree must be less than the number of frames&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="601"/>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="627"/>
-        <source>Warning</source>
-        <translation type="unfinished">警告</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="626"/>
-        <source>&lt;p&gt;The degree must be less than the number of side lines&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="825"/>
-        <source>UV parameters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="830"/>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="870"/>
-        <source>Hoop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="831"/>
-        <source>Degree</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="844"/>
-        <source>NURBS fit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="848"/>
-        <source>Fit tolerance</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="851"/>
-        <source>&lt;p&gt;Defines the precision with which the spline will be fit to the control points.&lt;br&gt;Reduce this precision for a better fit with the risk of potential NURBS oscillations.&lt;br&gt;Increase this precision to get a smoother NURBS with a less precise fit.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="863"/>
-        <source>Panels</source>
-        <translation type="unfinished">面板</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="871"/>
-        <source>Number of panels</source>
-        <translation type="unfinished">面板数量</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="884"/>
-        <source>Uniform</source>
-        <translation type="unfinished">均匀</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="886"/>
-        <source>End points</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="921"/>
-        <source>Frame positions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="933"/>
-        <source>Active frame points</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="946"/>
-        <source>Meta</source>
-        <translation type="unfinished">元数据</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="947"/>
-        <source>NURBS parameters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="948"/>
-        <source>Tables</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="953"/>
-        <source>Undo</source>
-        <translation type="unfinished">撤销</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldefdlg.cpp" line="954"/>
-        <source>Redo</source>
-        <translation type="unfinished">重做</translation>
-    </message>
-</context>
-<context>
     <name>FuseXflDlg</name>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="61"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="88"/>
         <source>Xfl fuse editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="79"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="120"/>
         <source>Restore geometry and mesh</source>
         <translation type="unfinished">恢复几何和网格</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="80"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="121"/>
         <source>Scale</source>
         <translation type="unfinished">缩放</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="81"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="122"/>
         <source>Export body geometry to an XML file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="82"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="123"/>
         <source>Translate</source>
         <translation type="unfinished">平移</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="84"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="125"/>
         <source>Actions...</source>
         <translation type="unfinished">操作...</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="131"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="206"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="211"/>
+        <source>NPanels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="371"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="478"/>
+        <source>Section</source>
+        <translation type="unfinished">截面</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="373"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="480"/>
+        <source>Insert before</source>
+        <translation type="unfinished">在前插入</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="377"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="484"/>
+        <source>Insert after</source>
+        <translation type="unfinished">在后插入</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="381"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="488"/>
+        <source>Delete</source>
+        <translation type="unfinished">删除</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="628"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="1390"/>
+        <source>&lt;p&gt;The degree in the hoop direction must be less than the number of side lines&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="677"/>
+        <source>&lt;p&gt;The degree must be less than the number of frames&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="703"/>
+        <source>&lt;p&gt;The degree must be less than the number of side lines&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="930"/>
+        <source>UV parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="935"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="975"/>
+        <source>Hoop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="936"/>
+        <source>Degree</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="949"/>
+        <source>NURBS fit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="953"/>
+        <source>Fit tolerance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="956"/>
+        <source>&lt;p&gt;Defines the precision with which the spline will be fit to the control points.&lt;br&gt;Reduce this precision for a better fit with the risk of potential NURBS oscillations.&lt;br&gt;Increase this precision to get a smoother NURBS with a less precise fit.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="968"/>
+        <source>Panels</source>
+        <translation type="unfinished">面板</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="976"/>
+        <source>Number of panels</source>
+        <translation type="unfinished">面板数量</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="989"/>
+        <source>Uniform</source>
+        <translation type="unfinished">均匀</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="991"/>
+        <source>End points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="1026"/>
+        <source>Frame positions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="1038"/>
+        <source>Active frame points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="1051"/>
+        <source>Meta</source>
+        <translation type="unfinished">元数据</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="1052"/>
+        <source>NURBS parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="1053"/>
+        <source>Tables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="1058"/>
+        <source>Undo</source>
+        <translation type="unfinished">撤销</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="1059"/>
+        <source>Redo</source>
+        <translation type="unfinished">重做</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="1352"/>
         <source>&lt;p&gt;Cannot remove: the number of frames must be at least equal to the x degree + 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="132"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="629"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="678"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="704"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="1353"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="1391"/>
         <source>Warning</source>
         <translation type="unfinished">警告</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="530"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="1672"/>
         <source>Regenerate	(F4)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="531"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="207"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="212"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="1673"/>
         <source>Actions</source>
         <translation type="unfinished">操作</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="558"/>
+        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexfldlg.cpp" line="1700"/>
         <source>Export fuselage definition to xml file</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>FuseXflObjectDlg</name>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="63"/>
-        <source>Body object explorer</source>
-        <translation>机身对象浏览器</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="72"/>
-        <source>Insert before</source>
-        <translation>在前插入</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="73"/>
-        <source>Insert after</source>
-        <translation>在后插入</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="74"/>
-        <source>Delete</source>
-        <translation>删除</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="76"/>
-        <source>Section</source>
-        <translation>截面</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="143"/>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="175"/>
-        <source>Insert point mass before</source>
-        <translation>在前插入点质量</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="144"/>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="176"/>
-        <source>Insert point mass after</source>
-        <translation>在后插入点质量</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="145"/>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="177"/>
-        <source>Delete point mass</source>
-        <translation>删除点质量</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="162"/>
-        <source>Insert point before</source>
-        <translation>在前插入点</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="163"/>
-        <source>Insert point after</source>
-        <translation>在后插入点</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="164"/>
-        <source>Delete point</source>
-        <translation>删除点</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="168"/>
-        <source>Insert frame before</source>
-        <translation>在前插入框架</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="169"/>
-        <source>Insert frame after</source>
-        <translation>在后插入框架</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="170"/>
-        <source>Delete frame</source>
-        <translation>删除框架</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="188"/>
-        <source>Object</source>
-        <translation>对象</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="188"/>
-        <source>Field</source>
-        <translation>字段</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="188"/>
-        <source>Value</source>
-        <translation>值</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="188"/>
-        <source>Unit</source>
-        <translation>单位</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/fuseedit/xflfuseedit/fusexflobjectdlg.cpp" line="203"/>
-        <source>Objects</source>
-        <translation>对象</translation>
     </message>
 </context>
 <context>
@@ -3450,112 +3230,112 @@ Uncheck for increased analysis speed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="341"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="342"/>
         <source>Y-left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="341"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="342"/>
         <source>Y-right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="346"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="347"/>
         <source>Axes style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="349"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="350"/>
         <source>Y major grid - left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="350"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="351"/>
         <source>Y minor grid - left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="373"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="374"/>
         <source>Curves</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="377"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="378"/>
         <source>Default curve width:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="381"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="382"/>
         <source>Make children curve&apos;s style same as parent&apos;s style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="383"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="384"/>
         <source>Color darker factor:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="384"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="385"/>
         <source>&lt;p&gt;Set a value between 100 and 300 to increase the darkness of each polar or operating point in the sequence of their creation.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="400"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="401"/>
         <source>Other</source>
         <translation type="unfinished">其他</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="406"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="407"/>
         <source>Enable mouse animations</source>
         <translation type="unfinished">启用鼠标动画</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="408"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="409"/>
         <source>&lt;p&gt;Defines the damping of the animation at each frame update.&lt;br&gt;Set to 0 for perpetual movement.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="410"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="411"/>
         <source>% damping</source>
         <translation type="unfinished">% 阻尼</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="417"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="418"/>
         <source>Graphs steal focus on mouse move</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="418"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="419"/>
         <source>Show mouse coordinates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="419"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="420"/>
         <source>&lt;p&gt;Display the coordinates of the mouse on the top right corner of the graph&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="420"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="421"/>
         <source>Enable anti-aliasing</source>
         <translation type="unfinished">启用抗锯齿</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="426"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="427"/>
         <source>SVG font export: 1em=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="428"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="429"/>
         <source>&lt;p&gt;This value defines the reference font-size used when exporting to SVG.&lt;br&gt;Reduce this value to increase the size of fonts of the SVG image, and increase it to obtain smaller fonts.&lt;br&gt;Recommendation: size=10 to 12&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="432"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="433"/>
         <source>points</source>
         <translation type="unfinished">点</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="441"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphoptions.cpp" line="442"/>
         <source>Fill background when exporting to SVG</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3603,32 +3383,32 @@ Uncheck for increased analysis speed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphtilectrls.cpp" line="249"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphtilectrls.cpp" line="250"/>
         <source>Section</source>
         <translation type="unfinished">截面</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphtilectrls.cpp" line="251"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphtilectrls.cpp" line="252"/>
         <source>Move up</source>
         <translation type="unfinished">上移</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphtilectrls.cpp" line="252"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphtilectrls.cpp" line="253"/>
         <source>Move down</source>
         <translation type="unfinished">下移</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphtilectrls.cpp" line="253"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphtilectrls.cpp" line="254"/>
         <source>Delete</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphtilectrls.cpp" line="254"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphtilectrls.cpp" line="255"/>
         <source>Insert before</source>
         <translation type="unfinished">在前插入</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/graphs/controls/graphtilectrls.cpp" line="255"/>
+        <location filename="../../flow5-app/interfaces/graphs/controls/graphtilectrls.cpp" line="256"/>
         <source>Insert after</source>
         <translation type="unfinished">在后插入</translation>
     </message>
@@ -3947,545 +3727,541 @@ _____________已发出取消请求_____________
 <context>
     <name>MainFrame</name>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="218"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="219"/>
         <source>flow5 requires OpenGL 3.3 or greater.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="219"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="220"/>
         <source>Your system provides by default OpenGL %1.%2</source>
         <translation>您的系统默认提供 OpenGL %1.%2</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="222"/>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="2865"/>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="2874"/>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="2877"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="223"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="2879"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="2888"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="2891"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="275"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="281"/>
         <source>Directories:</source>
         <translation>目录：</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="276"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="282"/>
         <source>   Last used :       </source>
         <translation>   上次使用：       </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="277"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="283"/>
         <source>   Foil .dat files:  </source>
         <translation>   翼型 .dat 文件：  </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="278"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="284"/>
         <source>   Polar .plr files: </source>
         <translation>   极曲线 .plr 文件： </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="279"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="285"/>
         <source>   Plane .xml files: </source>
         <translation>   飞机 .xml 文件： </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="280"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="286"/>
         <source>   Polar .xml files: </source>
         <translation>   极曲线 .xml 文件： </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="281"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="287"/>
         <source>   CAD files:        </source>
         <translation>   CAD 文件：        </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="282"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="288"/>
         <source>   STL files:        </source>
         <translation>   STL 文件：        </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="283"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="289"/>
         <source>   Temporary files:  </source>
         <translation>   临时文件：  </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="284"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="290"/>
         <source>   File exports:     </source>
         <translation>   文件导出：     </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="523"/>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="530"/>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="741"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="529"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="536"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="747"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="523"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="529"/>
         <source>Please wait for the analysis to finish before closing</source>
         <translation>请等待分析完成后再关闭</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="530"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="536"/>
         <source>Save the project before closing?</source>
         <translation>关闭前保存项目吗？</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="607"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="613"/>
         <source>New project</source>
         <translation>新建项目</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="609"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="615"/>
         <source>Save and close the current project, create a new project</source>
         <translation>保存并关闭当前项目，创建一个新项目</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="612"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="618"/>
         <source>Close the project</source>
         <translation>关闭项目</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="613"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="619"/>
         <source>Save and close the current project</source>
         <translation>保存并关闭当前项目</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="616"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="622"/>
         <source>Open a project</source>
         <translation>打开项目</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="618"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="624"/>
         <source>Open an existing project file</source>
         <translation>打开现有的项目文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="621"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="627"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="623"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="629"/>
         <source>Save the project to disk</source>
         <translation>将项目保存到磁盘</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="626"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="632"/>
         <source>Load foil(s)</source>
         <translation>加载翼型</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="628"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="634"/>
         <source>Load foil(s) from .dat file</source>
         <translation>从 .dat 文件加载翼型</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="631"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="637"/>
         <source>Load polar file(s)</source>
         <translation>加载极曲线文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="632"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="638"/>
         <source>Load a .plr file</source>
         <translation>加载 .plr 文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="635"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="641"/>
         <source>Insert project</source>
         <translation>插入项目</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="636"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="642"/>
         <source>&lt;p&gt;Insert an existing project in the current project&lt;/p&gt;</source>
         <translation>&lt;p&gt;在当前项目中插入现有项目&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="640"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="646"/>
         <source>Close all</source>
         <translation>全部关闭</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="642"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="648"/>
         <source>&lt;p&gt;Close all modules, but do not unload the active project&lt;/p&gt;</source>
         <translation>&lt;p&gt;关闭所有模块，但不卸载活动项目&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="645"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="651"/>
         <source>Foil design</source>
         <translation>翼型设计</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="647"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="653"/>
         <source>&lt;p&gt;Open the Foil direct analysis module&lt;/p&gt;</source>
         <translation>&lt;p&gt;打开翼型直接分析模块&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="650"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="656"/>
         <source>Plane design</source>
         <translation>飞机设计</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="652"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="658"/>
         <source>&lt;p&gt;Open the Wing/plane design and analysis module&lt;/p&gt;</source>
         <translation>&lt;p&gt;打开机翼/飞机设计与分析模块&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="655"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="661"/>
         <source>Sail design</source>
         <translation>帆船设计</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="657"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="663"/>
         <source>Open the sail design and analysis module</source>
         <translation>打开帆船设计与分析模块</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="660"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="666"/>
         <source>Load last project</source>
         <translation>加载上一个项目</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="662"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="668"/>
         <source>Loads the last saved project</source>
         <translation>加载上一次保存的项目</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="665"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="671"/>
         <source>Save project as</source>
         <translation>项目另存为</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="667"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="673"/>
         <source>Save the current project under a new name</source>
         <translation>将当前项目另存为新名称</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="670"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="676"/>
         <source>Preferences</source>
         <translation>首选项</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="671"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="677"/>
         <source>Set default preferences for this application</source>
         <translation>设置此应用程序的默认首选项</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="675"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="681"/>
         <source>Restore toolbars</source>
         <translation>恢复工具栏</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="676"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="682"/>
         <source>Restores the toolbars to their original state</source>
         <translation>将工具栏恢复到原始状态</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="679"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="685"/>
         <source>Save view to image file</source>
         <translation>将视图保存为图像文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="681"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="687"/>
         <source>Saves the current view to a file on disk</source>
         <translation>将当前视图保存到磁盘上的文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="684"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="690"/>
         <source>Execute script</source>
         <translation>执行脚本</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="686"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="692"/>
         <source>Executes a set of foil and plane analysis defined in an xml file</source>
         <translation>执行 xml 文件中定义的一组翼型和飞机分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="689"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="695"/>
         <source>Restore default settings</source>
         <translation>恢复默认设置</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="690"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="696"/>
         <source>will revert to default settings at the next session</source>
         <translation>将在下次会话时恢复默认设置</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="701"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="707"/>
         <source>to file</source>
         <translation>导出到文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="702"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="708"/>
         <source>Export the current graph data to a text file</source>
         <translation>将当前图表数据导出为文本文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="705"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="711"/>
         <source>to SVG file</source>
         <translation>导出到 SVG 文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="708"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="714"/>
         <source>to clipboard</source>
         <translation>复制到剪贴板</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="709"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="715"/>
         <source>Copies the curve data to the clipboard, for pasting in an external editor or a spreadsheet</source>
         <translation>将曲线数据复制到剪贴板，以便粘贴到外部编辑器或电子表格中</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="712"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="718"/>
         <source>Reset scales 	R</source>
         <translation>重置比例 	R</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="713"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="719"/>
         <source>Restores the graph&apos;s x and y scales</source>
         <translation>恢复图表的 x 和 y 比例</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="716"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="722"/>
         <source>Reset splitter sizes</source>
         <translation>重置分割器大小</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="717"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="723"/>
         <source>Resets the split splizes to their default values</source>
         <translation>将分割器大小恢复为默认值</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="721"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="727"/>
         <source>Show legend</source>
         <translation>显示图例</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="723"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="729"/>
         <source>Toggle the in-graph legend display</source>
         <translation>切换图形内图例显示</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="726"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="732"/>
         <source>Settings	G</source>
         <translation>设置	G</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="729"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="735"/>
         <source>Open in new window</source>
         <translation>在新窗口中打开</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="733"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="739"/>
         <source>Fast graph</source>
         <translation>快速绘图</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="737"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="743"/>
         <source>Show log window</source>
         <translation>显示日志窗口</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="743"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="749"/>
         <source>Exit the application</source>
         <translation>退出应用程序</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="746"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="752"/>
         <source>OpenGL settings</source>
         <translation>OpenGL 设置</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="750"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="756"/>
         <source>View last log file</source>
         <translation>查看上次日志文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="754"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="760"/>
         <source>View trace file</source>
         <translation>查看跟踪文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="771"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="777"/>
         <source>3d Cp graph</source>
         <translation>3D Cp 图</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="819"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="825"/>
         <source>Boat analysis</source>
         <translation>船体分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="824"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="830"/>
         <source>Sail 3d controls</source>
         <translation>帆 3D 控制</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="829"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="835"/>
         <source>Boat object explorer</source>
         <translation>船体对象浏览器</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="869"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="875"/>
         <source>Analysis 2d</source>
         <translation>2D 分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="878"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="884"/>
         <source>Operating point</source>
         <translation>操作点</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="887"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="893"/>
         <source>Foil object explorer</source>
         <translation>翼型对象浏览器</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="897"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="903"/>
         <source>Foil object table</source>
         <translation>翼型对象表</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="966"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="972"/>
         <source>Analysis 3d</source>
         <translation>3D 分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="971"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="977"/>
         <source>Plane explorer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Plane Explorer</source>
-        <translation type="vanished">飞机浏览器</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="976"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="982"/>
         <source>Plane 3d view</source>
         <translation>飞机 3D 视图</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="981"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="987"/>
         <source>Graphs</source>
         <translation>图表</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="985"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="991"/>
         <source>Stability time controls</source>
         <translation>稳定性时间控制</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="996"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1002"/>
         <source>&amp;File</source>
         <translation>文件(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1025"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1031"/>
         <source>&amp;Module</source>
         <translation>模块(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1038"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1044"/>
         <source>&amp;Options</source>
         <translation>选项(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1050"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1056"/>
         <source>&amp;?</source>
         <translation>帮助(&amp;?)</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1052"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1058"/>
         <source>About flow5</source>
         <translation>关于 flow5</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1053"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1059"/>
         <source>More information about flow5</source>
         <translation>关于 flow5 的更多信息</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1056"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1062"/>
         <source>About Qt</source>
         <translation>关于 Qt</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1059"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1065"/>
         <source>Credits</source>
         <translation>鸣谢</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1062"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1068"/>
         <source>Online doc.</source>
         <translation>在线文档</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1065"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1071"/>
         <source>Release notes</source>
         <translation>发行说明</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1095"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1101"/>
         <source>Ready</source>
         <translation>就绪</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1106"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1112"/>
         <source>MainToolBar</source>
         <translation>主工具栏</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1128"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1134"/>
         <source>XSailToolBar</source>
         <translation>XSail 工具栏</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1139"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1145"/>
         <source>XDirect</source>
         <translation>XDirect</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1150"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1156"/>
         <source>Foil</source>
         <translation>翼型</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1172"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1178"/>
         <source>PlaneToolBar</source>
         <translation>飞机工具栏</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1187"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1193"/>
         <source>Deleting current project
 </source>
         <translation>正在删除当前项目
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1192"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1198"/>
         <source>   Deleting 2d objects
 </source>
         <translation>   正在删除 2D 对象
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1749"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1763"/>
         <source>Question</source>
         <translation>问题</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1749"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1763"/>
         <source>Save the current project?</source>
         <translation>保存当前项目？</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1761"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1775"/>
         <source>The project </source>
         <translation>项目 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1761"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1775"/>
         <source> has been saved
 
 </source>
@@ -4494,18 +4270,18 @@ _____________已发出取消请求_____________
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1807"/>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1811"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1821"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1825"/>
         <source>Default Settings</source>
         <translation>默认设置</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1807"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1821"/>
         <source>Are you sure you want to reset the default settings?</source>
         <translation>您确定要重置默认设置吗？</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/globals/mainframe.cpp" line="1811"/>
+        <location filename="../../flow5-app/globals/mainframe.cpp" line="1825"/>
         <source>The settings will be reset at the next session</source>
         <translation>设置将在下次会话时重置</translation>
     </message>
@@ -4779,399 +4555,181 @@ _____________已发出取消请求_____________
     </message>
 </context>
 <context>
-    <name>OptimPlaneDlg</name>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="172"/>
-        <source>Reset variables</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="187"/>
-        <source>Define analysis</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="188"/>
-        <source>Run calculation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="206"/>
-        <source>Active</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="207"/>
-        <source>Objective</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="208"/>
-        <source>Type</source>
-        <translation type="unfinished">类型</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="209"/>
-        <source>Target</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="210"/>
-        <source>Max. error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="233"/>
-        <source>Plane</source>
-        <translation>平面</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="234"/>
-        <source>Analysis</source>
-        <translation>分析</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="235"/>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="296"/>
-        <source>Variables</source>
-        <translation>变量</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="236"/>
-        <source>PSO</source>
-        <translation>PSO</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="237"/>
-        <source>Optimizer</source>
-        <translation>优化器</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="297"/>
-        <source>Pareto graph</source>
-        <translation>帕累托图</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="298"/>
-        <source>Frontier particles</source>
-        <translation>边界粒子</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="323"/>
-        <source>Swarm size:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="326"/>
-        <source>Max. Pareto size:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="328"/>
-        <source>&lt;p&gt;The maximum size of the Pareto frontier&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="330"/>
-        <source>Inertia weight:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="332"/>
-        <source>&lt;p&gt;The inertia weight determines the influence of the particle&apos;s current velocity on its updated velocity.&lt;br&gt;Recommendation: 0.3&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="336"/>
-        <source>Cognitive weight:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="338"/>
-        <source>&lt;p&gt;The cognitive weight determines the influence of the particle&apos;s best position.&lt;br&gt;Recommendation: 0.7&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="341"/>
-        <source>Social weight:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="343"/>
-        <source>&lt;p&gt;The social weight determines the influence of the global best-known position.&lt;br&gt;Recommendation: 0.7&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="346"/>
-        <source>Regeneration probability:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="349"/>
-        <source>&lt;p&gt;The probability that a particle will be re-created at a random position at each iteration.&lt;br&gt;Increases the likelyhood that the swarm will not get stuck on a local minimum.&lt;br&gt;Recommendation: 5% to 25%&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="354"/>
-        <source>Max. iterations:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="357"/>
-        <source>Restore defaults</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="360"/>
-        <source>Multi-threaded</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="443"/>
-        <source>Make random swarm</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="445"/>
-        <source>Store best</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="446"/>
-        <source>&lt;p&gt;Adds the current best to the database&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="447"/>
-        <source>Continue from current best</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="448"/>
-        <source>&lt;p&gt;Uses the current best plane as the basis for further optimization&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="464"/>
-        <source>2d single-objective demo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="468"/>
-        <source>Reset Pareto frontier</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="479"/>
-        <source>Clear output</source>
-        <translation type="unfinished">清除输出</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="480"/>
-        <source>&lt;p&gt;Clears the text output&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="709"/>
-        <source>Question</source>
-        <translation>问题</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="709"/>
-        <source>Discard results?</source>
-        <translation>放弃结果？</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="444"/>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="929"/>
-        <source>Swarm</source>
-        <translation>群</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="86"/>
-        <source>Optimization 3d</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/optim/optimplanedlg.cpp" line="1085"/>
-        <source>Interrupt task</source>
-        <translation>中断任务</translation>
-    </message>
-</context>
-<context>
     <name>POpp3dCtrls</name>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="223"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="239"/>
         <source>Display</source>
         <translation>显示</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="224"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="240"/>
         <source>Scales</source>
         <translation>比例</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="225"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="241"/>
         <source>Stability</source>
         <translation>稳定性</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="149"/>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="226"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="152"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="242"/>
         <source>Streamlines</source>
         <translation>流线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="128"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="131"/>
         <source>&lt;p&gt;Displays the distribution of doublet densities or vortex strengths.&lt;br&gt;This is the main result of the potential flow calculation, and &lt;u&gt;all other results&lt;/u&gt; are derived from this distribution. It is therefore important that it does not exhibit numerical issues which would show up as singularities i.e. areas with peak values.&lt;/p&gt;</source>
         <translation>&lt;p&gt;显示偶极子密度或涡旋强度的分布。&lt;br&gt;这是势流计算的主要结果，&lt;u&gt;所有其他结果&lt;/u&gt;均源自此分布。因此，重要的是它不会表现出数值问题，例如出现峰值区域的奇异性。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="134"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="137"/>
         <source>Cp</source>
         <translation>Cp</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="135"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="138"/>
         <source>&lt;p&gt;Display the panel pressure coefficients&lt;/p&gt;</source>
         <translation>&lt;p&gt;显示面板压力系数&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="136"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="139"/>
         <source>F/s=q.Cp</source>
         <translation>F/s=q.Cp</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="137"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="140"/>
         <source>&lt;p&gt;Display the pressures &amp;frac12; &amp;rho; V&lt;sup&gt;2&lt;/sup&gt; Cp acting on the panels&lt;/p&gt;</source>
         <translation>&lt;p&gt;显示作用在面板上的压力 &amp;frac12; &amp;rho; V&lt;sup&gt;2&lt;/sup&gt; Cp&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="138"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="141"/>
         <source>Strip lift</source>
         <translation>条带升力</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="139"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="142"/>
         <source>Resultant force</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="140"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="143"/>
         <source>Resulting force in wind axes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="141"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="144"/>
         <source>Part forces</source>
         <translation>部件受力</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="142"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="145"/>
         <source>Resulting part forces in wind axes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="143"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="146"/>
         <source>Induced drag</source>
         <translation>诱导阻力</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="144"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="147"/>
         <source>Viscous drag</source>
         <translation>粘性阻力</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="145"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="148"/>
         <source>Transitions</source>
         <translation>转捩</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="146"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="149"/>
         <source>Moment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="147"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="150"/>
         <source>Resulting moment in wind axes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="153"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="155"/>
+        <source>Wind axes</source>
+        <translation type="unfinished">风轴</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="157"/>
+        <source>Stability axes</source>
+        <translation type="unfinished">稳定轴</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="160"/>
         <source>&lt;p&gt;Launches an animation of the flow around the model.&lt;br&gt;Requires OpenGL 4.3+.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Moments</source>
-        <translation type="vanished">力矩</translation>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="163"/>
+        <source>&lt;p&gt;The wake panels are constructed in the direction of the geometry&apos;s x-axis, and the calculations are run with this horizontal set of wake panels.&lt;br&gt;However for the post-processing &lt;u&gt;only&lt;/u&gt; the wake panels are rotated and aligned with the direction of the wind&apos;s x-axis. This is necessary to calculate the streamlines and to animate the flow in a realistic manner.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="148"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="151"/>
         <source>Downwash</source>
         <translation>下洗</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="150"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="153"/>
         <source>Flaps</source>
         <translation>襟翼</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="151"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="154"/>
         <source>CoG</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="152"/>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="227"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="159"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="243"/>
         <source>Flow</source>
         <translation>流场</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Launches an animation of the flow around the model.&lt;br&gt;The parameters are set in the last tab of the scales widget.&lt;/p&gt;</source>
-        <translation type="vanished">&lt;p&gt;启动模型周围流动的动画。&lt;br&gt;参数在缩放小部件的最后一个选项卡中设置。&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="155"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="162"/>
         <source>Wake panels</source>
         <translation>尾流面板</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="156"/>
-        <source>&lt;p&gt;T6 polars only&lt;/p&gt;</source>
-        <translation>&lt;p&gt;仅T6极曲线&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="157"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="169"/>
         <source>Vortons</source>
         <translation>涡元</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="158"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="170"/>
         <source>&lt;p&gt;T6 polars + VPW only&lt;/p&gt;</source>
         <translation>&lt;p&gt;仅T6极曲线 + VPW&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="159"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="171"/>
         <source>Ground/Free surface</source>
         <translation>地面/自由面</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="160"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="172"/>
         <source>Pick value</source>
         <translation>选取值</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="162"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="174"/>
         <source>&lt;p&gt;Activate this checkbox and move the mouse over the mesh.&lt;br&gt;Click to select.&lt;br&gt;Escape to clear selection.&lt;br&gt;(Shift+H)&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="168"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="180"/>
         <source>Animate</source>
         <translation>动画</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="228"/>
+        <location filename="../../flow5-app/modules/xplane/controls/popp3dctrls.cpp" line="244"/>
         <source>Wake</source>
         <translation>尾迹</translation>
     </message>
@@ -5529,10 +5087,6 @@ Ctrl+B 编辑第一机身</translation>
 <context>
     <name>PlanePolarDlg</name>
     <message>
-        <source>Auto inertia</source>
-        <translation type="vanished">自动惯性矩</translation>
-    </message>
-    <message>
         <location filename="../../flow5-app/interfaces/editors/analysis3ddef/planepolardlg.cpp" line="75"/>
         <source>Use plane inertia</source>
         <translation type="unfinished"></translation>
@@ -5757,26 +5311,6 @@ Ctrl+B 编辑第一机身</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Angle (</source>
-        <translation type="vanished">角度 (</translation>
-    </message>
-    <message>
-        <source>)</source>
-        <translation type="vanished">)</translation>
-    </message>
-    <message>
-        <source>Notes:
-	(1) + sign means trailing edge down
-	(2) Flaps are numbered from left tip to right tip
-	(3) Use in conjunction with THIN surfaces
-	(4) Use in conjunction with XFoil on the fly calculations</source>
-        <translation type="vanished">注意：
-	(1) + 符号表示后缘向下
-	(2) 襟翼从左侧翼尖到右侧翼尖编号
-	(3) 请与“薄”表面配合使用
-	(4) 请与 实时 XFoil 计算配合使用</translation>
-    </message>
-    <message>
         <location filename="../../flow5-app/interfaces/editors/analysis3ddef/planepolardlg.cpp" line="448"/>
         <source>Wings</source>
         <translation>机翼</translation>
@@ -5967,394 +5501,394 @@ Ctrl+B 编辑第一机身</translation>
 <context>
     <name>PlaneXflDlg</name>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="123"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="122"/>
         <source>Xfl plane editor</source>
         <translation>Xfl 飞机编辑器</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="215"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="214"/>
         <source>Scale plane</source>
         <translation>缩放飞机</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="251"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="250"/>
         <source>Insert</source>
         <translation>插入</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="254"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="253"/>
         <source>Wing</source>
         <translation>机翼</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="266"/>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="284"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="265"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="283"/>
         <source>Fuselage</source>
         <translation>机身</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="268"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="267"/>
         <source>xfl-type fuselage</source>
         <translation>xfl 类型机身</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="280"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="279"/>
         <source>Testing</source>
         <translation>测试</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="298"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="297"/>
         <source>Highlight selected part</source>
         <translation>高亮选中部件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="322"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="321"/>
         <source>Target assembly:</source>
         <translation>目标装配:</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="325"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="324"/>
         <source>Thin  surfaces</source>
         <translation>薄面</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="326"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="325"/>
         <source>Thick surfaces</source>
         <translation>厚面</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="327"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="326"/>
         <source>&lt;p&gt;Assemble the fuselage and wings for THIN surface calculations;&lt;br&gt;The fuselage mesh will conform to the mid-camber line of the selected wings.&lt;/p&gt;</source>
         <translation>&lt;p&gt;组装机身和机翼用于薄面计算;&lt;br&gt;机身网格将符合所选机翼的中弧线。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="330"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="329"/>
         <source>&lt;p&gt;Assemble the fuselage and wings for THICK surface calculations;&lt;br&gt;The fuselage mesh will conform to the top and bottom surfaces of the selected wings.&lt;/p&gt;</source>
         <translation>&lt;p&gt;组装机身和机翼用于厚面计算;&lt;br&gt;机身网格将符合所选机翼的上下表面。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="343"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="342"/>
         <source>Select the wings connected to the fuselage:</source>
         <translation>选择连接到机身的机翼:</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="378"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="377"/>
         <source>Use the actions below to modify the fuselage&apos;s mesh&lt;br&gt;and to connect it to the wing&apos;s mesh.</source>
         <translation>使用以下操作修改机身网格&lt;br&gt;并将连接到机翼网格。</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="384"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="383"/>
         <source>Node translation:</source>
         <translation>节点平移:</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="385"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="384"/>
         <source>Move node</source>
         <translation>移动节点</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="386"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="385"/>
         <source>&lt;p&gt;Use this option to move a fuselage node and to merge it with another. Select first the source node to move, then the destination node.&lt;/p&lt;</source>
         <translation>&lt;p&gt;使用此选项移动机身节点并将其与另一个节点合并。首先选择要移动的源节点，然后选择目标节点。&lt;/p&lt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="392"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="391"/>
         <source>Panel deletion:</source>
         <translation>面板删除:</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="393"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="392"/>
         <source>Select</source>
         <translation>选择</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="395"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="394"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="397"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="396"/>
         <source>Panel creation:</source>
         <translation>面板创建:</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="398"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="397"/>
         <source>Single</source>
         <translation>单个</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="401"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="400"/>
         <source>Strip</source>
         <translation>条带</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="404"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="403"/>
         <source>Make opposite</source>
         <translation>生成对称</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="420"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="419"/>
         <source>Undo</source>
         <translation>撤销</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="422"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="421"/>
         <source>Redo</source>
         <translation>重做</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="433"/>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="435"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="432"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="434"/>
         <source>Mesh actions</source>
         <translation>网格操作</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="437"/>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="565"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="436"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="564"/>
         <source>Restore default mesh</source>
         <translation>恢复默认网格</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="438"/>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="566"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="437"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="565"/>
         <source>Fuselage mesher</source>
         <translation>机身网格生成器</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="468"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="467"/>
         <source>Meta</source>
         <translation>元数据</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="469"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="468"/>
         <source>Parts</source>
         <translation>部件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="470"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="469"/>
         <source>Assembly</source>
         <translation>装配</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="471"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="470"/>
         <source>Fuselage mesh</source>
         <translation>机身网格</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="472"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="471"/>
         <source>Mesh connections</source>
         <translation>网格连接</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="557"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="556"/>
         <source>context menu</source>
         <translation>上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="563"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="562"/>
         <source>Mesh</source>
         <translation>网格</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="636"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="635"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="637"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="636"/>
         <source>new</source>
         <translation>新建</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="638"/>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="648"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="637"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="647"/>
         <source>from other plane</source>
         <translation>从其他飞机</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="639"/>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="647"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="638"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="646"/>
         <source>from XML file</source>
         <translation>从 XML 文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="640"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="639"/>
         <source>from VSP export</source>
         <translation>从 VSP 导出</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="641"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="640"/>
         <source>Elevator</source>
         <translation>平尾</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="642"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="641"/>
         <source>Fin</source>
         <translation>垂尾</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="643"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="642"/>
         <source>NURBS type</source>
         <translation>NURBS 类型</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="644"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="643"/>
         <source>Quad faces</source>
         <translation>四边形面</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="645"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="644"/>
         <source>Interpolated (in progress)</source>
         <translation>插值 (开发中)</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="649"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="648"/>
         <source>from CAD file</source>
         <translation>从 CAD 文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="650"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="649"/>
         <source>from mesh file (OBJ or STL)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="651"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="650"/>
         <source>Insert elliptical wing</source>
         <translation>插入椭圆机翼</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="652"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="651"/>
         <source>Insert STL sphere fuselage</source>
         <translation>插入 STL 球体机身</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="653"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="652"/>
         <source>Insert STL cylinder fuselage</source>
         <translation>插入 STL 圆柱机身</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="654"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="653"/>
         <source>Insert CAD sphere fuselage</source>
         <translation>插入 CAD 球体机身</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="655"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="654"/>
         <source>Insert CAD cylinder fuselage</source>
         <translation>插入 CAD 圆柱机身</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="656"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="655"/>
         <source>Insert CAD box fuselage</source>
         <translation>插入 CAD 长方体机身</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="657"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="656"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="658"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="657"/>
         <source>Duplicate</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="660"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="659"/>
         <source>Restore geometry and mesh</source>
         <translation>恢复几何和网格</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="661"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="660"/>
         <source>Fuse tessellation</source>
         <translation>机身曲面细分</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="663"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="662"/>
         <source>Inertia</source>
         <translation>惯性矩</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="664"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="663"/>
         <source>Scale</source>
         <translation>缩放</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="665"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="664"/>
         <source>Move Up</source>
         <translation>上移</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="666"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="665"/>
         <source>Move Down</source>
         <translation>下移</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="668"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="667"/>
         <source>Export mesh to STL</source>
         <translation>导出网格为 STL</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="670"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="669"/>
         <source>Selected Part</source>
         <translation>选中部件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="1396"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="1395"/>
         <source>Root chord:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="1396"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="1395"/>
         <source>Span:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="1396"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="1395"/>
         <source>Nbr. of panels:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="1432"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="1431"/>
         <source>&lt;p&gt;Number of icosahedron splits (0&amp;le;n&amp;le;4)&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2249"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2245"/>
         <source>Selected part</source>
         <translation>选定部件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2501"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2498"/>
         <source>Object List</source>
         <translation>对象列表</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2690"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2687"/>
         <source>Scale factor:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2719"/>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2755"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2716"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2752"/>
         <source>Length=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2719"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2716"/>
         <source>Radius=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2755"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2752"/>
         <source>Width=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2755"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2752"/>
         <source>Height=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2875"/>
+        <location filename="../../flow5-app/interfaces/editors/planeedit/planexfldlg.cpp" line="2872"/>
         <source>stack: %1/%2</source>
         <translation>堆栈: %1/%2</translation>
     </message>
@@ -6831,14 +6365,14 @@ Ctrl+B 编辑第一机身</translation>
     </message>
     <message>
         <location filename="../../flow5-app/options/prefsdlg.cpp" line="205"/>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="691"/>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="731"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="687"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="727"/>
         <source>Background</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../flow5-app/options/prefsdlg.cpp" line="213"/>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="687"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="683"/>
         <source>Fonts</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6899,166 +6433,165 @@ use preferably a fix-spaced font&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="275"/>
-        <source>Define the percentage increase by which the views should be zoomed in or out
-when using the mouse wheel.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="277"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="276"/>
         <source>%; Set a negative value to reverse the direction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="294"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="293"/>
         <source>Localization</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="298"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="297"/>
         <source>Language:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="304"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="303"/>
         <source>Use locale settings for number formatting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="333"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="331"/>
         <source>Maximum thread count supported by the OS = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="337"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="335"/>
         <source>Maximum thread count to use = </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="346"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="344"/>
         <source>Thread priority</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="387"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="385"/>
         <source>Enable MKL dynamic threading; Recommendation: enable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="368"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="366"/>
         <source>Linux OS does not support thread priority</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="516"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="275"/>
+        <source>&lt;p&gt;Define the percentage increase by which the views should be zoomed in or out when using the mouse wheel.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="512"/>
         <source>Text colour</source>
         <translation>文本颜色</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="632"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="628"/>
         <source>Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="652"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="648"/>
         <source>Save, load, export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="656"/>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="717"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="652"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="713"/>
         <source>General</source>
         <translation type="unfinished">常规</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="660"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="656"/>
         <source>Directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="664"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="660"/>
         <source>Export options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="668"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="664"/>
         <source>Foil to SVG</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="672"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="668"/>
         <source>Operating points</source>
         <translation type="unfinished">操作点</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="678"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="674"/>
         <source>Units</source>
         <translation type="unfinished">单位</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="683"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="679"/>
         <source>Graphs</source>
         <translation type="unfinished">图表</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="695"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="691"/>
         <source>Padding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="703"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="699"/>
         <source>Curves</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="707"/>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="743"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="703"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="739"/>
         <source>Other</source>
         <translation type="unfinished">其他</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="713"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="709"/>
         <source>2d views</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="721"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="717"/>
         <source>Axes and grids</source>
         <translation type="unfinished">坐标轴和网格</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="727"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="723"/>
         <source>3d views</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="735"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="731"/>
         <source>Colours</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="739"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="735"/>
         <source>Tessellation</source>
         <translation type="unfinished">曲面细分</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="328"/>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="749"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="327"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="745"/>
         <source>Multithreading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="753"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="749"/>
         <source>Option</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="961"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="957"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/options/prefsdlg.cpp" line="961"/>
+        <location filename="../../flow5-app/options/prefsdlg.cpp" line="957"/>
         <source>The change will take effect after restarting the application.</source>
         <translation>更改将在重启应用程序后生效。</translation>
     </message>
@@ -8573,243 +8106,233 @@ when using the mouse wheel.</source>
         <translation>分析定义</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="291"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="293"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="291"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="293"/>
         <source>Mass must be non-zero for type 2 polars</source>
         <translation>对于类型 2 极曲线，质量必须非零</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="370"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="372"/>
         <source>Type 2 (fixed lift)</source>
         <translation>类型 2 (固定升力)</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="371"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="373"/>
         <source>Type 3 (speed polar)</source>
         <translation>类型 3 (速度极曲线)</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="369"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="371"/>
         <source>Type 1 (fixed velocity)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="372"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="374"/>
         <source>Type 4 (fixed angle of attack)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="373"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="375"/>
         <source>Type 5 (sideslip analysis)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="374"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="376"/>
         <source>Type 7 (stability analysis)</source>
         <translation>类型 7 (稳定性分析)</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="375"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="377"/>
         <source>Type 8</source>
         <translation>类型 8</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="433"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="464"/>
         <source>&lt;p&gt;&amp;phi; =&lt;/p&gt;</source>
         <translation>&lt;p&gt;&amp;phi; =&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="435"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="466"/>
         <source>&lt;p&gt;The bank angle&lt;/p&gt;</source>
         <translation>&lt;p&gt;倾斜角&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="436"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="467"/>
         <source>&lt;p&gt;&amp;deg;&lt;/p&gt;</source>
         <translation>&lt;p&gt;&amp;deg;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="450"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="416"/>
         <source>&lt;p&gt;V&lt;sub&gt;&amp;infin;&lt;/sub&gt;=</source>
         <translation>&lt;p&gt;V&lt;sub&gt;&amp;infin;&lt;/sub&gt;=</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="467"/>
-        <source>Wing loading = 0.033 kg/dm2</source>
-        <translation>翼载荷 = 0.033 kg/dm2</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="468"/>
-        <source>Re info</source>
-        <translation>雷诺数信息</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="504"/>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="516"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="518"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="530"/>
         <source>Controls</source>
         <translation>控制</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="509"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="523"/>
         <source>Control name</source>
         <translation>控制名称</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="521"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="535"/>
         <source>Control surfaces</source>
         <translation>控制面</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="522"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="536"/>
         <source>Gain (</source>
         <translation>增益 (</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="522"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="536"/>
         <source>)/ ctrl unit</source>
         <translation>)/ 控制单位</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="537"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="551"/>
         <source>&lt;p&gt;Each set of controls is used to calculate a control derivative.&lt;/p&gt;</source>
         <translation>&lt;p&gt;每组控制用于计算控制导数。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="546"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="560"/>
         <source>Polar type</source>
         <translation>极曲线类型</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="547"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="561"/>
         <source>Method</source>
         <translation>方法</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="548"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="562"/>
         <source>Ref. dimensions</source>
         <translation>参考尺寸</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="549"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="563"/>
         <source>Fluid</source>
         <translation>流体</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="550"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="564"/>
         <source>Inertia</source>
         <translation>惯性矩</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="551"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="565"/>
         <source>Viscosity</source>
         <translation>粘度</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="552"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="566"/>
         <source>Flaps</source>
         <translation>襟翼</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="553"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="567"/>
         <source>AVL-type ctrls</source>
         <translation>AVL 类型控制</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="554"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="568"/>
         <source>Ground</source>
         <translation>地面</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="555"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="569"/>
         <source>Fuselage</source>
         <translation>机身</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="556"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="570"/>
         <source>Extra drag</source>
         <translation>额外阻力</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="557"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="571"/>
         <source>Wake</source>
         <translation>尾流</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="586"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="600"/>
         <source>Wing loading = </source>
         <translation>翼载荷 = </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="610"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="624"/>
         <source>Root Re = %1</source>
         <translation>根部 Re = %1</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="613"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="627"/>
         <source>Tip Re   = %1</source>
         <translation>翼梢 Re   = %1</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="620"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="634"/>
         <source>V</source>
         <translation>V</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="620"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="634"/>
         <source>.sqrt(Cl) = %1</source>
         <translation>.sqrt(Cl) = %1</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="624"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="638"/>
         <source>Root Re.sqrt(Cl) = %1</source>
         <translation>根部 Re.sqrt(Cl) = %1</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="628"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="642"/>
         <source>Tip Re.sqrt(Cl) = %1</source>
         <translation>翼梢 Re.sqrt(Cl) = %1</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="748"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="762"/>
         <source>Append new control set</source>
         <translation>追加新控制集</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="749"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="763"/>
         <source>Delete selected</source>
         <translation>删除选定</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="750"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="764"/>
         <source>Duplicate</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="751"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="765"/>
         <source>Move up</source>
         <translation>上移</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="752"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="766"/>
         <source>Move down</source>
         <translation>下移</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="764"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="778"/>
         <source>Duplicate %1</source>
         <translation>复制 %1</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="765"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="779"/>
         <source>Delete %1</source>
         <translation>删除 %1</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="789"/>
+        <location filename="../../flow5-app/interfaces/editors/analysis3ddef/t1234578polardlg.cpp" line="803"/>
         <source>new control_%1</source>
         <translation>新控件_%1</translation>
     </message>
@@ -9093,433 +8616,434 @@ when using the mouse wheel.</source>
 <context>
     <name>W3dPrefs</name>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="133"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="134"/>
         <source>3d Styles</source>
         <translation>3d 样式</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="238"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="240"/>
         <source>Select an image from a file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="325"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="328"/>
         <source>Default colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="329"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="332"/>
         <source>Background image</source>
         <translation type="unfinished">背景图像</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="400"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="403"/>
         <source>Colour settings</source>
         <translation>颜色设置</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="406"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="409"/>
         <source>Geometry</source>
         <translation>几何</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="407"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="410"/>
         <source>Mesh</source>
         <translation>网格</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="408"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="411"/>
         <source>Vortons</source>
         <translation>涡元</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="413"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="416"/>
         <source>Results</source>
         <translation>结果</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="414"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="417"/>
         <source>Selected</source>
         <translation>已选</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="415"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="418"/>
         <source>Highlighted</source>
         <translation>高亮</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="416"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="419"/>
         <source>Axes</source>
         <translation>轴</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="417"/>
-        <source>Wind</source>
-        <translation>风</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="418"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="422"/>
         <source>Geometry outline</source>
         <translation>几何轮廓</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="419"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="423"/>
         <source>Transitions</source>
         <translation>转捩</translation>
     </message>
     <message>
-        <source>Lift and forces</source>
-        <translation type="vanished">升力和力</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="422"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="426"/>
         <source>Moments</source>
         <translation>力矩</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="423"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="427"/>
         <source>Induced drag</source>
         <translation>诱导阻力</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="424"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="428"/>
         <source>Viscous drag</source>
         <translation>粘性阻力</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="425"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="429"/>
         <source>Velocity vectors</source>
         <translation>速度矢量</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="426"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="430"/>
         <source>Streamlines</source>
         <translation>流线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="427"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="431"/>
         <source>Flow lines</source>
         <translation>流线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="428"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="432"/>
         <source>Masses</source>
         <translation>质量</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="429"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="433"/>
         <source>Panel outline</source>
         <translation>面板轮廓</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="430"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="434"/>
         <source>Fuse panels:</source>
         <translation>机身面板:</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="431"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="435"/>
         <source>Wing panels:</source>
         <translation>机翼面板:</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="432"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="436"/>
         <source>Flap panels:</source>
         <translation>襟翼面板:</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="433"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="437"/>
         <source>Wake panels:</source>
         <translation>尾流面板:</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="452"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="457"/>
         <source>Use wing colour</source>
         <translation>使用机翼颜色</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="456"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="461"/>
         <source>Use background color for mesh panels</source>
         <translation>对网格面板使用背景颜色</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="434"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="438"/>
         <source>Colour:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="435"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="439"/>
         <source>Radius:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="436"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="440"/>
         <source>% viewport width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="552"/>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="563"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="560"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="571"/>
         <source>Ground/Water</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="567"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="575"/>
         <source>x-length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="568"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="576"/>
         <source>y-width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="591"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="599"/>
         <source>&lt;p&gt;Note: This is only a visual help feature.&lt;br&gt;The actual ground surface used in the analysis extends to infinity.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="598"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="606"/>
         <source>Colour map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="604"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="612"/>
         <source>Gradient colours:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="618"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="626"/>
         <source>Nbr. of isobars (trilinear only):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="636"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="644"/>
         <source>Tessellation</source>
         <translation type="unfinished">曲面细分</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="649"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="657"/>
         <source>&lt;p&gt;Increase the number of points to improve the tessellation of the surfaces.&lt;br&gt;This may increase the loading times and also slow down the display on low-end graphic cards.&lt;br&gt;Reload required to take effect.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="678"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="686"/>
         <source>&lt;p&gt;The defaults will apply to new parts only.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="1371"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="1391"/>
         <source>Open image file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="1392"/>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="1401"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="1412"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="1421"/>
         <source>Colour</source>
         <translation type="unfinished">颜色</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="645"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="653"/>
         <source>Ruled surfaces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="317"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="320"/>
         <source>Background</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="326"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="329"/>
         <source>&lt;p&gt;Uses the background color defined for the application&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="327"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="330"/>
         <source>Gradient</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="328"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="331"/>
         <source>&lt;p&gt;Fills the background with a 2-colours gradient&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="330"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="333"/>
         <source>&lt;p&gt;Fills the background with an image loaded from a file;&lt;br&gt;the image is scaled to fill the background&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="348"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="351"/>
         <source>Start:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="349"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="352"/>
         <source>End:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="355"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="358"/>
         <source>Angle =</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="378"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="381"/>
         <source>Select file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="420"/>
+        <source>Stability axes</source>
+        <translation type="unfinished">稳定轴</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="421"/>
+        <source>Wind axes</source>
+        <translation type="unfinished">风轴</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="424"/>
         <source>Lift</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="421"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="425"/>
         <source>Forces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="661"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="669"/>
         <source>Wing chordwise direction:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="662"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="670"/>
         <source>Body axial direction:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="663"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="671"/>
         <source>Body hoop direction:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="664"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="672"/>
         <source>Sail x-direction:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="665"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="673"/>
         <source>Sail z-direction:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="674"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="682"/>
         <source>Gmsh tessellation defaults for fuselages and sails</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="693"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="701"/>
         <source>Other</source>
         <translation type="unfinished">其他</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="699"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="707"/>
         <source>Enable mouse animations</source>
         <translation type="unfinished">启用鼠标动画</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="701"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="709"/>
         <source>&lt;p&gt;Defines the damping of the animation at each frame update.&lt;br&gt;Set to 0 for perpetual movement.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="708"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="716"/>
         <source>Animate view transitions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="710"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="718"/>
         <source>&lt;p&gt;Defines the duration of animations in ms&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="717"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="725"/>
         <source>Arcball radius:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="718"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="726"/>
         <source>% view width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="720"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="728"/>
         <source>&lt;p&gt;The radius of the arcball as a percentage of the view&apos;s width&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="726"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="734"/>
         <source>Auto z-rotation incremental angle:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="734"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="742"/>
         <source>Auto adjust 3d scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="735"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="743"/>
         <source>&lt;p&gt;Automatically adjust the 3d scale to fit the plane in the display when switching between planes&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="736"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="744"/>
         <source>Enable clip plane</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="737"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="745"/>
         <source>Display reference length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="738"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="746"/>
         <source>Save viewpoints when exiting 3d views</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="920"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="935"/>
         <source>Mass colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="932"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="947"/>
         <source>Force colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="944"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="959"/>
         <source>Moment colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="956"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="971"/>
         <source>Water colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="989"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="1004"/>
         <source>Fuse colour</source>
         <translation type="unfinished">机身颜色</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="1001"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="1016"/>
         <source>Wing colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="1013"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="1028"/>
         <source>Flap colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="1025"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="1040"/>
         <source>Wake colour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="1037"/>
+        <location filename="../../flow5-app/interfaces/controls/w3dprefs.cpp" line="1052"/>
         <source>Vorton colour</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9600,244 +9124,6 @@ when using the mouse wheel.</source>
         <location filename="../../flow5-app/interfaces/editors/analysis3ddef/wpolarautonamedlg.cpp" line="135"/>
         <source>Ground/free surface</source>
         <translation>地面/自由表面</translation>
-    </message>
-</context>
-<context>
-    <name>WingDefDlg</name>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="136"/>
-        <source>Section</source>
-        <translation>截面</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="183"/>
-        <source>Wing definition</source>
-        <translation>机翼定义</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="218"/>
-        <source>Two-sided</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="219"/>
-        <source>Symmetric</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="220"/>
-        <source>Right side</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="221"/>
-        <source>Left side</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="273"/>
-        <source>&lt;p&gt;Number of horizontal panel strips at the wing tips.&lt;br&gt;Recommendation: 1&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="223"/>
-        <source>Close inner side</source>
-        <translation>封闭内侧</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="96"/>
-        <source>Wing editor</source>
-        <translation type="unfinished">机翼编辑器</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="106"/>
-        <source>Insert before</source>
-        <translation type="unfinished">在前插入</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="108"/>
-        <source>Insert after</source>
-        <translation type="unfinished">在后插入</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="110"/>
-        <source>Insert multiple sections before</source>
-        <translation type="unfinished">在前插入多个截面</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="112"/>
-        <source>Insert multiple sections after</source>
-        <translation type="unfinished">在后插入多个截面</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="114"/>
-        <source>Duplicate section</source>
-        <translation type="unfinished">复制截面</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="115"/>
-        <source>Delete section</source>
-        <translation type="unfinished">删除截面</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="116"/>
-        <source>Reset section</source>
-        <translation type="unfinished">重置截面</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="117"/>
-        <source>Copy</source>
-        <translation type="unfinished">复制</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="119"/>
-        <source>Paste</source>
-        <translation type="unfinished">粘贴</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="122"/>
-        <source>Reset mesh</source>
-        <translation type="unfinished">重置网格</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="123"/>
-        <source>Translate</source>
-        <translation type="unfinished">平移</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="124"/>
-        <source>Scale</source>
-        <translation type="unfinished">缩放</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="125"/>
-        <source>Inertia</source>
-        <translation type="unfinished">惯性矩</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="126"/>
-        <source>to XML file</source>
-        <translation type="unfinished">导出到 XML 文件</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="127"/>
-        <source>to CAD file</source>
-        <translation type="unfinished">导出到 CAD 文件</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="128"/>
-        <source>to STL file</source>
-        <translation type="unfinished">导出到 STL 文件</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="260"/>
-        <source>Description:</source>
-        <translation>描述:</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="275"/>
-        <source>Tip strips</source>
-        <translation>翼尖条带</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="674"/>
-        <source>Enter here a short description for the wing</source>
-        <translation type="unfinished">在此输入描述机翼的简短文本</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="681"/>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="683"/>
-        <source>Actions</source>
-        <translation type="unfinished">操作</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="686"/>
-        <source>Export</source>
-        <translation type="unfinished">导出</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="696"/>
-        <source>Save as</source>
-        <translation type="unfinished">另存为</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="705"/>
-        <source>Surface colour</source>
-        <translation type="unfinished">表面颜色</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="742"/>
-        <source>Selected section</source>
-        <translation type="unfinished">选定的截面</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="752"/>
-        <source>Wing</source>
-        <translation type="unfinished">机翼</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="772"/>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="780"/>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="790"/>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="803"/>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="811"/>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="944"/>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="951"/>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="998"/>
-        <source>Warning</source>
-        <translation type="unfinished">警告</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="772"/>
-        <source>Please enter a name for the wing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="780"/>
-        <source>&lt;p&gt;The panel sequence is inconsistent. The sections should be ordered from root to tip.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="790"/>
-        <source>Zero length chords will cause a division by zero and should be avoided.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="803"/>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="811"/>
-        <source>Zero length flaps will cause a division by zero and should be avoided.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="944"/>
-        <source>The first section cannot be deleted</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="951"/>
-        <source>The number of sections cannot be less than two</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="998"/>
-        <source>Insertion not possible before the first section</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="1009"/>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="1034"/>
-        <source>Number of sections to insert:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="1240"/>
-        <source>Discard the changes?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/interfaces/editors/wingedit/wingdefdlg.cpp" line="1241"/>
-        <source>Question</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -9960,76 +9246,314 @@ when using the mouse wheel.</source>
     </message>
 </context>
 <context>
+    <name>WingXflDlg</name>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="96"/>
+        <source>Wing editor</source>
+        <translation type="unfinished">机翼编辑器</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="106"/>
+        <source>Insert before</source>
+        <translation type="unfinished">在前插入</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="108"/>
+        <source>Insert after</source>
+        <translation type="unfinished">在后插入</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="110"/>
+        <source>Insert multiple sections before</source>
+        <translation type="unfinished">在前插入多个截面</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="112"/>
+        <source>Insert multiple sections after</source>
+        <translation type="unfinished">在后插入多个截面</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="114"/>
+        <source>Duplicate section</source>
+        <translation type="unfinished">复制截面</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="115"/>
+        <source>Delete section</source>
+        <translation type="unfinished">删除截面</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="116"/>
+        <source>Reset section</source>
+        <translation type="unfinished">重置截面</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="117"/>
+        <source>Copy</source>
+        <translation type="unfinished">复制</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="119"/>
+        <source>Paste</source>
+        <translation type="unfinished">粘贴</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="122"/>
+        <source>Reset mesh</source>
+        <translation type="unfinished">重置网格</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="123"/>
+        <source>Translate</source>
+        <translation type="unfinished">平移</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="124"/>
+        <source>Scale</source>
+        <translation type="unfinished">缩放</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="125"/>
+        <source>Inertia</source>
+        <translation type="unfinished">惯性矩</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="126"/>
+        <source>to XML file</source>
+        <translation type="unfinished">导出到 XML 文件</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="127"/>
+        <source>to CAD file</source>
+        <translation type="unfinished">导出到 CAD 文件</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="128"/>
+        <source>to STL file</source>
+        <translation type="unfinished">导出到 STL 文件</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="136"/>
+        <source>Section</source>
+        <translation type="unfinished">截面</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="183"/>
+        <source>Wing definition</source>
+        <translation type="unfinished">机翼定义</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="218"/>
+        <source>Two-sided</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="219"/>
+        <source>Symmetric</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="220"/>
+        <source>Right side</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="221"/>
+        <source>Left side</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="223"/>
+        <source>Close inner side</source>
+        <translation type="unfinished">封闭内侧</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="260"/>
+        <source>Description:</source>
+        <translation type="unfinished">描述:</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="273"/>
+        <source>&lt;p&gt;Number of horizontal panel strips at the wing tips.&lt;br&gt;Recommendation: 1&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="275"/>
+        <source>Tip strips</source>
+        <translation type="unfinished">翼尖条带</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="674"/>
+        <source>Enter here a short description for the wing</source>
+        <translation type="unfinished">在此输入描述机翼的简短文本</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="681"/>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="683"/>
+        <source>Actions</source>
+        <translation type="unfinished">操作</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="686"/>
+        <source>Export</source>
+        <translation type="unfinished">导出</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="696"/>
+        <source>Save as</source>
+        <translation type="unfinished">另存为</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="705"/>
+        <source>Surface colour</source>
+        <translation type="unfinished">表面颜色</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="742"/>
+        <source>Selected section</source>
+        <translation type="unfinished">选定的截面</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="752"/>
+        <source>Wing</source>
+        <translation type="unfinished">机翼</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="772"/>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="780"/>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="790"/>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="803"/>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="811"/>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="944"/>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="951"/>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="998"/>
+        <source>Warning</source>
+        <translation type="unfinished">警告</translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="772"/>
+        <source>Please enter a name for the wing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="780"/>
+        <source>&lt;p&gt;The panel sequence is inconsistent. The sections should be ordered from root to tip.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="790"/>
+        <source>Zero length chords will cause a division by zero and should be avoided.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="803"/>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="811"/>
+        <source>Zero length flaps will cause a division by zero and should be avoided.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="944"/>
+        <source>The first section cannot be deleted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="951"/>
+        <source>The number of sections cannot be less than two</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="998"/>
+        <source>Insertion not possible before the first section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="1009"/>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="1034"/>
+        <source>Number of sections to insert:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="1240"/>
+        <source>Discard the changes?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../flow5-app/interfaces/editors/wingedit/wingxfldlg.cpp" line="1241"/>
+        <source>Question</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>XDirect</name>
     <message>
-        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1378"/>
+        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1408"/>
         <source>Are you sure you want to delete
 </source>
         <translation>您确定要删除
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1378"/>
+        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1408"/>
         <source>
 </source>
         <translation>
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1379"/>
+        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1409"/>
         <source>and all associated operating points and polars?</source>
         <translation>以及所有关联的操作点和极曲线？</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1381"/>
-        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1457"/>
-        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1555"/>
+        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1411"/>
+        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1487"/>
+        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1585"/>
         <source>Question</source>
         <translation>问题</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1454"/>
+        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1484"/>
         <source>Are you sure you want to delete the polar :
   </source>
         <translation>您确定要删除极曲线吗：
   </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1455"/>
+        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1485"/>
         <source>
  and all the associated operating points?</source>
         <translation>
  以及所有关联的操作点？</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1553"/>
+        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1583"/>
         <source>Are you sure you want to delete polars and oprating points
 </source>
         <translation>您确定要删除极曲线和操作点吗
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1554"/>
+        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1584"/>
         <source>associated to </source>
         <translation>关联到 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1554"/>
+        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1584"/>
         <source>?</source>
         <translation>？</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1714"/>
+        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1744"/>
         <source>Export BL data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1775"/>
+        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="1805"/>
         <source>Export the operating point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="2949"/>
+        <location filename="../../flow5-app/modules/xdirect/xdirect.cpp" line="2979"/>
         <source>Enter the new name for the foil polar:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10657,48 +10181,48 @@ when using the mouse wheel.</source>
 <context>
     <name>XPlane</name>
     <message>
-        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="2363"/>
+        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="2359"/>
         <source>Are you sure you want to delete the plane :
 </source>
         <translation>您确定要删除飞机：
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="2364"/>
-        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="2483"/>
-        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="2512"/>
-        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="3942"/>
+        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="2360"/>
+        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="2479"/>
+        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="2508"/>
+        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="3932"/>
         <source>Question</source>
         <translation>询问</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="2482"/>
+        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="2478"/>
         <source>Are you sure you want to delete the polars associated to :
 </source>
         <translation>您确定要删除关联的极曲线：
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="2511"/>
+        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="2507"/>
         <source>Are you sure you want to delete the polar:
 </source>
         <translation>您确定要删除极曲线：
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="2795"/>
+        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="2785"/>
         <source>&lt;p&gt;The modification will erase all results associated to this plane.&lt;br&gt;Continue?&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="3941"/>
+        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="3931"/>
         <source>Are you sure you want to reset the content of the polar :
 </source>
         <translation>您确定要重置极曲线的内容：
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="5722"/>
+        <location filename="../../flow5-app/modules/xplane/xplane.cpp" line="5712"/>
         <source>Export plane definition to xml file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10802,17 +10326,17 @@ when using the mouse wheel.</source>
     </message>
     <message>
         <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="111"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="214"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="209"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="215"/>
         <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="220"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="225"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="231"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="384"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="226"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="379"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
         <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="112"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="125"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="120"/>
         <source>Shows a form to edit the active plane</source>
         <translation>显示编辑当前飞机的表单</translation>
     </message>
@@ -10823,612 +10347,602 @@ when using the mouse wheel.</source>
     </message>
     <message>
         <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="119"/>
-        <source>Optimize</source>
-        <translation>优化</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="120"/>
-        <source>Opens the module to optimize the active plane</source>
-        <translation>打开优化当前飞机的模块</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="124"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="235"/>
         <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="240"/>
         <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="245"/>
         <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="250"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="255"/>
         <source>Scale</source>
         <translation>缩放</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="128"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="259"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="263"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="267"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="271"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="123"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="254"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="258"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="262"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="266"/>
         <source>Translate</source>
         <translation>平移</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="131"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="126"/>
         <source>Select wing curves to display</source>
         <translation>选择要显示的机翼曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="134"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="129"/>
         <source>Mesh information</source>
         <translation>网格信息</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="137"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="132"/>
         <source>Connect triangles</source>
         <translation>连接三角形</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="141"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="136"/>
         <source>Check panels</source>
         <translation>检查面板</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="144"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="139"/>
         <source>Check free edges</source>
         <translation>检查自由边</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="148"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="143"/>
         <source>Clear highlighted</source>
         <translation>清除高亮</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="152"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="147"/>
         <source>Center on panel</source>
         <translation>以面板为中心</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="153"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="148"/>
         <source>Centers the 3d view on the panel with the selected index</source>
         <translation>将 3D 视图中心对准选定索引的面板</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="156"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="151"/>
         <source>Show panel normals</source>
         <translation>显示面板法线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="160"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="155"/>
         <source>Show node normals</source>
         <translation>显示节点法线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="164"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="159"/>
         <source>Show vortices and ctrl points</source>
         <translation>显示涡旋和控制点</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="168"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="163"/>
         <source>Rename	F2</source>
         <translation>重命名	F2</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="169"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="164"/>
         <source>Rename the active object</source>
         <translation>重命名当前对象</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="172"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="167"/>
         <source>to AVL</source>
         <translation>导出到 AVL</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="173"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="168"/>
         <source>Export the active plane or wing to a text file in the format required by AVL</source>
         <translation>将当前飞机或机翼导出为 AVL 所需格式的文本文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="176"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="171"/>
         <source>tessellation to STL</source>
         <translation>曲面细分导出到 STL</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="177"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="172"/>
         <source>Export the plane&apos;s tessellation to a file in the STL format</source>
         <translation>将飞机的曲面细分导出为 STL 格式的文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="180"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="175"/>
         <source>mesh to STL</source>
         <translation>网格导出到 STL</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="181"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="176"/>
         <source>Export the plane&apos;s mesh to a file in the STL format</source>
         <translation>将飞机的网格导出为 STL 格式的文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="184"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="179"/>
         <source>to XML</source>
         <translation>导出到 XML</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="187"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="182"/>
         <source>to a text file</source>
         <translation>导出到文本文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="188"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="183"/>
         <source>Export the current operating point to a text or csv file</source>
         <translation>将当前操作点导出为文本或 csv 文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="191"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="471"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="186"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="466"/>
         <source>to clipboard</source>
         <translation>复制到剪贴板</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="215"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="210"/>
         <source>Shows a form to edit the wing of the active plane</source>
         <translation>显示编辑当前飞机机翼的表单</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="232"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="227"/>
         <source>Shows a form to edit the body of the active plane</source>
         <translation>显示编辑当前飞机机身的表单</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="236"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="231"/>
         <source>Edit (Advanced)</source>
         <translation>编辑 (高级)</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="241"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="236"/>
         <source>Scale the dimensions of the main wing</source>
         <translation>缩放主翼尺寸</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="246"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="241"/>
         <source>Scale the dimensions of the elevator</source>
         <translation>缩放平尾尺寸</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="251"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="246"/>
         <source>Scale the dimensions of the fin</source>
         <translation>缩放垂尾尺寸</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="256"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="251"/>
         <source>Scale the dimensions of the active fuse</source>
         <translation>缩放当前机身尺寸</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="272"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="267"/>
         <source>Translate the dimensions of the active fuse</source>
         <translation>平移当前机身尺寸</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="275"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="279"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="283"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="287"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="270"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="274"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="278"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="282"/>
         <source>Inertia</source>
         <translation>惯性矩</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="290"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="294"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="298"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="302"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="285"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="289"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="293"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="297"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="494"/>
         <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="499"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="504"/>
         <source>Properties</source>
         <translation>属性</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="305"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="300"/>
         <source>Fuse mesher</source>
         <translation>机身网格生成器</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="309"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="304"/>
         <source>Reset triangular mesh</source>
         <translation>重置三角形网格</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="310"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="305"/>
         <source>Resets the triangular mesh based on the uncut fuse</source>
         <translation>基于未切割的机身重置三角形网格</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="313"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="308"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="314"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="309"/>
         <source>Export all available polars to text files</source>
         <translation>将所有可用的极曲线导出为文本文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="317"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="312"/>
         <source>Inertia	F12</source>
         <translation>惯性矩	F12</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="318"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="313"/>
         <source>Define the inertia for the active plane</source>
         <translation>定义当前飞机的惯性矩</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="321"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="316"/>
         <source>Show active only</source>
         <translation>仅显示当前</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="322"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="317"/>
         <source>Hide all the curves except for the one corresponding to the active operating point</source>
         <translation>隐藏除对应当前操作点以外的所有曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="326"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="321"/>
         <source>Show all</source>
         <translation>显示所有</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="327"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="322"/>
         <source>Show the graph curves of all operating points</source>
         <translation>显示所有操作点的图表曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="330"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="325"/>
         <source>Hide all</source>
         <translation>隐藏所有</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="331"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="326"/>
         <source>Hide the graph curves of all operating points</source>
         <translation>隐藏所有操作点的图表曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="334"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="329"/>
         <source>Delete all</source>
         <translation>删除所有</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="335"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="330"/>
         <source>Delete all the operating points of all planes and polars</source>
         <translation>删除所有飞机和极曲线的所有操作点</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="338"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="413"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="429"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="437"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="333"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="408"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="424"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="432"/>
         <source>Show</source>
         <translation>显示</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="339"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="334"/>
         <source>Show the curves of all the operating points of the active polar</source>
         <translation>显示当前极曲线的所有操作点曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="342"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="409"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="425"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="433"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="337"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="404"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="420"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="428"/>
         <source>Hide</source>
         <translation>隐藏</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="343"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="338"/>
         <source>Hide the curves of all the operating points of the active polar</source>
         <translation>隐藏当前极曲线的所有操作点曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="346"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="417"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="441"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="445"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="483"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="487"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="341"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="412"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="436"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="440"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="478"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="482"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="347"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="342"/>
         <source>Delete all the operating points of the active polar</source>
         <translation>删除当前极曲线的所有操作点</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="350"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="345"/>
         <source>Show only the polar&apos;s operating points</source>
         <translation>仅显示极曲线的操作点</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="353"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="348"/>
         <source>Show target curve</source>
         <translation>显示目标曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="357"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="352"/>
         <source>Define an analysis</source>
         <translation>定义分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="359"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="354"/>
         <source>Define an analysis for the active plane</source>
         <translation>定义当前飞机的分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="362"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="357"/>
         <source>Define a control analysis</source>
         <translation>定义控制分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="364"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="359"/>
         <source>Shows a form to edit a new control analysis</source>
         <translation>显示编辑新控制分析的表单</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="367"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="362"/>
         <source>Define a stability analysis</source>
         <translation>定义稳定性分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="369"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="364"/>
         <source>Define a stability analysis for the current wing or plane</source>
         <translation>定义当前机翼或飞机的稳定性分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="372"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="367"/>
         <source>Duplicate existing analyses</source>
         <translation>复制现有分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="376"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="371"/>
         <source>Batch analysis (1)</source>
         <translation>批处理分析 (1)</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="380"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="375"/>
         <source>Batch analysis (2)</source>
         <translation>批处理分析 (2)</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="385"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="380"/>
         <source>Modify the analysis parameters of this polar</source>
         <translation>修改此极曲线的分析参数</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="389"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="384"/>
         <source>Edit extra drag</source>
         <translation>编辑额外阻力</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="390"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="385"/>
         <source>Modify the extra drag parameters and the AVL-type parabolic drag without recalculating the polar.</source>
         <translation>修改额外阻力参数和 AVL 类型抛物线阻力，无需重新计算极曲线。</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="393"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="388"/>
         <source>Edit data points</source>
         <translation>编辑数据点</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="394"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="389"/>
         <source>Modify the data points of this polar</source>
         <translation>修改此极曲线的数据点</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="397"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="392"/>
         <source>Import analyses from xml</source>
         <translation>从 xml 导入分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="398"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="393"/>
         <source>Import one or more analyses defined by xml files.</source>
         <translation>导入由 xml 文件定义的一个或多个分析。</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="401"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="396"/>
         <source>Import external polar</source>
         <translation>导入外部极曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="402"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="397"/>
         <source>Create a polar and import its data from an external source.</source>
         <translation>创建极曲线并从外部源导入其数据。</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="405"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="400"/>
         <source>Analysis auto name options</source>
         <translation>分析自动命名选项</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="406"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="401"/>
         <source>Set the default options for automatic naming of polars</source>
         <translation>设置极曲线自动命名的默认选项</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="410"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="405"/>
         <source>Hide all the polar curves associated to the active wing or plane</source>
         <translation>隐藏与当前机翼或飞机关联的所有极曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="414"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="409"/>
         <source>Show all the polar curves associated to the active wing or plane</source>
         <translation>显示与当前机翼或飞机关联的所有极曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="418"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="413"/>
         <source>Delete all the polars associated to the active wing or plane</source>
         <translation>删除与当前机翼或飞机关联的所有极曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="421"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="416"/>
         <source>Show only plane polars</source>
         <translation>仅显示飞机极曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="426"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="421"/>
         <source>Hide all the polar curves of all wings and planes</source>
         <translation>隐藏所有机翼和飞机的极曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="430"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="425"/>
         <source>&lt;p&gt;Show all the polar curves of all wings and planes&lt;/p&gt;</source>
         <translation>&lt;p&gt;显示所有机翼和飞机的极曲线&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="434"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="429"/>
         <source>&lt;p&gt;Hide all the operating point curves of the active wing or plane&lt;/p&gt;</source>
         <translation>&lt;p&gt;隐藏当前机翼或飞机的所有操作点曲线&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="438"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="433"/>
         <source>Show all the operating point curves of the active wing or plane</source>
         <translation>显示当前机翼或飞机的所有操作点曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="442"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="437"/>
         <source>&lt;p&gt;Delete all the operating points of the active wing or plane&lt;/p&gt;</source>
         <translation>&lt;p&gt;删除当前机翼或飞机的所有操作点&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="447"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="442"/>
         <source>&lt;p&gt;Delete the active wing or plane&lt;/p&gt;</source>
         <translation>&lt;p&gt;删除当前机翼或飞机&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="450"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="463"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="445"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="458"/>
         <source>Duplicate</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="452"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="447"/>
         <source>Duplicate the active wing or plane</source>
         <translation>复制当前机翼或飞机</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="455"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="450"/>
         <source>Save as project</source>
         <translation>另存为项目</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="456"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="451"/>
         <source>Save the active wing or plane as a new separate project</source>
         <translation>将当前机翼或飞机另存为新的独立项目</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="459"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="454"/>
         <source>Rename	Shift+F2</source>
         <translation>重命名	Shift+F2</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="460"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="455"/>
         <source>Rename the active polar</source>
         <translation>重命名当前极曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="467"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="462"/>
         <source>to file</source>
         <translation>导出到文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="468"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="463"/>
         <source>Export the active polar to a text or csv file</source>
         <translation>将当前极曲线导出为文本或 csv 文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="475"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="470"/>
         <source>Reset</source>
         <translation>重置</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="476"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="471"/>
         <source>Delete all the points of the active polar, but keep the analysis settings</source>
         <translation>删除当前极曲线的所有点，但保留分析设置</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="479"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="474"/>
         <source>Show only active polar</source>
         <translation>仅显示当前极曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="484"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="479"/>
         <source>Delete the active polar</source>
         <translation>删除当前极曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="488"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="483"/>
         <source>Delete the active operating point</source>
         <translation>删除当前操作点</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="491"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="486"/>
         <source>Open the analysis window</source>
         <translation>打开分析窗口</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="495"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="490"/>
         <source>3d analysis settings</source>
         <translation>3D 分析设置</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="500"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="495"/>
         <source>Show the properties of the active polar</source>
         <translation>显示当前极曲线的属性</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="505"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="500"/>
         <source>Show the properties of the active operating point</source>
         <translation>显示当前操作点的属性</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="509"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="504"/>
         <source>From an xml file</source>
         <translation>从 xml 文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="512"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="507"/>
         <source>Export analysis to xml file</source>
         <translation>导出分析到 xml 文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="515"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="510"/>
         <source>Open 3d view in new window</source>
         <translation>在新窗口中打开 3D 视图</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="523"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="540"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="553"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="566"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="518"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="535"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="548"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="561"/>
         <source>to XML file</source>
         <translation>导出到 XML 文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="527"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="543"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="556"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="568"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="522"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="538"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="551"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="563"/>
         <source>to STEP file</source>
         <translation>导出到 STEP 文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="532"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="546"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="559"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="570"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="527"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="541"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="554"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="565"/>
         <source>tessellation to STL file</source>
         <translation>曲面细分导出到 STL 文件</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="536"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="549"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="562"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="572"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="531"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="544"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="557"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplaneactions.cpp" line="567"/>
         <source>mesh to STL file</source>
         <translation>网格导出到 STL 文件</translation>
     </message>
@@ -11439,149 +10953,149 @@ when using the mouse wheel.</source>
         <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="66"/>
         <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="105"/>
         <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="144"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="295"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="326"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="293"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="324"/>
         <source>Context Menu</source>
         <translation>上下文菜单</translation>
     </message>
     <message>
         <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="74"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="626"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="622"/>
         <source>Mesh</source>
         <translation>网格</translation>
     </message>
     <message>
         <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="111"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="571"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="567"/>
         <source>All polars</source>
         <translation>所有极曲线</translation>
     </message>
     <message>
         <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="117"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="269"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="304"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="334"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="267"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="302"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="332"/>
         <source>Graph</source>
         <translation>图表</translation>
     </message>
     <message>
         <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="123"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="169"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="279"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="310"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="340"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="369"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="388"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="407"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="426"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="489"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="167"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="277"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="308"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="338"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="367"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="386"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="405"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="424"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="485"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
     <message>
         <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="146"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="467"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="465"/>
         <source>Active plane</source>
         <translation>当前飞机</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="178"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="498"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="176"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="494"/>
         <source>Analyses</source>
         <translation>分析</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="193"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="513"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="191"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="509"/>
         <source>Associated polars</source>
         <translation>关联极曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="203"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="226"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="522"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="551"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="201"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="224"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="518"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="547"/>
         <source>Associated operating points</source>
         <translation>关联操作点</translation>
     </message>
     <message>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="210"/>
         <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="212"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="214"/>
         <source>Active Polar</source>
         <translation>当前极曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="235"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="250"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="560"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="587"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="233"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="248"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="556"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="583"/>
         <source>Export data</source>
         <translation>导出数据</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="247"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="584"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="245"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="580"/>
         <source>Active operating point</source>
         <translation>当前操作点</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="260"/>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="595"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="258"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="591"/>
         <source>Operating points</source>
         <translation>操作点</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="361"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="359"/>
         <source>Wing</source>
         <translation>机翼</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="380"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="378"/>
         <source>Elevator</source>
         <translation>平尾</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="399"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="397"/>
         <source>Fin</source>
         <translation>垂尾</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="418"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="416"/>
         <source>Fuselage</source>
         <translation>机身</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="447"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="445"/>
         <source>&amp;View</source>
         <translation>视图(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="463"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="461"/>
         <source>&amp;Plane</source>
         <translation>飞机(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="530"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="526"/>
         <source>Import</source>
         <translation>导入</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="537"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="533"/>
         <source>&amp;Polars</source>
         <translation>极曲线(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="539"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="535"/>
         <source>Active polar</source>
         <translation>当前极曲线</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="582"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="578"/>
         <source>&amp;Operating point</source>
         <translation>操作点(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="608"/>
+        <location filename="../../flow5-app/modules/xplane/menus/xplanemenus.cpp" line="604"/>
         <source>&amp;Analysis</source>
         <translation>分析(&amp;A)</translation>
     </message>
@@ -11597,53 +11111,53 @@ when using the mouse wheel.</source>
 <context>
     <name>XSail</name>
     <message>
-        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="1417"/>
+        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="1413"/>
         <source>Are you sure you want to delete the polar :
 </source>
         <translation>您确定要删除极曲线吗：
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="1417"/>
-        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="1644"/>
-        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="2344"/>
-        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="2432"/>
+        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="1413"/>
+        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="1640"/>
+        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="2340"/>
+        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="2428"/>
         <source>?
 </source>
         <translation>？
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="1418"/>
-        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="1645"/>
-        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="2345"/>
-        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="2433"/>
+        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="1414"/>
+        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="1641"/>
+        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="2341"/>
+        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="2429"/>
         <source>Question</source>
         <translation>问题</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="1644"/>
+        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="1640"/>
         <source>Are you sure you want to delete the polars associated to :
 </source>
         <translation>您确定要删除关联的极曲线吗：
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="2344"/>
+        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="2340"/>
         <source>Are you sure you want to reset the content of the polar :
 </source>
         <translation>您确定要重置该极曲线的内容吗：
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="2432"/>
+        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="2428"/>
         <source>Are you sure you want to delete the Boat :
 </source>
         <translation>您确定要删除该船只吗：
 </translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="3255"/>
+        <location filename="../../flow5-app/modules/xsail/xsail.cpp" line="3251"/>
         <source>Enter the new name for the boat:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12189,57 +11703,9 @@ over the Cp or Forces color plot. (Shift+H)&lt;/p&gt;</source>
 <context>
     <name>gl3dAxesView</name>
     <message>
-        <location filename="../../flow5-app/test/test3d/gl3daxesview.cpp" line="66"/>
+        <location filename="../../flow5-app/test/test3d/gl3daxesview.cpp" line="65"/>
         <source>Axes test</source>
         <translation>轴测试</translation>
-    </message>
-    <message>
-        <source>Wind vectors</source>
-        <translation type="vanished">风矢量</translation>
-    </message>
-    <message>
-        <source>Display</source>
-        <translation type="vanished">显示</translation>
-    </message>
-    <message>
-        <source>Geometric axes</source>
-        <translation type="vanished">几何轴</translation>
-    </message>
-    <message>
-        <source>Wind axes</source>
-        <translation type="vanished">风轴</translation>
-    </message>
-    <message>
-        <source>Body axes</source>
-        <translation type="vanished">体轴</translation>
-    </message>
-    <message>
-        <source>Stability axes</source>
-        <translation type="vanished">稳定轴</translation>
-    </message>
-    <message>
-        <source>Vector</source>
-        <translation type="vanished">矢量</translation>
-    </message>
-    <message>
-        <source>Show</source>
-        <translation type="vanished">显示</translation>
-    </message>
-    <message>
-        <source>x=</source>
-        <translation type="vanished">x=</translation>
-    </message>
-    <message>
-        <source>y=</source>
-        <translation type="vanished">y=</translation>
-    </message>
-    <message>
-        <source>z=</source>
-        <translation type="vanished">z=</translation>
-    </message>
-    <message>
-        <source>Convert vector</source>
-        <translation type="vanished">转换矢量</translation>
     </message>
 </context>
 <context>
@@ -12319,12 +11785,12 @@ over the Cp or Forces color plot. (Shift+H)&lt;/p&gt;</source>
 <context>
     <name>gl3dFlowVtx</name>
     <message>
-        <location filename="../../flow5-app/interfaces/opengl/testgl/gl3dflowvtx.cpp" line="309"/>
+        <location filename="../../flow5-app/interfaces/opengl/testgl/gl3dflowvtx.cpp" line="319"/>
         <source>Max. number of groups = 2&lt;sup&gt;%1&lt;/sup&gt;</source>
         <translation>最大组数 = 2&lt;sup&gt;%1&lt;/sup&gt;</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/opengl/testgl/gl3dflowvtx.cpp" line="399"/>
+        <location filename="../../flow5-app/interfaces/opengl/testgl/gl3dflowvtx.cpp" line="409"/>
         <source>Number of particles = %1</source>
         <translation>粒子数量 = %1</translation>
     </message>
@@ -12405,18 +11871,18 @@ over the Cp or Forces color plot. (Shift+H)&lt;/p&gt;</source>
 <context>
     <name>gl3dHydrogen</name>
     <message>
-        <location filename="../../flow5-app/interfaces/opengl/testgl/gl3dhydrogen.cpp" line="535"/>
-        <location filename="../../flow5-app/interfaces/opengl/testgl/gl3dhydrogen.cpp" line="654"/>
+        <location filename="../../flow5-app/interfaces/opengl/testgl/gl3dhydrogen.cpp" line="533"/>
+        <location filename="../../flow5-app/interfaces/opengl/testgl/gl3dhydrogen.cpp" line="652"/>
         <source>Start observations</source>
         <translation>开始观察</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/opengl/testgl/gl3dhydrogen.cpp" line="541"/>
+        <location filename="../../flow5-app/interfaces/opengl/testgl/gl3dhydrogen.cpp" line="539"/>
         <source>Stop observations</source>
         <translation>停止观察</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/interfaces/opengl/testgl/gl3dhydrogen.cpp" line="661"/>
+        <location filename="../../flow5-app/interfaces/opengl/testgl/gl3dhydrogen.cpp" line="659"/>
         <source>%1/%2</source>
         <translation>%1/%2</translation>
     </message>
@@ -12470,16 +11936,12 @@ over the Cp or Forces color plot. (Shift+H)&lt;/p&gt;</source>
 <context>
     <name>gl3dXPlaneView</name>
     <message>
-        <source>Cp</source>
-        <translation type="vanished">Cp</translation>
-    </message>
-    <message>
-        <location filename="../../flow5-app/modules/xplane/glview/gl3dxplaneview.cpp" line="2514"/>
+        <location filename="../../flow5-app/modules/xplane/glview/gl3dxplaneview.cpp" line="2524"/>
         <source>Gamma x1000</source>
         <translation>Gamma x1000</translation>
     </message>
     <message>
-        <location filename="../../flow5-app/modules/xplane/glview/gl3dxplaneview.cpp" line="2663"/>
+        <location filename="../../flow5-app/modules/xplane/glview/gl3dxplaneview.cpp" line="2673"/>
         <source>Omega x1000.0</source>
         <translation>Omega x1000.0</translation>
     </message>

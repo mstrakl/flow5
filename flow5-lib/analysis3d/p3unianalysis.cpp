@@ -187,7 +187,7 @@ void P3UniAnalysis::makeWakeMatrixBlock(int iBlock)
                         MatWakeContrib += phiB[0]+phiB[1]+phiB[2];
                     }
 
-                    if(m_WakePanel3.at(jWake).iPD()<0)
+                    if(m_WakePanel3.at(jWake).iDownstream()<0)
                     {
                         // no downstream panel
                         break; // the way out
@@ -510,7 +510,7 @@ void P3UniAnalysis::makeUnitRHSBlock(int iBlock)
         for(int k3=0; k3<nPanels(); k3++)
         {
             Panel3 const &p3k = m_Panel3.at(k3);
-            leverarm_k3.set(p3i.CoG()-m_pPolar3d->CoG());
+            leverarm_k3.set(p3k.CoG()-m_pPolar3d->CoG());
 
             if(p3k.isMidPanel())
             {

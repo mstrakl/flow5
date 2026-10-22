@@ -52,6 +52,7 @@ Panel3::Panel3() : Panel(), m_bNullTriangle{true}, m_bIsLeftPanel{false}, m_bFro
     m_S[1].setIndex(-1);
     m_S[2].setIndex(-1);
     m_Neighbour[0]=m_Neighbour[1]=m_Neighbour[2]=-1;
+    m_iUpstream = m_iDownstream = -1;
     memset(m_gmat, 0, 9*sizeof(double));
 }
 
@@ -247,7 +248,7 @@ void Panel3::makeGQCoeffs()
 }
 
 
-/** Initializes member variables to zero */
+/** Initializes member variables to their defaults */
 void Panel3::initialize()
 {
     m_bNullTriangle = true;
@@ -509,7 +510,7 @@ std::string Panel3::properties(bool bLong) const
 
     strange = std::format("  Neighbours:      {:4d}  {:4d}  {:4d}\n", m_Neighbour[0], m_Neighbour[1], m_Neighbour[2]);
     props += strange;
-    strange = std::format("                   PU={:d}  PD={:d}  PL={:d}  PR={:d}\n", m_iPU, m_iPD, m_iPL, m_iPR);
+    strange = std::format("                   iUpstream={:d}  iDownstream={:d} \n", m_iUpstream, m_iDownstream);
     props += strange;
 
     if(isPositiveOrientation()) props += "  Positive orientation";
@@ -556,6 +557,18 @@ void Panel3::translate(double tx, double ty, double tz)
     m_S[1].translate(tx, ty, tz);
     m_S[2].translate(tx, ty, tz);
     setFrame();
+}
+
+
+/**
+ * log(p + rho), rho = sqrt(p^2 + d). For negative p much larger than sqrt(d) (a long edge, a field point close to its line) p + rho
+ * cancels to rounding noise, or to zero, whose logarithm is -infinity: the NaN that collapsed the TRILINEAR solution (uav#70).
+ * Then p + rho = d/(rho - p) exactly.
+ */
+static inline double logPlusRho(double p, double rho, double d)
+{
+    if(p>=0.0) return log(p+rho);
+    return log(d) - log(rho-p);
 }
 
 
@@ -732,7 +745,7 @@ void Panel3::computeNFIntegrals_ref(Vector3d const &FieldPt, double *G1, double 
         gamma[i]  = atan2(-2.0*pii  *q[i]*eta*rho[i],   (q[i]*q[i]*rho[i]*rho[i]     -pii*pii  *eta*eta));
         gamma[i] -= atan2(-2.0*pii1 *q[i]*eta*rho[i+1], (q[i]*q[i]*rho[i+1]*rho[i+1] -pii1*pii1*eta*eta));
 
-        chi[i]     = log(pii+rho[i]) - log(pii1+rho[i+1]);
+        chi[i]     = logPlusRho(pii, rho[i], d[i]) - logPlusRho(pii1, rho[i+1], d[i]);
 
         delta[i]   = pii/rho[i] - pii1/rho[i+1];
         L[i]       = 1.0/rho[i] - 1.0/rho[i+1];
@@ -1112,7 +1125,7 @@ void Panel3::computeNFIntegrals(Vector3d const &FieldPtGlobal, double *G1, doubl
          gamma[i]  = atan2(-2.0*pii  *q[i]*eta*rho[i],   (q[i]*q[i]*rho[i]*rho[i]     -pii*pii  *eta*eta));
          gamma[i] -= atan2(-2.0*pii1 *q[i]*eta*rho[i+1], (q[i]*q[i]*rho[i+1]*rho[i+1] -pii1*pii1*eta*eta));
 
-         chi[i]     = log(pii+rho[i]) - log(pii1+rho[i+1]);
+         chi[i]     = logPlusRho(pii, rho[i], d[i]) - logPlusRho(pii1, rho[i+1], d[i]);
 
          delta[i]   = pii/rho[i] - pii1/rho[i+1];
          L[i]       = 1.0/rho[i] - 1.0/rho[i+1];

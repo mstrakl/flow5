@@ -108,7 +108,7 @@ class FL5LIB_EXPORT PlaneSTL : public Plane
 
         bool connectTriMesh(bool bRefTriMesh, bool bConnectTE, bool bMultiThreaded=true) override;
 
-        bool intersectTriangles(Vector3d A, Vector3d B, Vector3d &I, bool bMultiThreaded=true);
+        bool intersectTriangles(Vector3d A, Vector3d B, Vector3d &I, bool bMultiThreaded=true) const;
 
         bool isReversed() const {return m_bReversed;}
         void setReversed(bool bReversed) {m_bReversed = bReversed;}

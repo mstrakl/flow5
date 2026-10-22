@@ -455,7 +455,7 @@ double math::err_func(double x)
 }
 
 /* compute inverse error functions with maximum error of 2.35793 ulp */
-double math::erf_inv(float a)
+float math::erf_inv(float a)
 {
     float p(0), r(0), t(0);
     t = fmaf (a, 0.0f - a, 1.0f); //Computes (x * y) + z as if to infinite precision and rounded only once to fit the result type.
@@ -750,7 +750,7 @@ int math::factorial(int n)
     else if(n==3) return 6;
     else if(n==4) return 24;
     else if(n==5) return 120;
-    else if(n==6) return 750;
+    else if(n==6) return 720;
     else if(n==7) return 5040;
 
     return n*factorial(n-1);
@@ -918,7 +918,7 @@ void math::testNormal()
 
     std::vector vec(SIZE, 0);
 
-/*    for(unsigned int k=0; k<SIZE; k++)
+    /*    for(unsigned int k=0; k<SIZE; k++)
 {
     float unif = (float(k+1)/float(SIZE+1))*2.0f - 1.0f; // in ]-1, 1[
     float normal = erf_inv(unif) * sigma + mean;
@@ -926,7 +926,7 @@ void math::testNormal()
     std::cout << normal << '\n';
 }*/
 
-/*    std::random_device rd;  // a seed source for the random number engine
+    /*    std::random_device rd;  // a seed source for the random number engine
     std::mt19937 gen(rd()); // mersenne_twister_engine seeded with rd()
     std::uniform_int_distribution<> distrib(1, 6);
 
@@ -945,15 +945,15 @@ void math::testNormal()
     // histogram
     for(int i=0; i<50000; i++)
     {
-/*        uint32_t rnd = rand()+1; // avoid 0 and 1
+        /*        uint32_t rnd = rand()+1; // avoid 0 and 1
         uint32_t max = RAND_MAX+2;
         float value = float(rnd)/float(max); // in ]0, 1[ */
         float value = distrib(gen) / float(max); // in ]0, 1[
 
-        value = value * 2.0 - 1.0f;// in ]-1, 1[
+        value = value * 2.0f - 1.0f;// in ]-1, 1[
         float r = erf_inv(value) * sigma + mean;
 
-        r = (r+3.0) * float(SIZE);
+        r = (r+3.0f) * float(SIZE);
         int k = int(r/6.0);
         if(k>=0 && k<SIZE)
             vec[k]++;
@@ -964,6 +964,7 @@ void math::testNormal()
 
     std::cout << std::endl;
 }
+
 
 
 

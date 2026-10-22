@@ -151,7 +151,7 @@ void GraphTileCtrls::connectSignals()
 //    if(m_pGraphTileWt && m_pGraphTileWt->variableSetCount()>1)
 //    {
         connect(m_pcptVariableSet,                   SIGNAL(clicked(QModelIndex)),                       SLOT(onVarSetClicked(QModelIndex)));
-//        connect(m_pcptVariableSet->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), SLOT(onCurrentRowChanged(QModelIndex,QModelIndex)));
+        connect(m_pcptVariableSet->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), SLOT(onCurrentRowChanged(QModelIndex,QModelIndex)));
         connect(m_pVariableSetModel,                 SIGNAL(dataChanged(QModelIndex,QModelIndex)),       SLOT(onCellChanged(QModelIndex,QModelIndex)));
 //    }
 
@@ -235,11 +235,12 @@ void GraphTileCtrls::onVarSetClicked(QModelIndex index)
 {
     if(!index.isValid())
     {
+        qInfo()<< "GraphTileCtrls::onVarSetClicked: Invalid index";
     }
     else
     {
-        int row = index.row();
-        m_pGraphTileWt->setVariableSet(row);
+//        int row = index.row();
+//        m_pGraphTileWt->setVariableSet(row);
 
         if(index.column()==m_pVariableSetModel->actionColumn())
         {
@@ -248,25 +249,25 @@ void GraphTileCtrls::onVarSetClicked(QModelIndex index)
             QPoint menupos = m_pcptVariableSet->mapToGlobal(itemrect.topLeft());
             QMenu *pWingTableRowMenu = new QMenu(tr("Section"),this);
 
-            QAction *m_pMoveUpAct       = new QAction(tr("Move up"),       this);
-            QAction *m_pMoveDownAct     = new QAction(tr("Move down"),     this);
-            QAction *m_pDeleteAct       = new QAction(tr("Delete"),        this);
-            QAction *m_pInsertBeforeAct = new QAction(tr("Insert before"), this);
-            QAction *m_pInsertAfterAct  = new QAction(tr("Insert after"),  this);
+            QAction *pMoveUpAct       = new QAction(tr("Move up"),       this);
+            QAction *pMoveDownAct     = new QAction(tr("Move down"),     this);
+            QAction *pDeleteAct       = new QAction(tr("Delete"),        this);
+            QAction *pInsertBeforeAct = new QAction(tr("Insert before"), this);
+            QAction *pInsertAfterAct  = new QAction(tr("Insert after"),  this);
 
-            connect(m_pDeleteAct,       SIGNAL(triggered(bool)), SLOT(onDelete()));
-            connect(m_pMoveUpAct,       SIGNAL(triggered(bool)), SLOT(onMoveUp()));
-            connect(m_pMoveDownAct,     SIGNAL(triggered(bool)), SLOT(onMoveDown()));
-            connect(m_pInsertBeforeAct, SIGNAL(triggered(bool)), SLOT(onInsertBefore()));
-            connect(m_pInsertAfterAct,  SIGNAL(triggered(bool)), SLOT(onInsertAfter()));
+            connect(pDeleteAct,       SIGNAL(triggered(bool)), SLOT(onDelete()));
+            connect(pMoveUpAct,       SIGNAL(triggered(bool)), SLOT(onMoveUp()));
+            connect(pMoveDownAct,     SIGNAL(triggered(bool)), SLOT(onMoveDown()));
+            connect(pInsertBeforeAct, SIGNAL(triggered(bool)), SLOT(onInsertBefore()));
+            connect(pInsertAfterAct,  SIGNAL(triggered(bool)), SLOT(onInsertAfter()));
 
-            pWingTableRowMenu->addAction(m_pInsertBeforeAct);
-            pWingTableRowMenu->addAction(m_pInsertAfterAct);
-            pWingTableRowMenu->addAction(m_pDeleteAct);
+            pWingTableRowMenu->addAction(pInsertBeforeAct);
+            pWingTableRowMenu->addAction(pInsertAfterAct);
+            pWingTableRowMenu->addAction(pDeleteAct);
             pWingTableRowMenu->addSeparator();
-            pWingTableRowMenu->addAction(m_pMoveUpAct);
-            pWingTableRowMenu->addAction(m_pMoveDownAct);
-            pWingTableRowMenu->exec(menupos, m_pInsertBeforeAct);
+            pWingTableRowMenu->addAction(pMoveUpAct);
+            pWingTableRowMenu->addAction(pMoveDownAct);
+            pWingTableRowMenu->exec(menupos, pInsertBeforeAct);
         }
     }
 }
