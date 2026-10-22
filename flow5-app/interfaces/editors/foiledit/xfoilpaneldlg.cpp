@@ -46,7 +46,7 @@ double XFoilPanelDlg::s_xpref2(1.0);
 
 
 
-XFoilPanelDlg::XFoilPanelDlg(QWidget *pParent) : FoilDlg(pParent)
+XFoilPanelDlg::XFoilPanelDlg(QWidget *pParent) : FoilDlg(pParent), m_pXFoil(std::make_unique<XFoil>())
 {
     setWindowTitle(tr("XFoil panel refinement"));
     setupLayout();
@@ -209,41 +209,41 @@ void XFoilPanelDlg::onApply()
 
     for (int i=0; i< m_pRefFoil->nBaseNodes(); i++)
     {
-        m_XFoil.xb[i+1] = m_pRefFoil->xb(i);
-        m_XFoil.yb[i+1] = m_pRefFoil->yb(i);
+        m_pXFoil->xb[i+1] = m_pRefFoil->xb(i);
+        m_pXFoil->yb[i+1] = m_pRefFoil->yb(i);
     }
-    m_XFoil.nb = m_pRefFoil->nBaseNodes();
+    m_pXFoil->nb = m_pRefFoil->nBaseNodes();
 
-    m_XFoil.lflap = false;
-    m_XFoil.lbflap = false;
+    m_pXFoil->lflap = false;
+    m_pXFoil->lbflap = false;
 
-    if(m_XFoil.PreProcess())
+    if(m_pXFoil->PreProcess())
     {
-        m_XFoil.CheckAngles();
+        m_pXFoil->CheckAngles();
     }
 
     readParams();
 
-    m_XFoil.pangen();
+    m_pXFoil->pangen();
 
-    if(m_XFoil.n>IQX)
+    if(m_pXFoil->n>IQX)
     {
         QString strange = QString(tr("The total number of panels cannot exceed %1")).arg(IQX);
         QMessageBox::information(this, tr("Warning"), strange);
         //reset everything and retry
         for (int i=0; i< m_pRefFoil->nBaseNodes(); i++)
         {
-            m_XFoil.x[i+1] = m_pRefFoil->xb(i);
-            m_XFoil.y[i+1] = m_pRefFoil->yb(i);
+            m_pXFoil->x[i+1] = m_pRefFoil->xb(i);
+            m_pXFoil->y[i+1] = m_pRefFoil->yb(i);
         }
-        m_XFoil.n = m_pRefFoil->nBaseNodes();
+        m_pXFoil->n = m_pRefFoil->nBaseNodes();
     }
     else
     {
-        m_pBufferFoil->resizePointArrays(m_XFoil.n);
-        for (int j=0; j< m_XFoil.n; j++)
+        m_pBufferFoil->resizePointArrays(m_pXFoil->n);
+        for (int j=0; j< m_pXFoil->n; j++)
         {
-            m_pBufferFoil->setBaseNode(j, m_XFoil.x[j+1], m_XFoil.y[j+1]);
+            m_pBufferFoil->setBaseNode(j, m_pXFoil->x[j+1], m_pXFoil->y[j+1]);
         }
         m_pBufferFoil->initGeometry();
         m_pBufferFoil->setFlaps();
@@ -267,14 +267,14 @@ void XFoilPanelDlg::readParams()
     s_xpref2 = m_pfeXpRef2->value();
 
 
-    m_XFoil.npan   = s_npan;
-    m_XFoil.cvpar  = s_cvpar;
-    m_XFoil.cterat = s_cterat;
-    m_XFoil.ctrrat = s_ctrrat;
-    m_XFoil.xsref1 = s_xsref1;
-    m_XFoil.xsref2 = s_xsref2;
-    m_XFoil.xpref1 = s_xpref1;
-    m_XFoil.xpref2 = s_xpref2;
+    m_pXFoil->npan   = s_npan;
+    m_pXFoil->cvpar  = s_cvpar;
+    m_pXFoil->cterat = s_cterat;
+    m_pXFoil->ctrrat = s_ctrrat;
+    m_pXFoil->xsref1 = s_xsref1;
+    m_pXFoil->xsref2 = s_xsref2;
+    m_pXFoil->xpref1 = s_xpref1;
+    m_pXFoil->xpref2 = s_xpref2;
 }
 
 

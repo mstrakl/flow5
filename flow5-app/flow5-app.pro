@@ -190,6 +190,10 @@ win32-g++ {
 
     CONFIG -= debug_and_release debug_and_release_target
 
+    # main-thread stack: MinGW's default is 2 MB vs 8 MB on Linux/macOS; some
+    # dialogs and analyses hold large arrays on the stack
+    QMAKE_LFLAGS += -Wl,--stack,16777216
+
     RC_ICONS = ../meta/win64/flow5.ico
 
     INCLUDEPATH += $$[QT_INSTALL_PREFIX]/include/opencascade

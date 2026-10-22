@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <memory>
+
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QPushButton>
@@ -45,7 +47,9 @@ class XFoilPanelDlg : public FoilDlg
     public:
         XFoilPanelDlg(QWidget *pParent);
 
-        XFoil m_XFoil;
+        /** ~8 MB of arrays: allocated on the heap, because the dialog is created on the stack
+         *  and would overflow the 1-2 MB main-thread stack on Windows */
+        std::unique_ptr<XFoil> m_pXFoil;
 
         void initDialog(Foil* pFoil) override;
 
