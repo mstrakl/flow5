@@ -102,6 +102,7 @@ class T1234578PolarDlg : public PlanePolarDlg
 
         CPTableView *m_pcptAVLCtrls;
         QStandardItemModel *m_pAVLCtrlModel;
+        bool m_bFillingAVLCtrls{false};  /**< true while fillAVLCtrlList() writes the table, whose cells are not yet consistent */
         QCheckBox *m_pchAlphaDot;
         QComboBox *m_pcbDownwashMethod;
         QCheckBox *m_pchRegularizedWake;

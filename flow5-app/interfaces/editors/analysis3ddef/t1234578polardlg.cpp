@@ -38,6 +38,7 @@
 #include <QMenu>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QShortcut>
 
 
 #include "t1234578polardlg.h"
@@ -532,8 +533,18 @@ void T1234578PolarDlg::setupLayout()
             {
                 m_pcptAVLCtrls = new CPTableView(this);
                 m_pcptAVLCtrls->setEditable(true);
+                // a click only selects the set: with CPTableView's default AllEditTriggers the cell editor
+                // opens on click, and a right-click then shows the editor's text menu instead of the set menu
+                m_pcptAVLCtrls->setEditTriggers(QAbstractItemView::DoubleClicked |
+                                                QAbstractItemView::EditKeyPressed |
+                                                QAbstractItemView::AnyKeyPressed);
                 m_pcptAVLCtrls->setWindowTitle(tr("Controls"));
                 m_pcptAVLCtrls->setContextMenuPolicy(Qt::CustomContextMenu);
+                m_pcptAVLCtrls->setToolTip(tr("<p>Right-click to append, duplicate, delete or move a control set.<br>"
+                                              "Double-click a name to rename it; the Delete key removes the selected set.</p>"));
+                // WidgetShortcut: not triggered while a cell editor has the focus, so Delete still edits the text
+                QShortcut *pDeleteAVLShortcut = new QShortcut(QKeySequence::Delete, m_pcptAVLCtrls, nullptr, nullptr, Qt::WidgetShortcut);
+                connect(pDeleteAVLShortcut, &QShortcut::activated, this, &T1234578PolarDlg::onDeleteAVLCtrl);
                 m_pAVLCtrlModel = new QStandardItemModel(this);
                 m_pAVLCtrlModel->setRowCount(0);//temporary
                 m_pAVLCtrlModel->setColumnCount(2);
@@ -740,6 +751,9 @@ void T1234578PolarDlg::fillAVLCtrlList()
         return;
     }
 
+    // each setData() triggers onAVLCtrlChanged(), which would copy the other, not yet updated, cell
+    // of the row back into the control set, e.g. the effectiveness of a set deleted or moved
+    m_bFillingAVLCtrls = true;
     m_pAVLCtrlModel->setRowCount(s_PlPolar.nAVLCtrls());
     QModelIndex ind;
 
@@ -750,6 +764,7 @@ void T1234578PolarDlg::fillAVLCtrlList()
         ind = m_pAVLCtrlModel->index(ic, 1, QModelIndex());
         m_pAVLCtrlModel->setData(ind, s_PlPolar.AVLCtrl(ic).effectiveness());
     }
+    m_bFillingAVLCtrls = false;
 }
 
 
@@ -898,11 +913,18 @@ void T1234578PolarDlg::onDeleteAVLCtrl()
         s_PlPolar.removeAVLControl(iCtrl);
     }
     fillAVLCtrlList();
+
+    // select the set which took the deleted one's place, and show its gains instead of the deleted set's
+    iCtrl = std::min(iCtrl, s_PlPolar.nAVLCtrls()-1);
+    if(iCtrl>=0) m_pcptAVLCtrls->setCurrentIndex(m_pAVLCtrlModel->index(iCtrl, 0));
+    fillAVLGains();
 }
 
 
 void T1234578PolarDlg::onAVLCtrlChanged()
 {
+    if(m_bFillingAVLCtrls) return;
+
     QModelIndex ind = m_pcptAVLCtrls->selectionModel()->currentIndex();
     if(!ind.isValid()) return;
 

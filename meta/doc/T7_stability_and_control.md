@@ -69,7 +69,7 @@ Each value is a **gain in degrees per unit of control parameter**. The trim defl
 ### 3.5 AVL-type ctrls — control sets for the forced response
 Each **control set** produces one set of control derivatives, and is what the forced response actuates.
 
-- Right-click the left table to *Append*, *Duplicate*, *Delete* or *Move* a set.
+- Right-click the left table to *Append*, *Duplicate*, *Delete* or *Move* a set. The **Delete** key removes the selected set; double-click a name (or start typing) to rename it.
 - Select a set, then enter in the right table each surface's **gain in degrees per control unit**. Surfaces with gain 0 do not move.
 - A set whose gains are all zero is skipped, and produces no derivatives.
 - **(new) Effectiveness** column (default 1.0): a factor applied to that set's control derivatives only. The deflections shown in the graphs stay the true surface angles.
