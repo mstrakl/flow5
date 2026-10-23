@@ -1017,6 +1017,8 @@ void BoatExplorer::keyPressEvent(QKeyEvent *pEvent)
     {
         case Qt::Key_Delete:
         {
+            // delete what is highlighted: the selection type is not updated when rows are removed
+            setObjectFromIndex(m_pTreeView->currentIndex());
             if     (m_Selection==BoatExplorer::BOATOPP) s_pXSail->onDeleteCurBtOpp();
             else if(m_Selection==BoatExplorer::BTPOLAR) s_pXSail->onDeleteCurBtPolar();
             else if(m_Selection==BoatExplorer::BOAT)    s_pXSail->onDeleteCurBoat();
