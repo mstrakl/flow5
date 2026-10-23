@@ -57,6 +57,24 @@ XDirect *FoilExplorer::s_pXDirect   = nullptr;
 
 int FoilExplorer::s_Width=351;
 
+
+/** Returns the operating point shown by a tree item. The items show OpPoint::name(), which is rounded,
+ * e.g. the Reynolds number of a type 4 polar to 6 digits, so the point is found by its name rather than
+ * by converting the name back to a number */
+static OpPoint *opPointOfItem(Foil const *pFoil, Polar const *pPolar, QString const &itemName)
+{
+    if(!pFoil || !pPolar) return nullptr;
+    for(int i=0; i<Objects2d::nOpPoints(); i++)
+    {
+        OpPoint *pOpp = Objects2d::opPointAt(i);
+        if(pOpp->foilName()==pFoil->name() && pOpp->polarName()==pPolar->name()
+           && QString::fromStdString(pOpp->name()).trimmed()==itemName.trimmed())
+            return pOpp;
+    }
+    return nullptr;
+}
+
+
 FoilExplorer::FoilExplorer(QWidget *pParent) : QWidget(pParent)
 {
     m_pTreeView = nullptr;
@@ -395,10 +413,7 @@ void FoilExplorer::setObjectFromIndex(const QModelIndex &index)
         Foil *pFoil   = Objects2d::foil(pFoilItem->name().toStdString());
         Polar *pPolar = Objects2d::polar(pFoil->name(), pWPolarItem->name().toStdString());
 
-        QString strange = pSelectedItem->name();
-        strange = strange.remove(DEGch);
-        double val = strange.toDouble();
-        OpPoint *pOpp = Objects2d::opPointAt(pFoil, pPolar, val);
+        OpPoint *pOpp = opPointOfItem(pFoil, pPolar, pSelectedItem->name());
 
         s_pXDirect->setFoil(pFoil);
         s_pXDirect->setPolar(pPolar);
@@ -1119,10 +1134,7 @@ void FoilExplorer::setCurveParams()
                         ObjectTreeItem *pOppItem = pPolarItem->child(i2);
                         if(pOppItem)
                         {
-                            QString strange = pOppItem->name();
-                            strange = strange.remove(DEGch);
-                            double val = strange.toDouble();
-                            OpPoint *pOpp = Objects2d::opPointAt(pFoil, pPolar, val);
+                            OpPoint *pOpp = opPointOfItem(pFoil, pPolar, pOppItem->name());
 
                             if(!pOpp) continue;
 
@@ -1306,10 +1318,7 @@ void FoilExplorer::updateVisibilityBoxes()
                 ObjectTreeItem *pOppItem = pPolarItem->child(i2);
                 if(pOppItem)
                 {
-                    QString strange = pOppItem->name();
-                    strange = strange.remove(DEGch);
-                    double val = strange.toDouble();
-                    OpPoint *pOpp = Objects2d::opPointAt(pFoil, pPolar, val);
+                    OpPoint *pOpp = opPointOfItem(pFoil, pPolar, pOppItem->name());
 
                     if(!pOpp) continue;
 
@@ -1353,10 +1362,7 @@ void FoilExplorer::updateLineStyles()
                 ObjectTreeItem *pOppItem = pPolarItem->child(i2);
                 if(pOppItem)
                 {
-                    QString strange = pOppItem->name();
-                    strange = strange.remove(DEGch);
-                    double val = strange.toDouble();
-                    OpPoint *pOpp = Objects2d::opPointAt(pFoil, pPolar, val);
+                    OpPoint *pOpp = opPointOfItem(pFoil, pPolar, pOppItem->name());
 
                     if(!pOpp) continue;
 
