@@ -865,6 +865,12 @@ void PlaneExplorer::keyPressEvent(QKeyEvent *pEvent)
     {
         case Qt::Key_Delete:
         {
+            // delete what is highlighted, as the context menu does
+            setObjectFromIndex(m_pTreeView->currentIndex());
+            pPOpp   = s_pXPlane->m_pCurPOpp;
+            pWPolar = s_pXPlane->m_pCurPlPolar;
+            pPlane  = s_pXPlane->m_pCurPlane;
+
             if(m_Selection==PlaneExplorer::PLANEOPP && pPOpp)
                 s_pXPlane->onDeleteCurPOpp();
             else if(m_Selection==PlaneExplorer::PLANEPOLAR && pWPolar)
@@ -1395,6 +1401,13 @@ void PlaneExplorer::setObjectFromIndex(QModelIndex index)
         {
             s_pXPlane->setPlaneOpp(pPOpp);
             s_pXPlane->resetCurves();
+        }
+        else
+        {
+            // don't leave the previous operating point current, it would be the one deleted or edited
+            s_pXPlane->m_pCurPOpp = nullptr;
+            s_pXPlane->displayMessage(tr("The operating point %1 of the polar %2 was not found.\n")
+                                      .arg(pSelectedItem->name().trimmed(), pWPolarItem->name()), true, false);
         }
     }
     else if(pSelectedItem->level()==4)

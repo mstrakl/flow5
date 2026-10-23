@@ -2315,6 +2315,7 @@ void XPlane::onDeleteWPlrPOpps()
 
 
     setPlaneOpp(nullptr);
+    m_pPlaneExplorer->selectObjects(); // the explorer's selection type is stale after the removal
     setControls();
     m_bResetCurves = true;
     updateView();
@@ -2341,6 +2342,7 @@ void XPlane::onDeleteAllPOpps()
     updateTreeView();
 
     setPlaneOpp(nullptr);
+    m_pPlaneExplorer->selectObjects(); // the rebuilt tree has no current item
 
     setControls();
 
@@ -2496,6 +2498,7 @@ void XPlane::onDeletePlanePOpps()
     }
     m_pCurPOpp = nullptr;
     setPlaneOpp(nullptr); // clears the 3d view's operating point data
+    m_pPlaneExplorer->selectObjects(); // the explorer's selection type is stale after the removal
 
     emit projectModified();
 
@@ -3980,6 +3983,7 @@ void XPlane::onResetCurPlPolar()
     setPlaneOpp(nullptr); // clears the 3d view's operating point data
 
     m_pPlaneExplorer->removePlanePolarPOpps(m_pCurPlPolar);
+    m_pPlaneExplorer->selectObjects(); // the explorer's selection type is stale after the removal
     m_pPlaneExplorer->setObjectProperties();
     emit projectModified();
     setControls();
@@ -5155,6 +5159,9 @@ void XPlane::updateUnits()
     }
     else if(isCpView()) createCpCurves();
 
+    // the tree items are matched to the operating points by name, and the names include the speed unit
+    updateTreeView();
+    m_pPlaneExplorer->selectObjects();
     m_pPlaneExplorer->setCurveParams();
     m_pPlaneExplorer->setObjectProperties();
     m_bResetCurves = true;
