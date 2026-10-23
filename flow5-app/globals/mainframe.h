@@ -85,6 +85,7 @@ class MainFrame : public QMainWindow
     friend class XPlaneMenus;
     friend class XSail;
     friend class XSailMenus;
+    friend class TestGui; // tests/gui
 
     Q_OBJECT
 

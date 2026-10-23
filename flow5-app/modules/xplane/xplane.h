@@ -96,6 +96,7 @@ class XPlane : public QObject
     friend class gl3dView;
     friend class gl3dXPlaneView;
     friend class StabTimeDlg;
+    friend class TestGui; // tests/gui
 
     Q_OBJECT
 

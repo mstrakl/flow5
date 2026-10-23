@@ -10,6 +10,7 @@ Requirements: Docker (or Podman) on a Linux host.
 ./docker/dev.sh image          # once, and after changes to docker/Dockerfile (~30 min first time)
 ./docker/dev.sh build          # incremental release build  -> build/release/
 ./docker/dev.sh run            # start the GUI from the container
+./docker/dev.sh test           # build, then run the automated tests headless (tests/)
 ./docker/dev.sh build debug    # separate debug tree        -> build/debug/
 ./docker/dev.sh run debug
 ./docker/dev.sh appimage       # -> build/dist/flow5-<version>-x86_64.AppImage

@@ -53,6 +53,7 @@ class ActionItemModel;
 class StabTimeCtrls : public QFrame
 {
     Q_OBJECT
+    friend class TestGui; // tests/gui
 
     public:
         StabTimeCtrls(QWidget *pParent=nullptr);

@@ -3,6 +3,7 @@
 #
 #   ./docker/dev.sh image                 build (or update) the container image
 #   ./docker/dev.sh build [release|debug] incremental build   -> build/<config>/
+#   ./docker/dev.sh test  [release|debug] build, then run the automated tests (headless)
 #   ./docker/dev.sh run   [release|debug] [-- flow5 args]  start the GUI from the container
 #   ./docker/dev.sh appimage              release build + AppImage -> build/dist/
 #   ./docker/dev.sh shell                 interactive shell in the container
@@ -93,6 +94,9 @@ case "$cmd" in
         ;;
     build)
         run_in packaging/linux/build.sh "$(config_arg "${1:-}")"
+        ;;
+    test)
+        run_in packaging/linux/test.sh "$(config_arg "${1:-}")"
         ;;
     run)
         cfg=release

@@ -88,6 +88,10 @@ jobs:
           export VERSION="${{ needs.version.outputs.version }}"
           packaging/ci-run.sh ./docker/dev.sh appimage
 
+      # reuses the release build above; a failing test stops the release
+      - name: Tests
+        run: packaging/ci-run.sh ./docker/dev.sh test
+
       - name: Name the package after the version
         run: |
           f=(build/dist/*.AppImage); [[ ${#f[@]} == 1 && -f "${f[0]}" ]] || { echo "expected one AppImage, found: ${f[*]}"; exit 1; }

@@ -16,6 +16,7 @@ stability and control (T6/T7) features, and export options.
 
     ./docker/dev.sh build            # incremental release build -> build/release/
     ./docker/dev.sh build debug      # debug tree -> build/debug/
+    ./docker/dev.sh test             # build, then run the QtTest suites in tests/ headless
     ./docker/dev.sh run [debug]      # start the GUI from the container
     ./docker/dev.sh appimage         # Linux package -> build/dist/
     ./docker/dev.sh shell
@@ -104,9 +105,12 @@ more than one series. Defaults should be useful without the user changing settin
 
 ## Verifying changes
 
-There is no unit test suite. Before reporting "done":
+`tests/` has QtTest suites: `lib/` (flow5-lib and flow5-io-lib, headless) and `gui/` (offscreen,
+links the app's object files). The models are built in code by `tests/common/fixture.cpp`.
+Add a test with each GUI or store fix where it is practical. Before reporting "done":
 
 - [ ] `./docker/dev.sh build` succeeds with no new warnings in touched files.
+- [ ] `./docker/dev.sh test` passes.
 - [ ] Behaviour checked in the GUI (`./docker/dev.sh run`) on a small model from `projects/`,
       or say clearly that it was not run and what the owner should check.
 - [ ] Results physically plausible; with an option off, results match the previous version.
