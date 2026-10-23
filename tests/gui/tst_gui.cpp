@@ -107,6 +107,7 @@ class TestGui : public QObject
         void deleteLastPlaneClearsPOppGraphs();
         void deleteKeyAfterBulkPOppDeletion();
         void timeResponseCurveList();
+        void timeResponsesComparedAcrossPointsCanBeDeleted();
 
     private:
         void loadIntoXPlane();
@@ -286,6 +287,53 @@ void TestGui::timeResponseCurveList()
     QCOMPARE(pCtrls->m_pCurveModel->rowCount(), 0);
     for(Graph const *pGraph : graphs) QCOMPARE(pGraph->curveCount(), 0);
     pCtrls->m_prbLongitudinal->click();
+}
+
+
+/** The time responses are kept when another T7 operating point is selected, to compare them;
+ * each one must still be deletable from the list */
+void TestGui::timeResponsesComparedAcrossPointsCanBeDeleted()
+{
+    PlanePolar *pT7Polar = fixture::runT7Polar(m_pPlane, {0.0, 0.5});
+    std::vector<PlaneOpp*> t7POpps;
+    for(int i=0; i<Objects3d::nPOpps(); i++)
+        if(pT7Polar->hasPOpp(Objects3d::POppAt(i))) t7POpps.push_back(Objects3d::POppAt(i));
+    QCOMPARE(int(t7POpps.size()), 2);
+
+    m_pMainFrame->handleIOResults(false);
+    m_pXPlane->setPlane(m_pPlane);
+    m_pXPlane->setPolar(pT7Polar);
+    m_pXPlane->onStabTimeView();
+
+    StabTimeCtrls *pCtrls = m_pXPlane->m_pStabTimeControls;
+    QVector<Graph*> const &graphs = m_pXPlane->m_TimeGraph;
+    pCtrls->m_ResponseType = StabTimeCtrls::MODALRESPONSE;
+
+    // one response for each operating point
+    for(PlaneOpp *pPOpp : t7POpps)
+    {
+        m_pXPlane->setPlaneOpp(pPOpp);
+        m_pXPlane->resetCurves();
+        m_pXPlane->updateView();
+        pCtrls->setControls();
+        pCtrls->onAddCurve();
+    }
+    QCOMPARE(pCtrls->m_pCurveModel->rowCount(), 2);
+    QCOMPARE(leftCurveCount(graphs.front()), 2);
+
+    // delete them one by one, the first one computed for the other operating point
+    for(int n=2; n>0; n--)
+    {
+        QString name = pCtrls->m_pCurveModel->item(0)->text();
+        pCtrls->m_pcpCurveTable->setCurrentIndex(pCtrls->m_pCurveModel->index(0, 0));
+        pCtrls->onDeleteCurve();
+        QCOMPARE(pCtrls->m_pCurveModel->rowCount(), n-1);
+        for(Graph const *pGraph : graphs)
+        {
+            QVERIFY2(!hasCurveNamed(pGraph, name), "a curve of the deleted response is still plotted");
+            QCOMPARE(leftCurveCount(pGraph), n-1);
+        }
+    }
 }
 
 

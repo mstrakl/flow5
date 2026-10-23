@@ -136,9 +136,9 @@ PlanePolar *fixture::runT1Polar(PlaneXfl *pPlane, std::vector<double> const &alp
 }
 
 
-PlanePolar *fixture::runT7Polar(PlaneXfl *pPlane)
+PlanePolar *fixture::runT7Polar(PlaneXfl *pPlane, std::vector<double> const &ctrls)
 {
     PlanePolar *pPolar = makePolar(pPlane, xfl::T7POLAR, "T7 polar");
-    runTask(pPlane, pPolar, {0.0});
+    runTask(pPlane, pPolar, ctrls);
     return pPolar;
 }

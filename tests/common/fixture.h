@@ -43,6 +43,6 @@ namespace fixture
     /** Creates a T1 polar and runs it at the given angles of attack (degrees); the operating points are kept */
     PlanePolar *runT1Polar(PlaneXfl *pPlane, std::vector<double> const &alphas_deg);
 
-    /** Creates a T7 stability polar and runs it at the control value 0; the operating point is kept */
-    PlanePolar *runT7Polar(PlaneXfl *pPlane);
+    /** Creates a T7 stability polar and runs it at the given control values; the operating points are kept */
+    PlanePolar *runT7Polar(PlaneXfl *pPlane, std::vector<double> const &ctrls={0.0});
 }
