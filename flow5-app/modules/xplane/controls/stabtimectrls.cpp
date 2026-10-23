@@ -701,6 +701,15 @@ void StabTimeCtrls::setControls()
     str = Units::speedUnitQLabel();
 
     m_pswInitialConditions->setCurrentIndex(m_ResponseType);
+    // a stacked widget is as tall as its tallest page; ignore the hidden pages so that
+    // the tall forced response page does not take room when another page is shown
+    for(int ip=0; ip<m_pswInitialConditions->count(); ip++)
+    {
+        QSizePolicy::Policy shown = ip==MODALRESPONSE ? QSizePolicy::Maximum : QSizePolicy::Preferred;
+        QSizePolicy::Policy policy = ip==m_ResponseType ? shown : QSizePolicy::Ignored;
+        m_pswInitialConditions->widget(ip)->setSizePolicy(policy, policy);
+    }
+    m_pswInitialConditions->updateGeometry();
 
     m_prbInitCondResponse->setChecked(m_ResponseType==INITIALCONDITIONS);
     m_prbForcedResponse->setChecked(  m_ResponseType==FORCEDRESPONSE);

@@ -43,6 +43,7 @@
 #include <QApplication>
 #include <QDesktopServices>
 #include <QFileDialog>
+#include <QScrollArea>
 
 #include <gmsh.h>
 
@@ -177,6 +178,17 @@
 #include <api/planexfl.h>
 #include <api/sailobjects.h>
 
+
+/** A dock cannot be made smaller than its content's minimum size, and the control panels are taller
+ * than small screens, so they are put in a scroll area which shows a scroll bar instead */
+static QScrollArea *scrollablePanel(QWidget *pPanel)
+{
+    QScrollArea *pScrollArea = new QScrollArea;
+    pScrollArea->setWidgetResizable(true);
+    pScrollArea->setFrameShape(QFrame::NoFrame);
+    pScrollArea->setWidget(pPanel);
+    return pScrollArea;
+}
 
 
 xfl::enumApp MainFrame::s_iApp=xfl::NOAPP;
@@ -776,7 +788,7 @@ void MainFrame::createDockWindows()
     m_pCpViewWt    = new CpViewWt(this);
     m_pCpGraphCtrl = new CpGraphCtrls(this, m_pXPlane, m_pXSail);
     m_pdwCp3d = new QDockWidget(tr("3d Cp graph"), this);
-    m_pdwCp3d->setWidget(m_pCpGraphCtrl);
+    m_pdwCp3d->setWidget(scrollablePanel(m_pCpGraphCtrl));
     m_pdwCp3d->setObjectName(m_pdwCp3d->windowTitle());
     addDockWidget(Qt::RightDockWidgetArea, m_pdwCp3d);
 
@@ -826,12 +838,12 @@ void MainFrame::createXSailDockWindows()
     m_pdwXSail = new QDockWidget(tr("Boat analysis"), this);
     m_pdwXSail->setObjectName(m_pdwXSail->windowTitle());
     addDockWidget(Qt::RightDockWidgetArea, m_pdwXSail);
-    m_pdwXSail->setWidget(m_pXSail->m_pAnalysisCtrls);
+    m_pdwXSail->setWidget(scrollablePanel(m_pXSail->m_pAnalysisCtrls));
 
     m_pdwXSail3dCtrls = new QDockWidget(tr("Sail 3d controls"), this);
     m_pdwXSail3dCtrls->setObjectName(m_pdwXSail3dCtrls->windowTitle());
     addDockWidget(Qt::RightDockWidgetArea, m_pdwXSail3dCtrls);
-    m_pdwXSail3dCtrls->setWidget(m_pXSail->m_pgl3dControls);
+    m_pdwXSail3dCtrls->setWidget(scrollablePanel(m_pXSail->m_pgl3dControls));
 
     m_pdwBoatTree = new QDockWidget(tr("Boat object explorer"), this);
     m_pdwBoatTree->setObjectName(m_pdwBoatTree->windowTitle());
@@ -877,7 +889,7 @@ void MainFrame::createXDirectDockWindows()
     m_pdwXDirect->setObjectName(m_pdwXDirect->windowTitle());
     m_pdwXDirect->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, m_pdwXDirect);
-    m_pdwXDirect->setWidget(m_pXDirect->m_pAnalysisControls);
+    m_pdwXDirect->setWidget(scrollablePanel(m_pXDirect->m_pAnalysisControls));
     m_pdwXDirect->setVisible(false);
     m_pdwXDirect->setFloating(false);
     m_pdwXDirect->move(960,60);
@@ -886,7 +898,7 @@ void MainFrame::createXDirectDockWindows()
     m_pdwOpPoint->setObjectName(m_pdwOpPoint->windowTitle());
     m_pdwOpPoint->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     addDockWidget(Qt::RightDockWidgetArea, m_pdwOpPoint);
-    m_pdwOpPoint->setWidget(m_pXDirect->m_pOpPointControls);
+    m_pdwOpPoint->setWidget(scrollablePanel(m_pXDirect->m_pOpPointControls));
     m_pdwOpPoint->setVisible(true);
     m_pdwOpPoint->setFloating(false);
     m_pdwOpPoint->move(960,60);
@@ -973,7 +985,7 @@ void MainFrame::createXPlaneDockWindows()
     m_pdwAnalysis3d = new QDockWidget(tr("Analysis 3d"), this);
     m_pdwAnalysis3d->setObjectName(m_pdwAnalysis3d->windowTitle());
     addDockWidget(Qt::RightDockWidgetArea, m_pdwAnalysis3d);
-    m_pdwAnalysis3d->setWidget(m_pXPlane->m_pAnalysisControls);
+    m_pdwAnalysis3d->setWidget(scrollablePanel(m_pXPlane->m_pAnalysisControls));
 
     m_pdwPlaneTree = new QDockWidget(tr("Plane explorer"), this);
     m_pdwPlaneTree->setWidget(m_pXPlane->m_pPlaneExplorer);
@@ -983,14 +995,14 @@ void MainFrame::createXPlaneDockWindows()
     m_pdwXPlaneResults3d = new QDockWidget(tr("Plane 3d view"), this);
     m_pdwXPlaneResults3d->setObjectName(m_pdwXPlaneResults3d->windowTitle());
     addDockWidget(Qt::RightDockWidgetArea, m_pdwXPlaneResults3d);
-    m_pdwXPlaneResults3d->setWidget(m_pXPlane->m_pPOpp3dCtrls);
+    m_pdwXPlaneResults3d->setWidget(scrollablePanel(m_pXPlane->m_pPOpp3dCtrls));
 
     m_pdwGraphControls = new QDockWidget(tr("Graphs"), this);
     m_pdwGraphControls->setObjectName(m_pdwGraphControls->windowTitle());
     addDockWidget(Qt::RightDockWidgetArea, m_pdwGraphControls);
 
     m_pdwStabTime = new QDockWidget(tr("Stability time controls"), this);
-    m_pdwStabTime->setWidget(m_pXPlane->m_pStabTimeControls);
+    m_pdwStabTime->setWidget(scrollablePanel(m_pXPlane->m_pStabTimeControls));
     m_pdwStabTime->setObjectName(m_pdwStabTime->windowTitle());
     addDockWidget(Qt::RightDockWidgetArea, m_pdwStabTime);
 
