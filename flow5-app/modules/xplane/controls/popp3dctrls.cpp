@@ -785,8 +785,10 @@ void POpp3dCtrls::onAnimatePOppSingle()
     bool bIsValid = false;
     bool bSkipOne = false;
 
+    int nSteps = 0; // two back and forth sweeps visit every index, also with the skip at the ends
     while(!bIsValid)
     {
+        if(nSteps++ > 4*size) return; // no operating point of the current polar left
         //Find the current position to display
 
         PlaneOpp *pPOpp = Objects3d::POppAt(m_posAnimateWOpp);

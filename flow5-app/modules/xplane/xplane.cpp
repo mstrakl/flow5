@@ -2292,6 +2292,7 @@ void XPlane::onDeleteWPlrPOpps()
 {
     if(!m_pCurPlane || !m_pCurPlPolar) return;
 
+    stopAnimate(); // the animation loops over the operating points of the current polar
     emit projectModified();
 
     m_pPlaneExplorer->removePlanePolarPOpps(m_pCurPlPolar);
@@ -2325,6 +2326,7 @@ void XPlane::onDeleteWPlrPOpps()
  */
 void XPlane::onDeleteAllPOpps()
 {
+    stopAnimate(); // the animation loops over the operating points of the current polar
     emit projectModified();
     PlaneOpp* pPOpp;
 
@@ -2386,6 +2388,8 @@ void XPlane::onDeleteCurPOpp()
 {
     if(!m_pCurPOpp) return;
 
+    stopAnimate(); // the animation loops over the operating points of the current polar
+
     PlaneOpp *pCurPOpp = m_pCurPOpp;
 
     int io(0);
@@ -2431,6 +2435,7 @@ void XPlane::onDeleteCurPOpp()
     else           m_pPlaneExplorer->selectPlPolar(m_pCurPlPolar, true);
     emit projectModified();
 
+    setControls();
     m_bResetCurves = true;
     updateView();
 }
@@ -2442,6 +2447,8 @@ void XPlane::onDeleteCurPOpp()
 void XPlane::onDeletePlanePOpps()
 {
     if(!m_pCurPlane) return;
+
+    stopAnimate(); // the animation loops over the operating points of the current polar
 
     for(int iw=0; iw<Objects3d::nPolars(); iw++)
     {
@@ -2460,6 +2467,7 @@ void XPlane::onDeletePlanePOpps()
         }
     }
     m_pCurPOpp = nullptr;
+    setPlaneOpp(nullptr); // clears the 3d view's operating point data
 
     emit projectModified();
 
@@ -2481,6 +2489,8 @@ void XPlane::onDeletePlaneWPolars()
     if (QMessageBox::Yes != QMessageBox::question(s_pMainFrame, tr("Question"), strong, QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel))
         return;
 
+    stopAnimate(); // the animation loops over the operating points of the current polar
+
     if(m_pCurPlane)
     {
         m_pPlaneExplorer->removePlanePolars(m_pCurPlane);
@@ -2493,6 +2503,7 @@ void XPlane::onDeletePlaneWPolars()
 
     emit projectModified();
     setControls();
+    m_bResetCurves = true; // setPolar() does not when an analysis is running
     updateView();
 }
 
@@ -2529,6 +2540,7 @@ void XPlane::onDeleteCurPlPolar()
     m_pPlaneExplorer->setObjectProperties();
 
     setControls();
+    m_bResetCurves = true; // setPolar() does not when an analysis is running
     updateView();
 }
 
@@ -3934,12 +3946,15 @@ void XPlane::onResetCurPlPolar()
     if (QMessageBox::Yes != QMessageBox::question(s_pMainFrame, tr("Question"), strong,
                                                   QMessageBox::Yes|QMessageBox::No,
                                                   QMessageBox::Yes)) return;
+    stopAnimate(); // the animation loops over the operating points of the current polar
     Objects3d::deletePlanePolarResults(m_pCurPlPolar);
     m_pCurPOpp = nullptr;
+    setPlaneOpp(nullptr); // clears the 3d view's operating point data
 
     m_pPlaneExplorer->removePlanePolarPOpps(m_pCurPlPolar);
     m_pPlaneExplorer->setObjectProperties();
     emit projectModified();
+    setControls();
     m_bResetCurves = true;
     updateView();
 }
