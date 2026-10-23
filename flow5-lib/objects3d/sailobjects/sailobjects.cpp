@@ -522,7 +522,11 @@ BoatOpp* SailObjects::getBoatOppObject(Boat*pBoat, BoatPolar *pBtPolar,
             BoatOpp *pOldBtOpp = SailObjects::btOpp(iBtOpp);
             if(pOldBtOpp->boatName()==pBoat->name() && pOldBtOpp->polarName()==pBtPolar->name())
             {
-                if(fabs(pOldBtOpp->ctrl()-ctrl)<ctrlmax)  pBtOpp = pOldBtOpp;
+                if(fabs(pOldBtOpp->ctrl()-ctrl)<ctrlmax)
+                {
+                    ctrlmax = fabs(pOldBtOpp->ctrl()-ctrl); // the closest so far
+                    pBtOpp = pOldBtOpp;
+                }
             }
         }
     }
