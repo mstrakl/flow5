@@ -1404,6 +1404,8 @@ void XDirect::onEditCurPolar()
 
 void XDirect::onDeleteCurFoil()
 {
+    if(!s_pCurFoil) return; // e.g. the Delete key after the last foil has been deleted
+
     QString strong;
     strong = tr("Are you sure you want to delete\n")+ QString::fromStdString(s_pCurFoil->name()) +tr("\n");
     strong+= tr("and all associated operating points and polars?");

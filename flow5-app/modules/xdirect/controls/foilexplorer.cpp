@@ -1063,6 +1063,8 @@ void FoilExplorer::keyPressEvent(QKeyEvent *pEvent)
     {
         case Qt::Key_Delete:
         {
+            // delete what is highlighted: the selection type is not updated when rows are removed
+            setObjectFromIndex(m_pTreeView->currentIndex());
             if     (m_Selection==FoilExplorer::OPPOINT) s_pXDirect->onDeleteCurOpp();
             else if(m_Selection==FoilExplorer::POLAR)   s_pXDirect->onDeleteCurPolar();
             else if(m_Selection==FoilExplorer::FOIL)    s_pXDirect->onDeleteCurFoil();
