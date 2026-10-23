@@ -863,10 +863,11 @@ QString BoatExplorer::removeBoat(QString const &BoatName)
     setOverallCheckStatus();
     m_pTreeView->selectionModel()->blockSignals(false);
 
-    if(irow+1<SailObjects::nBoats())
-        return QString::fromStdString(SailObjects::boat(irow+1)->name());
-    else if(irow-1>=0)
-        return QString::fromStdString(SailObjects::boat(irow-1)->name());
+    // the next boat is the next row of the tree, which is sorted by name, unlike the boat array
+    if(irow<m_pModel->rowCount())
+        return m_pModel->item(irow)->name();
+    else if(irow-1>=0 && irow-1<m_pModel->rowCount())
+        return m_pModel->item(irow-1)->name();
 
     return QString();
 }
