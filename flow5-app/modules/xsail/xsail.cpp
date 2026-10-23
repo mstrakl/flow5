@@ -1664,6 +1664,9 @@ void XSail::onDeleteBtPolars()
 
     emit projectModified();
     setControls();
+    // the polar graphs and the legend still hold the deleted polars
+    m_bResetCurves = true;
+    updateView();
 }
 
 void XSail::onShowOnlyBtPolars()
