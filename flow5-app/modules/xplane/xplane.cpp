@@ -4924,7 +4924,7 @@ void XPlane::setPolar(PlanePolar *pPlPolar)
     m_pgl3dXPlaneView->clearTopRightOutput(); // in case there is no PlaneOpp, otherwise will be filled when setting the POpp
     m_pgl3dXPlaneView->clearBotRightOutput(); // in case there is no PlaneOpp, otherwise will be filled when setting the POpp
 
-    if(!pPlPolar)
+    if(!pPlPolar && m_pCurPlane) // no current plane e.g. after the last one has been deleted
     {
         //if we didn't find anything, find the first for this plane
         for (int iwp=0; iwp<Objects3d::nPolars(); iwp++)
