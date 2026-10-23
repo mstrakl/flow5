@@ -2384,6 +2384,30 @@ void XPlane::onDeleteCurPlane()
 }
 
 
+/** Returns the index of the polar point computed with the operating point, or -1 if there is none.
+ * The points are matched as in PlanePolar::addPlaneOpPointData, on the variable which is swept by each polar type */
+static int polarPointIndex(PlanePolar const *pWPolar, PlaneOpp const *pPOpp)
+{
+    constexpr double MATCHTOLERANCE = 0.001; // same as PlanePolar::addPlaneOpPointData; degrees, m/s or ctrl units
+
+    if(!pWPolar || !pPOpp || !pWPolar->hasPOpp(pPOpp)) return -1;
+
+    auto same = [](double a, double b) {return fabs(a-b)<MATCHTOLERANCE;};
+    for(int i=0; i<pWPolar->dataSize(); i++)
+    {
+        bool bMatch = false;
+        if     (pWPolar->type()<xfl::T4POLAR)                           bMatch = same(pPOpp->alpha(), pWPolar->m_Alpha.at(i));
+        else if(pWPolar->isFixedaoaPolar())                             bMatch = same(pPOpp->QInf(),  pWPolar->m_QInfinite.at(i));
+        else if(pWPolar->isBetaPolar())                                 bMatch = same(pPOpp->beta(),  pWPolar->m_Beta.at(i));
+        else if(pWPolar->isStabilityPolar() || pWPolar->isControlPolar()) bMatch = same(pPOpp->ctrl(),  pWPolar->m_Ctrl.at(i));
+        else if(pWPolar->isType8Polar())
+            bMatch = same(pPOpp->alpha(), pWPolar->m_Alpha.at(i)) && same(pPOpp->beta(), pWPolar->m_Beta.at(i)) && same(pPOpp->QInf(), pWPolar->m_QInfinite.at(i));
+        if(bMatch) return i;
+    }
+    return -1;
+}
+
+
 void XPlane::onDeleteCurPOpp()
 {
     if(!m_pCurPOpp) return;
@@ -2391,6 +2415,10 @@ void XPlane::onDeleteCurPOpp()
     stopAnimate(); // the animation loops over the operating points of the current polar
 
     PlaneOpp *pCurPOpp = m_pCurPOpp;
+
+    // the polar's point is a result of the operating point, so it is deleted with it
+    int iPt = polarPointIndex(m_pCurPlPolar, pCurPOpp);
+    if(iPt>=0) m_pCurPlPolar->removeAt(iPt);
 
     int io(0);
     for (io=0; io<Objects3d::nPOpps(); io++)
