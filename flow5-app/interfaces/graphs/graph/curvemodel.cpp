@@ -182,6 +182,7 @@ void CurveModel::deleteCurve(QString CurveTitle)
     {
         if(m_oaCurve.at(ic)->name().compare(CurveTitle)==0)
         {
+            delete m_oaCurve[ic]; // the model owns its curves, as in the other deleteCurve() overloads
             m_oaCurve.removeAt(ic);
             return;
         }
