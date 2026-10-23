@@ -1465,28 +1465,38 @@ void XDirect::onDeleteCurOpp()
     OpPoint* pOpPoint = s_pCurOpp;
     stopAnimate();
 
-    if (!pOpPoint) return;
+    if (!pOpPoint || !s_pCurFoil || !s_pCurPolar) return;
 
-    double alfa = s_pCurOpp->m_Alpha;
+    // select the neighbour of the deleted point, on the variable that the polar sweeps
+    auto sweptValue = [](Polar const *pPolar, OpPoint const *pOpp)
+    {
+        if     (pPolar->isControlPolar())  return pOpp->theta();
+        else if(pPolar->isFixedaoaPolar()) return pOpp->Reynolds();
+        else                               return pOpp->aoa();
+    };
+    double deletedValue = sweptValue(s_pCurPolar, pOpPoint);
     m_pFoilExplorer->removeOpPoint(pOpPoint);
     Objects2d::deleteOpp(s_pCurOpp);
+    setCurOpp(nullptr);
 
-    double dist = 1000.0;
-    double alfa_m1 = -100.0;
+    OpPoint *pNeighbour = nullptr;
+    double dist = 0.0;
     for(int iOpp=0; iOpp<Objects2d::nOpPoints(); iOpp++)
     {
         OpPoint *pOpp = Objects2d::opPointAt(iOpp);
         if(pOpp->polarName().compare(s_pCurPolar->name())==0 && pOpp->foilName().compare(s_pCurFoil->name())==0)
         {
-            if(fabs(pOpp->m_Alpha - alfa)<dist)
+            double d = fabs(sweptValue(s_pCurPolar, pOpp) - deletedValue);
+            if(!pNeighbour || d<dist)
             {
-                dist = fabs(pOpp->m_Alpha - alfa);
-                alfa_m1 = pOpp->m_Alpha;
+                dist = d;
+                pNeighbour = pOpp;
             }
         }
     }
-    setOpp(alfa_m1);
-    m_pFoilExplorer->selectOpPoint();
+    setOpp(pNeighbour);
+    if(pNeighbour) m_pFoilExplorer->selectOpPoint();
+    else           m_pFoilExplorer->selectPolar(s_pCurPolar); // updates the explorer's selection type
     updateView();
 
     setControls();
