@@ -626,9 +626,10 @@ std::string PlaneOpp::name() const
     switch(m_PolarType)
     {
         case xfl::T8POLAR:
-            strange  = std::format("{:.2f}", alpha()) + DEGstr + " ";
-            strange += std::format("{:.2f}", beta())  + DEGstr + " ";
-            strange += std::format("{:.2f}", QInf()*Units::mstoUnit()) + " " + Units::speedUnitLabel();
+            // 3 decimals as for the other polar types: the explorer finds the operating points by their name
+            strange  = std::format("{:.3f}", alpha()) + DEGstr + " ";
+            strange += std::format("{:.3f}", beta())  + DEGstr + " ";
+            strange += std::format("{:.3f}", QInf()*Units::mstoUnit()) + " " + Units::speedUnitLabel();
             break;
         case xfl::T6POLAR:
         case xfl::T7POLAR:
