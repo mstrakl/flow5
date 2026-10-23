@@ -131,7 +131,7 @@ Plane * Objects3d::setModifiedPlane(Plane *pModPlane)
 
             Plane *pExistingPlane = plane(renDlg.newName().toStdString());
             deletePlaneResults(pExistingPlane, false);
-            deletePlane(pExistingPlane);
+            deletePlane(pExistingPlane, false); // the emptied polars are kept for the new plane, which has the same name
 
             pModPlane->setName(renDlg.newName().toStdString());
 

@@ -83,8 +83,10 @@ Plane *Objects3d::addPlane(Plane *pPlane)
             // if its the same plane, just return
             if(pOldPlane==pPlane) return pPlane;
 
-            // if its an old plane with the same name, delete and insert at its place
-            deletePlane(pOldPlane);
+            // if its an old plane with the same name, delete and insert at its place;
+            // its polars are kept, emptied, for the new plane which has the same name
+            deletePlaneResults(pOldPlane, false);
+            deletePlane(pOldPlane, false);
             s_oaPlane.insert(s_oaPlane.begin()+i, pPlane);
             return pPlane;
         }
@@ -295,8 +297,9 @@ void Objects3d::deletePlane(Plane *pPlane, bool bDeleteResults)
 {
     if(!pPlane || !pPlane->name().length()) return;
 
+    // the polars are deleted too, otherwise they would stay in the store without their plane
     if(bDeleteResults)
-        deletePlaneResults(pPlane);
+        deletePlaneResults(pPlane, true);
 
     for (int i=nPlanes()-1; i>=0; i--)
     {

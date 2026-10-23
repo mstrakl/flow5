@@ -80,6 +80,7 @@ class TestFlow5Lib : public QObject
         void deletePlanePolarDeletesItsOperatingPoints();
         void deletePlaneResultsWithPolars();
         void deletePlaneLeavesNoOrphanPolars();
+        void replacingAPlaneKeepsItsPolarsEmptied();
         void projectRoundTrip();
         void analysisIsDeterministic();
 };
@@ -150,10 +151,24 @@ void TestFlow5Lib::deletePlaneLeavesNoOrphanPolars()
     Objects3d::deletePlane(pPlane); // default: bDeleteResults=true
     QCOMPARE(Objects3d::nPlanes(), 0);
     QCOMPARE(Objects3d::nPOpps(), 0);
-    // deletePlane() calls deletePlaneResults() with bDeletePolars=false, so the polars stay in the store,
-    // emptied, without their plane; the GUI avoids this by deleting the polars first
-    QEXPECT_FAIL("", "Objects3d::deletePlane() leaves the plane's polars in the store", Continue);
     QCOMPARE(countPolarsOf("Test plane"), 0);
+}
+
+
+void TestFlow5Lib::replacingAPlaneKeepsItsPolarsEmptied()
+{
+    PlaneXfl *pPlane = fixture::makePlane("Test plane");
+    fixture::runT1Polar(pPlane, ALPHAS_DEG);
+
+    // a new plane with the same name replaces the old one and inherits its analysis definitions, not its results
+    PlaneXfl *pNewPlane = new PlaneXfl;
+    pNewPlane->setName("Test plane");
+    Objects3d::addPlane(pNewPlane);
+
+    QCOMPARE(Objects3d::nPlanes(), 1);
+    QCOMPARE(Objects3d::nPOpps(), 0);
+    QCOMPARE(countPolarsOf("Test plane"), 1);
+    QCOMPARE(Objects3d::planePolarAt(0)->dataSize(), 0);
 }
 
 

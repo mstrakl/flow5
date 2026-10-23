@@ -57,6 +57,7 @@ namespace Objects3d
 
     FL5LIB_EXPORT  Plane* addPlane(Plane *pPlane);
     FL5LIB_EXPORT  void deleteObjects();
+    /** Deletes the plane; if bDeleteResults is true, also deletes its polars and operating points */
     FL5LIB_EXPORT  void deletePlane(Plane *pPlane, bool bDeleteResults=true);
     FL5LIB_EXPORT  void deletePlaneResults(const Plane *pPlane, bool bDeletePolars=false);
     FL5LIB_EXPORT  void deleteExternalPolars(Plane const*pPlane);
