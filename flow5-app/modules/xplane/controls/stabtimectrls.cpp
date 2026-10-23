@@ -296,20 +296,20 @@ void StabTimeCtrls::onCurveTableClicked(QModelIndex index)
             Curve *pCurrentCurve = leftCurveAt(s_pXPlane->m_TimeGraph[0], row);
             if(!pCurrentCurve) return;
 
-            LineMenu *lineMenu = new LineMenu(nullptr);
-            lineMenu->initMenu(pCurrentCurve->theStyle());
-            lineMenu->exec(QCursor::pos());
+            LineMenu lineMenu(nullptr); // on the stack: one menu per click
+            lineMenu.initMenu(pCurrentCurve->theStyle());
+            lineMenu.exec(QCursor::pos());
 
             // update the model
             QStandardItem *pItem = m_pCurveModel->itemFromIndex(index);
-            if(pItem) pItem->setData(QVariant::fromValue(lineMenu->theStyle()), Qt::DisplayRole);
+            if(pItem) pItem->setData(QVariant::fromValue(lineMenu.theStyle()), Qt::DisplayRole);
 
             // update the curve style
             for(int ig=0; ig<s_pXPlane->m_TimeGraph.size(); ig++)
             {
                 Curve *pCurrentCurve = leftCurveAt(s_pXPlane->m_TimeGraph[ig], row);
                 if(!pCurrentCurve) continue;
-                pCurrentCurve->setTheStyle(lineMenu->theStyle());
+                pCurrentCurve->setTheStyle(lineMenu.theStyle());
             }
             s_pXPlane->makeLegend();
             s_pXPlane->updateView();
@@ -319,10 +319,10 @@ void StabTimeCtrls::onCurveTableClicked(QModelIndex index)
         {
             QRect itemrect = m_pcpCurveTable->visualRect(index);
             QPoint menupos = m_pcpCurveTable->mapToGlobal(itemrect.topLeft());
-            QMenu *pCurveTableRowMenu = new QMenu(tr("Section"),this);
-            pCurveTableRowMenu->addAction(m_pRenameAct);
-            pCurveTableRowMenu->addAction(m_pDeleteAct);
-            pCurveTableRowMenu->exec(menupos, m_pRenameAct);
+            QMenu curveTableRowMenu(tr("Section"), this); // on the stack: one menu per click
+            curveTableRowMenu.addAction(m_pRenameAct);
+            curveTableRowMenu.addAction(m_pDeleteAct);
+            curveTableRowMenu.exec(menupos, m_pRenameAct);
 
             break;
         }
