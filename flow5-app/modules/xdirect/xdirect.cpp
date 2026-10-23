@@ -1513,6 +1513,8 @@ void XDirect::onDeletePolarOpps()
     Polar *pCurPolar = s_pCurPolar;
     if(!s_pCurFoil || !pCurPolar) return;
 
+    stopAnimate(); // the animation loops over the operating points of the current polar
+
     OpPoint *pOpp;
 
     for(int i=Objects2d::nOpPoints()-1; i>=0; i--)
@@ -1542,6 +1544,8 @@ void XDirect::onDeletePolarOpps()
 void XDirect::onDeleteFoilOpps()
 {
     if(!s_pCurFoil) return;
+
+    stopAnimate(); // the animation loops over the operating points of the current polar
 
     for(int i=Objects2d::nOpPoints()-1; i>=0; i--)
     {
@@ -3114,7 +3118,9 @@ void XDirect::onResetAllPolarGraphsScales()
 void XDirect::onResetCurPolar()
 {
     Polar *pPolar = s_pCurPolar;
-    if(!pPolar) return;
+    if(!pPolar || !s_pCurFoil) return;
+
+    stopAnimate(); // the animation loops over the operating points of the current polar
     pPolar->reset();
 
     OpPoint*pOpp;

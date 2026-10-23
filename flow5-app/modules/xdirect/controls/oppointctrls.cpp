@@ -303,10 +303,13 @@ void OpPointCtrls::onAnimateSingle()
     Foil *pFoil = XDirect::curFoil();
     Polar const *pPolar = XDirect::curPolar();
     OpPoint const *pCurOpp = XDirect::curOpp();
+    if(!pFoil || !pPolar) return;
 
     // find the next oppoint related to this foil and polar pair
+    int nSteps = 0; // two back and forth sweeps visit every index
     while(!bIsValid)
     {
+        if(nSteps++ > 4*Objects2d::nOpPoints()) return; // no other operating point of the current polar
         if(m_bAnimatePlus)
         {
             m_posAnimate++;
