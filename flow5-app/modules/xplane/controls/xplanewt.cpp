@@ -26,6 +26,7 @@
 
 
 #include <QSplitter>
+#include <QScrollArea>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
@@ -120,8 +121,14 @@ void XPlaneWt::setupLayout()
                 }
                 pCtrlFrame->setLayout(pControlLayout);
             }
+            // the controls are taller than small screens, so they scroll
+            QScrollArea *pCtrlScrollArea = new QScrollArea;
+            pCtrlScrollArea->setWidgetResizable(true);
+            pCtrlScrollArea->setFrameShape(QFrame::NoFrame);
+            pCtrlScrollArea->setWidget(pCtrlFrame);
+
             m_pHSplitter->addWidget(m_pgl3dXPlaneFloatView);
-            m_pHSplitter->addWidget(pCtrlFrame);
+            m_pHSplitter->addWidget(pCtrlScrollArea);
             m_pHSplitter->setStretchFactor(0,1);
         }
 
