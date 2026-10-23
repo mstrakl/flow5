@@ -77,6 +77,7 @@ class LLTAnalysisDlg : public QDialog
         void cleanUp();
 
         bool hasErrors() const {return m_bHasErrors;}
+        bool isAnalysisRunning() const {return !m_bFinished;}
 
         void outputMessage(QString const &msg);
         void outputStdMessage(std::string const &msg);

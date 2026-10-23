@@ -2290,6 +2290,7 @@ void XPlane::onEditCurPlPolarPts()
  */
 void XPlane::onDeleteWPlrPOpps()
 {
+    if(!canDeleteObjects()) return;
     if(!m_pCurPlane || !m_pCurPlPolar) return;
 
     stopAnimate(); // the animation loops over the operating points of the current polar
@@ -2327,6 +2328,7 @@ void XPlane::onDeleteWPlrPOpps()
  */
 void XPlane::onDeleteAllPOpps()
 {
+    if(!canDeleteObjects()) return;
     stopAnimate(); // the animation loops over the operating points of the current polar
     emit projectModified();
     PlaneOpp* pPOpp;
@@ -2353,6 +2355,7 @@ void XPlane::onDeleteAllPOpps()
 
 void XPlane::onDeleteCurPlane()
 {
+    if(!canDeleteObjects()) return;
     if(!m_pCurPlane) return;
     if(m_pCurPlane->isLocked())
     {
@@ -2412,6 +2415,7 @@ static int polarPointIndex(PlanePolar const *pWPolar, PlaneOpp const *pPOpp)
 
 void XPlane::onDeleteCurPOpp()
 {
+    if(!canDeleteObjects()) return;
     if(!m_pCurPOpp) return;
 
     stopAnimate(); // the animation loops over the operating points of the current polar
@@ -2476,6 +2480,7 @@ void XPlane::onDeleteCurPOpp()
 */
 void XPlane::onDeletePlanePOpps()
 {
+    if(!canDeleteObjects()) return;
     if(!m_pCurPlane) return;
 
     stopAnimate(); // the animation loops over the operating points of the current polar
@@ -2510,6 +2515,7 @@ void XPlane::onDeletePlanePOpps()
 
 void XPlane::onDeletePlaneWPolars()
 {
+    if(!canDeleteObjects()) return;
     if(!m_pCurPlane) return;
 
     QString PlaneName, strong;
@@ -2541,6 +2547,7 @@ void XPlane::onDeletePlaneWPolars()
 
 void XPlane::onDeleteCurPlPolar()
 {
+    if(!canDeleteObjects()) return;
     if(!m_pCurPlPolar) return;
     if(m_pCurPlPolar->isLocked())
     {
@@ -3972,6 +3979,7 @@ void XPlane::onRenameCurPlane()
 
 void XPlane::onResetCurPlPolar()
 {
+    if(!canDeleteObjects()) return;
     if (!m_pCurPlane || !m_pCurPlPolar) return;
     QString strong = tr("Are you sure you want to reset the content of the polar :\n")+ QString::fromStdString(m_pCurPlPolar->name()) +"?\n";
     if (QMessageBox::Yes != QMessageBox::question(s_pMainFrame, tr("Question"), strong,
@@ -6271,6 +6279,18 @@ void XPlane::onUpdateMeshDisplay()
 bool XPlane::isAnalysisRunning() const
 {
     if(m_pPanelAnalysisDlg) return m_pPanelAnalysisDlg->isAnalysisRunning();
+    return false;
+}
+
+
+/** Returns false and tells the user if an analysis is running, since it writes to the polars and operating points */
+bool XPlane::canDeleteObjects()
+{
+    // the LLT dialog is checked here only: it signals the end of the analysis before it flags itself as finished,
+    // so isAnalysisRunning() would block the updates made by onFinishAnalysis()
+    bool bLLTRunning = m_pLLTAnalysisDlg && m_pLLTAnalysisDlg->isAnalysisRunning();
+    if(!isAnalysisRunning() && !bLLTRunning) return true;
+    displayMessage(tr("Objects cannot be deleted or reset while an analysis is running: wait for it to finish, or cancel it.\n"), true, true);
     return false;
 }
 

@@ -179,6 +179,7 @@ class XPlane : public QObject
         bool isAllGraphsView() const;
 
         bool isAnalysisRunning() const;
+        bool canDeleteObjects();
 
         void updateStabilityDirection(bool bLongitudinal);
 

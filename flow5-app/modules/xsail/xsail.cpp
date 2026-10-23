@@ -1408,6 +1408,7 @@ BoatOpp *XSail::setBtOpp(BoatOpp *pBoatOpp)
 
 void XSail::onDeleteCurBtPolar()
 {
+    if(!canDeleteObjects()) return;
     if(!m_pCurBtPolar) return;
 
     QString strong = tr("Are you sure you want to delete the polar :\n") + QString::fromStdString(m_pCurBtPolar->name()) +tr("?\n");
@@ -1632,6 +1633,7 @@ void XSail::onHideBtPolars()
 
 void XSail::onDeleteBtPolars()
 {
+    if(!canDeleteObjects()) return;
     if(!m_pCurBoat) return;
 
     QString BoatName, strong;
@@ -1711,6 +1713,7 @@ void XSail::onHideBtOpps()
 
 void XSail::onDeleteCurBtOpp()
 {
+    if(!canDeleteObjects()) return;
     BoatOpp *pBtOpp = m_pCurBtOpp;
     if(!pBtOpp) return;
 
@@ -1749,6 +1752,7 @@ void XSail::onDeleteCurBtOpp()
 
 void XSail::onDeleteBoatBtOpps()
 {
+    if(!canDeleteObjects()) return;
     if(!m_pCurBoat) return;
     m_pgl3dControls->m_pXSailDisplayCtrls->stopAnimate(); // the animation loops over the operating points of the current polar
     SailObjects::deleteBoatBtOpps(m_pCurBoat);
@@ -2342,6 +2346,7 @@ void XSail::onHideAllBtPolars()
 
 void XSail::onResetBtPolar()
 {
+    if(!canDeleteObjects()) return;
     if (!m_pCurBtPolar) return;
     QString strong = tr("Are you sure you want to reset the content of the polar :\n") + QString::fromStdString(m_pCurBtPolar->name()) +tr("?\n");
     if (QMessageBox::Yes != QMessageBox::question(s_pMainFrame, tr("Question"), strong,
@@ -2382,6 +2387,7 @@ void XSail::onHideBtPolarOpps()
 
 void XSail::onDeleteBtPolarOpps()
 {
+    if(!canDeleteObjects()) return;
     m_pgl3dControls->m_pXSailDisplayCtrls->stopAnimate(); // the animation loops over the operating points of the current polar
     SailObjects::deleteBtPolarOpps(m_pCurBtPolar);
     m_pCurBtOpp = nullptr;
@@ -2430,6 +2436,7 @@ void XSail::onShowOnlyBtPolarOpps()
 
 void XSail::onDeleteCurBoat()
 {
+    if(!canDeleteObjects()) return;
     if(!m_pCurBoat) return;
 
     QString strong;
@@ -3243,6 +3250,15 @@ void XSail::cancelStreamLines()
 bool XSail::isAnalysisRunning() const
 {
     if(m_pBtAnalysisDlg) return m_pBtAnalysisDlg->isAnalysisRunning();
+    return false;
+}
+
+
+/** Returns false and tells the user if an analysis is running, since it writes to the polars and operating points */
+bool XSail::canDeleteObjects()
+{
+    if(!isAnalysisRunning()) return true;
+    displayMessage(tr("Objects cannot be deleted or reset while an analysis is running: wait for it to finish, or cancel it.\n"), true);
     return false;
 }
 

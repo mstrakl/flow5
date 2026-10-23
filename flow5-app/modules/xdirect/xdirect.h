@@ -138,6 +138,9 @@ class XDirect : public QObject
         static void setAoAAnalysis(bool b) {s_bAlpha=b;}
 
         static bool bStoreOpps() {return s_bStoreOpp;}
+
+        bool isAnalysisRunning() const;
+        bool canDeleteObjects();
         static void setStoreOpps(bool b) {s_bStoreOpp=b;}
 
 

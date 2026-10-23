@@ -1402,8 +1402,24 @@ void XDirect::onEditCurPolar()
 }
 
 
+bool XDirect::isAnalysisRunning() const
+{
+    return m_pXFADlg && m_pXFADlg->isAnalysisRunning(); // the batch analyses are modal
+}
+
+
+/** Returns false and tells the user if an analysis is running, since it writes to the polars and operating points */
+bool XDirect::canDeleteObjects()
+{
+    if(!isAnalysisRunning()) return true;
+    s_pMainFrame->displayMessage(tr("Objects cannot be deleted or reset while an analysis is running: wait for it to finish, or cancel it.\n"), true);
+    return false;
+}
+
+
 void XDirect::onDeleteCurFoil()
 {
+    if(!canDeleteObjects()) return;
     if(!s_pCurFoil) return; // e.g. the Delete key after the last foil has been deleted
 
     QString strong;
@@ -1445,6 +1461,7 @@ void XDirect::onDeleteCurFoil()
 
 void XDirect::onDeleteCurOpp()
 {
+    if(!canDeleteObjects()) return;
     OpPoint* pOpPoint = s_pCurOpp;
     stopAnimate();
 
@@ -1479,6 +1496,7 @@ void XDirect::onDeleteCurOpp()
 
 void XDirect::onDeleteCurPolar()
 {
+    if(!canDeleteObjects()) return;
     if(!s_pCurPolar) return;
 
     QString str;
@@ -1512,6 +1530,7 @@ void XDirect::onDeleteCurPolar()
 
 void XDirect::onDeletePolarOpps()
 {
+    if(!canDeleteObjects()) return;
     Polar *pCurPolar = s_pCurPolar;
     if(!s_pCurFoil || !pCurPolar) return;
 
@@ -1545,6 +1564,7 @@ void XDirect::onDeletePolarOpps()
 
 void XDirect::onDeleteFoilOpps()
 {
+    if(!canDeleteObjects()) return;
     if(!s_pCurFoil) return;
 
     stopAnimate(); // the animation loops over the operating points of the current polar
@@ -1580,6 +1600,7 @@ void XDirect::onDeleteFoilOpps()
 
 void XDirect::onDeleteFoilPolars()
 {
+    if(!canDeleteObjects()) return;
     if(!s_pCurFoil) return;
 
     stopAnimate();
@@ -3123,6 +3144,7 @@ void XDirect::onResetAllPolarGraphsScales()
 
 void XDirect::onResetCurPolar()
 {
+    if(!canDeleteObjects()) return;
     Polar *pPolar = s_pCurPolar;
     if(!pPolar || !s_pCurFoil) return;
 

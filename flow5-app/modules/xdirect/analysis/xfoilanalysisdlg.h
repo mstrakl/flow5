@@ -64,6 +64,7 @@ class XFoilAnalysisDlg : public QDialog
 
         OpPoint *lastOpp() {return m_pLastOpp;}
         bool hasErrors() const {return m_bErrors;}
+        bool isAnalysisRunning() const {return m_pXFoilTask!=nullptr;} /**< the task exists from initializeAnalysis() until it has finished */
 
         static void loadSettings(QSettings &settings);
         static void saveSettings(QSettings &settings);

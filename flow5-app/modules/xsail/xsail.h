@@ -112,6 +112,7 @@ class XSail : public QObject
         void saveSettings(QSettings &settings);
 
         bool isAnalysisRunning() const;
+        bool canDeleteObjects();
 
         void resetCurves() {m_bResetCurves=true;}
 
