@@ -58,7 +58,7 @@ class FoilPlrListDlg : public XflDialog
         void showEvent(QShowEvent *pEvent) override;
         void hideEvent(QHideEvent *pEvent) override;
 
-        QSize minimumSizeHint() const  override {return QSize(500,700);}
+        QSize sizeHint() const  override {return QSize(500,700);} // not a minimum: the dialog must fit small screens
 
 
     private:

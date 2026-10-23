@@ -24,6 +24,7 @@
 
 #include "helpimgdlg.h"
 
+#include <QScreen>
 #include <QScrollArea>
 #include <QVBoxLayout>
 
@@ -52,7 +53,11 @@ HelpImgDlg::HelpImgDlg(const QString &imagepath, QWidget *pParent) : QDialog(pPa
     setLayout(pMainLayout);
 
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    setMinimumSize(QSize(650,900)); // sizeHint and minimumSizeHint fail
+    // a preferred size rather than a minimum, so that the dialog fits small screens; sizeHint and minimumSizeHint fail
+    constexpr double SCREENFRACTION = 0.9;  /**< leaves room for the window frame and the desktop panels */
+    QSize size(650,900);
+    if(screen()) size = size.boundedTo(screen()->availableGeometry().size()*SCREENFRACTION);
+    resize(size);
 }
 
 /*
