@@ -108,6 +108,8 @@ class TestGui : public QObject
         void deleteKeyAfterBulkPOppDeletion();
         void timeResponseCurveList();
         void timeResponsesComparedAcrossPointsCanBeDeleted();
+        void deletingPolarPOppsEmptiesThePolarCurves();
+        void deletingAllPOppsEmptiesThePolars();
 
     private:
         void loadIntoXPlane();
@@ -334,6 +336,55 @@ void TestGui::timeResponsesComparedAcrossPointsCanBeDeleted()
             QCOMPARE(leftCurveCount(pGraph), n-1);
         }
     }
+}
+
+
+/** the number of points of the curves which the polar has drawn in the current view */
+static int polarCurvePoints(PlanePolar *pPolar)
+{
+    int n = 0;
+    for(int ic=0; ic<pPolar->curveCount(); ic++)
+        n += static_cast<Curve*>(pPolar->curve(ic))->count();
+    return n;
+}
+
+
+/** "Current polar > Operating points > Delete" on a T7 polar: the polar's points are the results of
+ * the operating points, so the polar graphs and the polar's data points become empty */
+void TestGui::deletingPolarPOppsEmptiesThePolarCurves()
+{
+    PlanePolar *pT7Polar = fixture::runT7Polar(m_pPlane, {0.0, 0.5});
+    QCOMPARE(pT7Polar->dataSize(), 2);
+
+    m_pMainFrame->handleIOResults(false);
+    m_pXPlane->setPlane(m_pPlane);
+    m_pXPlane->setPolar(pT7Polar);
+    m_pXPlane->setPlaneOpp(nullptr);
+
+    m_pXPlane->onPolarView();
+    QVERIFY(polarCurvePoints(pT7Polar)>0);
+
+    m_pXPlane->onDeleteWPlrPOpps();
+    QCOMPARE(pT7Polar->dataSize(), 0);          // what "Edit data points" shows
+    QCOMPARE(polarCurvePoints(pT7Polar), 0);
+    QCOMPARE(m_pT1Polar->dataSize(), int(ALPHAS_DEG.size())); // the other polar is unchanged
+
+    m_pXPlane->onRootLocusView();
+    QCOMPARE(polarCurvePoints(pT7Polar), 0);
+}
+
+
+void TestGui::deletingAllPOppsEmptiesThePolars()
+{
+    PlanePolar *pT7Polar = fixture::runT7Polar(m_pPlane, {0.0, 0.5});
+    loadIntoXPlane();
+    m_pXPlane->onPolarView();
+
+    m_pXPlane->onDeleteAllPOpps();
+    QCOMPARE(Objects3d::nPOpps(), 0);
+    QCOMPARE(m_pT1Polar->dataSize(), 0);
+    QCOMPARE(pT7Polar->dataSize(), 0);
+    QCOMPARE(polarCurvePoints(m_pT1Polar), 0);
 }
 
 
