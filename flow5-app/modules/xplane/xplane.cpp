@@ -730,13 +730,15 @@ void XPlane::createCpCurves()
 
 void XPlane::createWOppCurves()
 {
-    if(!m_pCurPlane || !m_pCurPlane->isXflType()) return;
-
     for(int ig=0; ig<m_WingGraph.size(); ig++)
     {
         m_WingGraph[ig]->deleteCurves();
         m_WingGraph[ig]->clearSelection();
     }
+
+    // clear first, so that no curves of deleted operating points remain if there is nothing to plot
+    for (int k=0; k<Objects3d::nPOpps(); k++) Objects3d::POppAt(k)->clearCurves();
+    if(!m_pCurPlane || !m_pCurPlane->isXflType()) return;
 
     // Browse through the array of plane operating points
     // add a curve for those selected, and fill them with data
