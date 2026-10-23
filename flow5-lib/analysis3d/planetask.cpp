@@ -164,6 +164,19 @@ bool PlaneTask::initializeTask()
         return false;
     }
 
+    // each polar type reads its own list of operating points; a list set with the wrong function is empty
+    size_t nOpps = m_AngleList.size();                       // setOppList(), types 1 to 5
+    if     (m_pPlPolar->isType6()) nOpps = m_T6CtrlList.size(); // setCtrlOppList()
+    else if(m_pPlPolar->isType7()) nOpps = m_T7CtrlList.size(); // setStabOppList()
+    else if(m_pPlPolar->isType8()) nOpps = m_T8Opps.size();     // setT8OppList()
+    if(int(nOpps)!=m_nRHS)
+    {
+        traceStdLog(std::format("The list of operating points has {:d} values for this polar type, {:d} were expected: "
+                                "use setCtrlOppList() for type 6, setStabOppList() for type 7, setT8OppList() for type 8 "
+                                "and setOppList() for the other types.\nAborting analysis\n", nOpps, m_nRHS));
+        return false;
+    }
+
     // check flaps and ViscOTF
     if(m_pPlPolar->hasActiveFlap())
     {

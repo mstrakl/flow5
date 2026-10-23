@@ -40,6 +40,7 @@
 #include <api/objects3d.h>
 #include <api/planeopp.h>
 #include <api/planepolar.h>
+#include <api/planetask.h>
 #include <api/planexfl.h>
 
 #include "../common/fixture.h"
@@ -77,6 +78,7 @@ class TestFlow5Lib : public QObject
 
         void t1PolarHasOnePointPerOperatingPoint();
         void t7PolarComputesTheModes();
+        void taskWithTheWrongListReportsAnError();
         void deletePlanePolarDeletesItsOperatingPoints();
         void deletePlaneResultsWithPolars();
         void deletePlaneLeavesNoOrphanPolars();
@@ -115,6 +117,23 @@ void TestFlow5Lib::t7PolarComputesTheModes()
     {
         QVERIFY2(std::isfinite(pPOpp->eigValue(i).real()) && std::isfinite(pPOpp->eigValue(i).imag()), "eigenvalue is not finite");
     }
+}
+
+
+void TestFlow5Lib::taskWithTheWrongListReportsAnError()
+{
+    PlaneXfl *pPlane = fixture::makePlane("Test plane");
+    PlanePolar *pPolar = fixture::runT7Polar(pPlane);
+    Objects3d::deletePlanePolarResults(pPolar);
+
+    // a T7 polar reads the list set with setStabOppList(); setOppList() leaves it empty
+    PlaneTask task;
+    task.setKeepOpps(true);
+    task.setObjects(pPlane, pPolar);
+    task.setOppList({0.0});
+    task.run(); // must not throw
+    QVERIFY(task.hasErrors());
+    QCOMPARE(Objects3d::nPOpps(), 0);
 }
 
 
