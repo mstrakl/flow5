@@ -1414,6 +1414,7 @@ void XSail::onDeleteCurBtPolar()
     if (QMessageBox::Yes != QMessageBox::question(s_pMainFrame, tr("Question"), strong,
                                                   QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel)) return;
 
+    m_pgl3dControls->m_pXSailDisplayCtrls->stopAnimate(); // the animation loops over the operating points of the current polar
     QString nextWPolarName = m_pBoatExplorer->removeBtPolar(m_pCurBtPolar);
     SailObjects::deleteBtPolar(m_pCurBtPolar);
 
@@ -1710,6 +1711,7 @@ void XSail::onDeleteCurBtOpp()
     BoatOpp *pBtOpp = m_pCurBtOpp;
     if(!pBtOpp) return;
 
+    m_pgl3dControls->m_pXSailDisplayCtrls->stopAnimate(); // the animation loops over the operating points of the current polar
     m_LastCtrl = pBtOpp->ctrl();
 
     BoatOpp* pOldBtOpp=nullptr;
@@ -1745,6 +1747,7 @@ void XSail::onDeleteCurBtOpp()
 void XSail::onDeleteBoatBtOpps()
 {
     if(!m_pCurBoat) return;
+    m_pgl3dControls->m_pXSailDisplayCtrls->stopAnimate(); // the animation loops over the operating points of the current polar
     SailObjects::deleteBoatBtOpps(m_pCurBoat);
     m_pCurBtOpp = nullptr;
 
@@ -2341,6 +2344,7 @@ void XSail::onResetBtPolar()
     if (QMessageBox::Yes != QMessageBox::question(s_pMainFrame, tr("Question"), strong,
                                                   QMessageBox::Yes|QMessageBox::No,
                                                   QMessageBox::Yes)) return;
+    m_pgl3dControls->m_pXSailDisplayCtrls->stopAnimate(); // the animation loops over the operating points of the current polar
 //    m_bResetTextLegend = true;
 //    m_pgl3dXSailView->s_bResetglLegend = true;
     m_pCurBtPolar->clearData();
@@ -2375,6 +2379,7 @@ void XSail::onHideBtPolarOpps()
 
 void XSail::onDeleteBtPolarOpps()
 {
+    m_pgl3dControls->m_pXSailDisplayCtrls->stopAnimate(); // the animation loops over the operating points of the current polar
     SailObjects::deleteBtPolarOpps(m_pCurBtPolar);
     m_pCurBtOpp = nullptr;
 
