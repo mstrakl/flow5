@@ -3021,19 +3021,24 @@ void XDirect::onRenameCurPolar()
         {
             //user wants to overwrite
             if (OldName == renameDlg.newName()) return;
+            // the polar to overwrite is the current foil's polar with the new name, not another foil's
+            Polar *pOverwritten = nullptr;
             for (k=0; k<Objects2d::nPolars(); k++)
             {
                 pPolar = Objects2d::polarAt(k);
-                if (pPolar->name() == renameDlg.newName().toStdString())
+                if (pPolar->name() == renameDlg.newName().toStdString() && pPolar->foilName() == s_pCurFoil->name())
                 {
-//                    bExists = true;
+                    pOverwritten = pPolar;
                     break;
                 }
             }
+            if(!pOverwritten || pOverwritten==s_pCurPolar) return;
+
+            // delete the overwritten polar's operating points, not those of the renamed polar
             for (l=Objects2d::nOpPoints()-1;l>=0; l--)
             {
                 pOpp = Objects2d::opPointAt(l);
-                if (pOpp->polarName() == s_pCurPolar->name())
+                if (pOpp->polarName() == pOverwritten->name() && pOpp->foilName() == s_pCurFoil->name())
                 {
                     Objects2d::removeOpPointAt(l);
                     if(pOpp==s_pCurOpp) setCurOpp(nullptr);
@@ -3041,8 +3046,7 @@ void XDirect::onRenameCurPolar()
                 }
             }
             Objects2d::removePolarAt(k);
-            if(pPolar==s_pCurPolar) setCurPolar(nullptr);
-            delete pPolar;
+            delete pOverwritten;
 
             //and rename everything
             s_pCurPolar->setName(renameDlg.newName().toStdString());
