@@ -1379,6 +1379,7 @@ BoatOpp *XSail::setBtOpp(BoatOpp *pBoatOpp)
     {
         m_pgl3dXSailView->setBotRightOutput(QString());
         if(m_pCurBoat) m_pCurBoat->restoreMesh();
+        m_pgl3dXSailView->resetglMesh(); // the mesh was rotated for the previous operating point
         return nullptr;
     }
 
@@ -1756,11 +1757,11 @@ void XSail::onDeleteBoatBtOpps()
     if(!m_pCurBoat) return;
     m_pgl3dControls->m_pXSailDisplayCtrls->stopAnimate(); // the animation loops over the operating points of the current polar
     SailObjects::deleteBoatBtOpps(m_pCurBoat);
-    m_pCurBtOpp = nullptr;
+    setBtOpp(nullptr); // restores the boat's mesh
 
     emit projectModified();
     updateObjectView();
-    m_pBoatExplorer->selectBtPolar(m_pCurBtPolar);
+    m_pBoatExplorer->selectObjects(); // the polar, or the boat if there is no current polar
 
     setControls();
     m_bResetCurves = true;
@@ -2359,9 +2360,10 @@ void XSail::onResetBtPolar()
 
     SailObjects::deleteBtPolarOpps(m_pCurBtPolar);
 
-    m_pCurBtOpp = nullptr;
+    setBtOpp(nullptr); // restores the boat's mesh
 
     m_pBoatExplorer->removeBtPolarBtOpps(m_pCurBtPolar);
+    m_pBoatExplorer->selectObjects(); // the explorer's selection type is stale after the removal
 
     emit projectModified();
     resetCurves();
@@ -2390,11 +2392,11 @@ void XSail::onDeleteBtPolarOpps()
     if(!canDeleteObjects()) return;
     m_pgl3dControls->m_pXSailDisplayCtrls->stopAnimate(); // the animation loops over the operating points of the current polar
     SailObjects::deleteBtPolarOpps(m_pCurBtPolar);
-    m_pCurBtOpp = nullptr;
+    setBtOpp(nullptr); // restores the boat's mesh
 
     emit projectModified();
     updateObjectView();
-    m_pBoatExplorer->selectBtPolar(m_pCurBtPolar);
+    m_pBoatExplorer->selectObjects(); // the polar, or the boat if there is no current polar
     setControls();
     m_bResetCurves = true;
     updateView();

@@ -281,8 +281,6 @@ void BoatExplorer::addBtOpps(BoatPolar* pBtPolar)
                 ObjectTreeItem *pBtPolarItem = pPlaneItem->child(jr);
                 if(pBtPolarItem->name().toStdString().compare(pBtPolar->name())==0)
                 {
-                    m_Selection = BoatExplorer::BTPOLAR; /** @todo remove */
-
                     QModelIndex polarindex = m_pModel->index(jr, 0, pPlaneItem);
                     m_pModel->removeRows(0, pBtPolarItem->rowCount(), polarindex);
 
