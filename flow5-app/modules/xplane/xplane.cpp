@@ -4760,6 +4760,16 @@ Plane *XPlane::setPlane(Plane* pPlane)
     {
         return m_pCurPlane;
     }
+
+    // the current plane is deleted without XPlane being told when the user overwrites it
+    // with a modified plane in Objects3d::setModifiedPlane(); don't use the dangling pointers
+    std::vector<Plane*> const &planes = Objects3d::planes();
+    if(m_pCurPlane && std::find(planes.begin(), planes.end(), m_pCurPlane)==planes.end())
+    {
+        m_pCurPlane   = nullptr;
+        m_pCurPlPolar = nullptr;
+        m_pCurPOpp    = nullptr;
+    }
 //    Surface::s_DebugPts.clear();
 //    Surface::s_DebugVecs.clear();
 //    PanelAnalysis::s_DebugPts.clear();
