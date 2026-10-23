@@ -946,6 +946,7 @@ void XPlane::createStabilityCurves()
         if(!m_pCurPOpp || (!m_pCurPOpp->isType7() && !m_pCurPOpp->isType8()))
         {
             for(int it=0; it<m_TimeGraph.size(); it++) m_TimeGraph[it]->deleteCurves();
+            m_pStabTimeControls->fillCurveList(); // no stale rows for the deleted curves
             return;//nothing to plot
         }
 

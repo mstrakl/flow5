@@ -73,6 +73,7 @@ class StabTimeCtrls : public QFrame
 
         void computeTimeResponse(PlaneOpp const*pPOpp, QString const &curvename);
         void fillTimeGraphCurves();
+        void fillCurveList();
         QStringList extraVariableNames(bool bLongitudinal) const;
         void setMode(int iMode=-1);
 
@@ -98,7 +99,7 @@ class StabTimeCtrls : public QFrame
         void solveForcedResponse(PlaneOpp const *pPOpp, std::vector<double> &time, std::vector<double> (&x)[4]);
         void solvePerturbationResponse(PlaneOpp const *pPOpp, std::vector<double> &time, std::vector<double> (&x)[4]);
         void addCurve();
-        void fillCurveList();
+        bool curveNameExists(QString const &name) const;
         Curve *selectedCurve();
         void renameTimeResponse(QString const &oldname, QString const &newname);
 

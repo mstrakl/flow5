@@ -226,13 +226,15 @@ void StabTimeCtrls::keyPressEvent(QKeyEvent *pEvent)
 
 void StabTimeCtrls::onStabilityDirection()
 {
-    fillCurveList();
-
     setMode();
     setControls();
 
     bool bLongitudinal = isStabLongitudinal();
     s_pXPlane->updateStabilityDirection(bLongitudinal);
+
+    // the time graphs have been cleared, so empty the list after them
+    fillCurveList();
+    setControls();
 }
 
 
@@ -249,6 +251,15 @@ void StabTimeCtrls::onDataChanged(QModelIndex topleft,QModelIndex )
     {
         QString curvename = m_pCurveModel->index(row, topleft.column(), QModelIndex()).data().toString();
         Curve const *pOldCurve = leftCurveAt(s_pXPlane->m_TimeGraph.at(0), row);
+        if(pOldCurve && curvename!=pOldCurve->name() && (curvename.isEmpty() || curveNameExists(curvename)))
+        {
+            // the curves and their responses are addressed by name, so the names must be unique
+            s_pXPlane->displayMessage(tr("Rename: the curve name \"%1\" is empty or already used, the name is unchanged.\n").arg(curvename), true, true);
+            m_pCurveModel->blockSignals(true);
+            m_pCurveModel->setData(topleft, pOldCurve->name());
+            m_pCurveModel->blockSignals(false);
+            return;
+        }
         if(pOldCurve) renameTimeResponse(pOldCurve->name(), curvename);
         for(int ig=0; ig<s_pXPlane->m_TimeGraph.size(); ig++)
         {
@@ -802,6 +813,13 @@ void StabTimeCtrls::onRenameCurve()
 
     if(dlg.exec() != QDialog::Accepted) return;
     NewName = dlg.newName();
+    if(NewName==pSelCurve->name()) return;
+    if(NewName.isEmpty() || curveNameExists(NewName))
+    {
+        // the curves and their responses are addressed by name, so the names must be unique
+        s_pXPlane->displayMessage(tr("Rename: the curve name \"%1\" is empty or already used, the name is unchanged.\n").arg(NewName), true, true);
+        return;
+    }
     renameTimeResponse(pSelCurve->name(), NewName);
 
     QString OldName = pSelCurve->name();
@@ -855,14 +873,13 @@ void StabTimeCtrls::addCurve()
         }
     }
 
-    // check if the name exists
-    for(int row=0; row<m_pCurveModel->rowCount(); row++)
+    // the curves and their responses are addressed by name, so make it unique
+    if(curveNameExists(strong))
     {
-        QStandardItem *pItem = m_pCurveModel->item(row);
-        if(pItem && pItem->text().compare(strong, Qt::CaseInsensitive)==0)
-        {
-            strong += " (2)";
-        }
+        QString base = strong;
+        int n = 2;
+        do strong = base + QString(" (%1)").arg(n++);
+        while(curveNameExists(strong));
     }
 
     Curve *pCurve=nullptr;
@@ -982,16 +999,23 @@ void StabTimeCtrls::onRecomputeCurve()
 
 void StabTimeCtrls::onDeleteCurve()
 {
-    Curve *pSelCurve = selectedCurve();
-    if(!pSelCurve) return;
-    QString curvename = pSelCurve->name();
-    for(int ig=0; ig<s_pXPlane->m_TimeGraph.size(); ig++) s_pXPlane->m_TimeGraph[ig]->deleteCurve(curvename);
+    // proceed by name even if the graphs have no such curve, so that a stale row can always be removed
+    QString curvename = selectedCurveName();
+    if(curvename.isEmpty()) return;
 
-    int row=0;
-    for(row=0; row<m_pCurveModel->rowCount(); row++)
+    for(int ig=0; ig<s_pXPlane->m_TimeGraph.size(); ig++)
+    {
+        Graph *pGraph = s_pXPlane->m_TimeGraph[ig];
+        // the left axis curve and its right axis twin share the name
+        for(int ic=pGraph->curveCount()-1; ic>=0; ic--)
+            if(pGraph->curve(ic)->name()==curvename) pGraph->deleteCurve(ic);
+    }
+    m_TimeResponse.remove(curvename);
+
+    for(int row=0; row<m_pCurveModel->rowCount(); row++)
     {
         QStandardItem *pItem = m_pCurveModel->item(row);
-        if(pItem->text().compare(curvename)==0)
+        if(pItem && pItem->text().compare(curvename)==0)
         {
             m_pCurveModel->removeRow(row);
             break;
@@ -1001,17 +1025,20 @@ void StabTimeCtrls::onDeleteCurve()
     m_pcpCurveTable->setEnabled(    m_pCurveModel->rowCount());
     m_ppbRecomputeCurve->setEnabled(m_pCurveModel->rowCount()>0);
 
-    QModelIndex index = m_pcpCurveTable->currentIndex();
-    if(index.isValid())
-    {
-        int newrow = index.row();
-        QStandardItem *pItem = m_pCurveModel->item(newrow);
-        if(pItem) curvename = pItem->text();
-        else      curvename.clear();
-    }
-
+    fillTimeGraphCurves();
     s_pXPlane->makeLegend();
     s_pXPlane->updateView();
+}
+
+
+bool StabTimeCtrls::curveNameExists(QString const &name) const
+{
+    for(int row=0; row<m_pCurveModel->rowCount(); row++)
+    {
+        QStandardItem const *pItem = m_pCurveModel->item(row);
+        if(pItem && pItem->text().compare(name, Qt::CaseInsensitive)==0) return true;
+    }
+    return false;
 }
 
 
